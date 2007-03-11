@@ -116,12 +116,7 @@
     <target name="clean" depends="init" description="Removed all build artifacts">
         <delete dir="${build.dir}/com/nervestaple"/>
         <delete dir="${build.dir}/com/intellij"/>
-        <delete dir="${product.dir}/${name}"/>
-        <delete dir="${product.dir}/${name-macintosh}.app"/>
-        <delete dir="${product.dir}/${name-windows}-windows"/>
-        <delete>
-            <fileset dir="${product.dir}" includes="**"/>
-        </delete>
+        <delete dir="${product.dir}"/>
         <delete dir="data"/>
         <delete file="derby.log"/>
         <delete file="com.nervestaple.gtdinbox.properties"/>
