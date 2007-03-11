@@ -1,0 +1,32 @@
+<launch4jConfig>
+    <dontWrapJar>true</dontWrapJar>
+    <headerType>0</headerType>
+    <jar>gtdinbox.jar</jar>
+    <outfile>dist/GTDInbox-windows/gtdinbox.exe</outfile>
+    <errTitle></errTitle>
+    <jarArgs></jarArgs>
+    <chdir></chdir>
+    <customProcName>false</customProcName>
+    <stayAlive>true</stayAlive>
+    <icon>dist/GTDInbox-windows/application.ico</icon>
+    <jre>
+        <path></path>
+        <minVersion>1.5.0</minVersion>
+        <maxVersion></maxVersion>
+        <initialHeapSize>0</initialHeapSize>
+        <maxHeapSize>0</maxHeapSize>
+        <args>-Djava.library.path=libraries</args>
+    </jre>
+    <versionInfo>
+        <fileVersion>0.6.0.0</fileVersion>
+        <txtFileVersion>0.5a</txtFileVersion>
+        <fileDescription>GTD Inbox</fileDescription>
+        <copyright>2007 Nervestaple Development</copyright>
+        <productVersion>0.6.0.0</productVersion>
+        <txtProductVersion>0.6a</txtProductVersion>
+        <productName>GTD Inbox</productName>
+        <companyName>Nervestaple Development</companyName>
+        <internalName>gtdinbox</internalName>
+        <originalFilename>gtdinbox.exe</originalFilename>
+    </versionInfo>
+</launch4jConfig>

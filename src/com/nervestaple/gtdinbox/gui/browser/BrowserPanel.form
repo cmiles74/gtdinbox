@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.nervestaple.gtdinbox.gui.browser.BrowserPanel">
+  <grid id="27dc6" binding="panelMain" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="0">
+    <margin top="0" left="0" bottom="14" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="640" height="676"/>
+    </constraints>
+    <properties>
+      <maximumSize width="-1" height="-1"/>
+      <minimumSize width="640" height="480"/>
+      <preferredSize width="800" height="600"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="cbf2a" binding="panelMiddle" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <splitpane id="cc8" binding="splitPaneMain">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <continuousLayout value="true"/>
+              <dividerLocation value="200"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <scrollpane id="b9f20" binding="scrollPaneItemTree">
+                <constraints>
+                  <splitpane position="left"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                  <horizontalScrollBarPolicy value="30"/>
+                  <maximumSize width="-1" height="-1"/>
+                  <minimumSize width="200" height="-1"/>
+                  <opaque value="true"/>
+                  <preferredSize width="-1" height="-1"/>
+                  <verticalScrollBarPolicy value="20"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="3ae35" class="javax.swing.JTree" binding="treeItems">
+                    <constraints/>
+                    <properties>
+                      <background color="-1708553"/>
+                      <enabled value="true"/>
+                      <opaque value="true"/>
+                      <rootVisible value="true"/>
+                      <showsRootHandles value="false"/>
+                    </properties>
+                    <clientProperties>
+                      <JTree.lineStyle class="java.lang.String" value=""/>
+                      <html.disable class="java.lang.Boolean" value="false"/>
+                    </clientProperties>
+                  </component>
+                </children>
+              </scrollpane>
+              <scrollpane id="c23e2" binding="scrollPaneContent">
+                <constraints>
+                  <splitpane position="right"/>
+                </constraints>
+                <properties>
+                  <horizontalScrollBarPolicy value="30"/>
+                  <maximumSize width="-1" height="-1"/>
+                  <minimumSize width="400" height="-1"/>
+                  <verticalScrollBarPolicy value="22"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </scrollpane>
+            </children>
+          </splitpane>
+        </children>
+      </grid>
+      <grid id="432b3" binding="panelToolBar" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="5" left="5" bottom="5" right="5"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <toolbar id="7c54c" binding="toolBar">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <borderPainted value="false"/>
+              <floatable value="false"/>
+              <margin top="0" left="0" bottom="0" right="0"/>
+              <opaque value="false"/>
+              <rollover value="false"/>
+            </properties>
+            <clientProperties>
+              <JToolBar.isRollover class="java.lang.Boolean" value="false"/>
+            </clientProperties>
+            <border type="none"/>
+            <children>
+              <grid id="b547c" binding="panelSearch" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="c303" binding="panelSearchField" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="3" vgap="0">
+                    <margin top="3" left="3" bottom="3" right="3"/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="a2878" class="javax.swing.JTextField" binding="textFieldSearch">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="2a991" class="javax.swing.JButton" binding="buttonClearSearch">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="16" height="16"/>
+                            <preferred-size width="16" height="16"/>
+                            <maximum-size width="16" height="16"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <borderPainted value="false"/>
+                          <contentAreaFilled value="false"/>
+                          <icon value="com/nervestaple/gtdinbox/gui/browser/images/clear-16.png"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="230cb" class="javax.swing.JButton" binding="buttonSearchOptions">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <minimum-size width="16" height="16"/>
+                            <preferred-size width="16" height="16"/>
+                            <maximum-size width="16" height="16"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <borderPainted value="false"/>
+                          <contentAreaFilled value="false"/>
+                          <icon value="com/nervestaple/gtdinbox/gui/browser/images/magnifyingGlass.png"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+            </children>
+          </toolbar>
+          <grid id="85fc9" layout-manager="GridLayoutManager" row-count="1" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="15" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="be01a" class="javax.swing.JButton" binding="buttonAddContext">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="32" height="32"/>
+                    <preferred-size width="32" height="32"/>
+                    <maximum-size width="32" height="32"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <borderPainted value="false"/>
+                  <contentAreaFilled value="false"/>
+                  <font size="11"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <icon value="com/nervestaple/gtdinbox/gui/browser/images/context-add-32.png"/>
+                  <opaque value="false"/>
+                  <text value=""/>
+                  <toolTipText value="Add a Context"/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+              <component id="20f9b" class="javax.swing.JButton" binding="buttonAddProject">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="32" height="32"/>
+                    <preferred-size width="32" height="32"/>
+                    <maximum-size width="32" height="32"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <borderPainted value="false"/>
+                  <contentAreaFilled value="false"/>
+                  <font size="11"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <icon value="com/nervestaple/gtdinbox/gui/browser/images/project-add-32.png"/>
+                  <opaque value="false"/>
+                  <text value=""/>
+                  <toolTipText value="Add a Project"/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+              <component id="9bfb9" class="javax.swing.JSeparator" binding="seperator">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="32"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <orientation value="1"/>
+                </properties>
+              </component>
+              <component id="4f458" class="javax.swing.JButton" binding="buttonDelete">
+                <constraints>
+                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="32" height="32"/>
+                    <preferred-size width="32" height="32"/>
+                    <maximum-size width="32" height="32"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <borderPainted value="false"/>
+                  <contentAreaFilled value="false"/>
+                  <disabledIcon value="com/nervestaple/gtdinbox/gui/browser/images/trash-disabled-32.png"/>
+                  <font size="11"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <icon value="com/nervestaple/gtdinbox/gui/browser/images/trash-32.png"/>
+                  <opaque value="false"/>
+                  <text value=""/>
+                  <toolTipText value="Move the Item to the Trash"/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+              <component id="13813" class="javax.swing.JButton" binding="buttonAddAction">
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="32" height="32"/>
+                    <preferred-size width="32" height="32"/>
+                    <maximum-size width="32" height="32"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <borderPainted value="false"/>
+                  <contentAreaFilled value="false"/>
+                  <disabledIcon value="com/nervestaple/gtdinbox/gui/browser/images/action-add-disabled-32.png"/>
+                  <font size="11"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <icon value="com/nervestaple/gtdinbox/gui/browser/images/action-add-32.png"/>
+                  <margin top="0" left="0" bottom="0" right="0"/>
+                  <opaque value="false"/>
+                  <text value=""/>
+                  <toolTipText value="Add an Action Item"/>
+                  <verifyInputWhenFocusTarget value="false"/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
