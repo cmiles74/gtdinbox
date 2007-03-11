@@ -217,9 +217,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
     private JButton buttonAddProject;
     private JToolBar toolBar;
     private JButton buttonAddContext;
-    //private JButton buttonAddCategory;
     private JButton buttonAddAction;
-    //private JButton buttonAddReference;
     private JButton buttonDelete;
     private JScrollPane scrollPaneContent;
     private JPanel panelToolBar;
