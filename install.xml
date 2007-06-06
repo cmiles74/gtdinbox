@@ -22,8 +22,8 @@
     <resources>
         <!--<res id="LicencePanel.licence" src="Licence.txt"/>
         <res id="InfoPanel.info" src="Readme.txt"/>-->
-        <res src="win-shortcut-spec.xml"
-             id="shortcutSpec.xml"/>
+        <res src="izpack-resources/installer-image.png"
+             id="Installer.image"/>
     </resources>
 
     <native type="izpack" name="ShellLink.dll"/>
@@ -33,7 +33,7 @@
         <!--<panel classname="InfoPanel"/>
         <panel classname="LicencePanel"/>-->
         <panel classname="TargetPanel"/>
-        <panel classname="PacksPanel"/>
+        <!-- <panel classname="PacksPanel"/> -->
         <panel classname="InstallPanel"/>
         <panel classname="ShortcutPanel"/>
         <panel classname="FinishPanel"/>
