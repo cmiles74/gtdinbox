@@ -24,6 +24,7 @@
         <res id="InfoPanel.info" src="Readme.txt"/>-->
         <res src="izpack-resources/installer-image.png"
              id="Installer.image"/>
+        <res src="shortcutSpec.xml" id="shortcutSpec.xml"/>
     </resources>
 
     <native type="izpack" name="ShellLink.dll"/>
@@ -33,7 +34,7 @@
         <!--<panel classname="InfoPanel"/>
         <panel classname="LicencePanel"/>-->
         <panel classname="TargetPanel"/>
-        <!-- <panel classname="PacksPanel"/> -->
+        <panel classname="PacksPanel"/>
         <panel classname="InstallPanel"/>
         <panel classname="ShortcutPanel"/>
         <panel classname="FinishPanel"/>
