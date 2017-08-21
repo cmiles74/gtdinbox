@@ -1,0 +1,11 @@
+.#*
+*.bak
+*.iml
+*.ipr
+*.iws
+*.idea
+libraries/*
+libraries-build/*
+classes/*
+target/*
+dist/*
