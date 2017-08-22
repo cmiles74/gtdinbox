@@ -71,7 +71,7 @@ public class UtilitiesGui {
             // use the quaqua look and feel
             try {
                 UIManager.setLookAndFeel( QuaquaManager.getLookAndFeelClassName() );
-                logger.debug( "Using Quaqua look and feel: "
+                logger.debug( "MacOS X, Using Quaqua look and feel: "
                         + QuaquaManager.getLookAndFeelClassName() );
             } catch ( Exception e ) {
                 logger.warn( e );
@@ -80,11 +80,26 @@ public class UtilitiesGui {
 
             // use operating system's default look and feel
             try {
-                UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
-                logger.debug( "Using "
-                        +
-                        UIManager.getSystemLookAndFeelClassName()
-                        + " look and feel" );
+
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                logger.debug("GTK L&F is not available, using OS look and feel: "
+                        + UIManager.getSystemLookAndFeelClassName());
+
+                /*
+                 * We can force the GTK L&F, but the app needs to better handle the dark variant of this theme
+                 */
+//                if(UIManager.getSystemLookAndFeelClassName().toString().contains("MetalLookAndFeel")) {
+//
+//                    // ugh, the platform default is metal; trying GTK
+//                    UIManager.setLookAndFeel(("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"));
+//                    logger.debug( "OS L&F is Metal, Boo! Using GTK look and feel: "
+//                            + UIManager.getSystemLookAndFeelClassName());
+//                } else {
+//
+//                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//                    logger.debug("GTK L&F is not available, using OS look and feel: "
+//                            + UIManager.getSystemLookAndFeelClassName());
+//                }
             } catch ( Exception e ) {
 
                 logger.debug( e );
@@ -92,10 +107,8 @@ public class UtilitiesGui {
                 // yikes! Try using the icky cross-platform look and feel.
                 try {
                     UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
-                    logger.debug( "Using "
-                            +
-                            UIManager.getCrossPlatformLookAndFeelClassName()
-                            + " look and feel" );
+                    logger.debug( "Using fallback look and feel: "
+                            + UIManager.getCrossPlatformLookAndFeelClassName());
                 } catch ( Exception e1 ) {
                     logger.debug( e1 );
                 }

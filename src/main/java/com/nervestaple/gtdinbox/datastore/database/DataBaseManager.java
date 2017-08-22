@@ -65,7 +65,7 @@ public class DataBaseManager {
         try {
             sessionFactory = configuration.buildSessionFactory();
         } catch( HibernateException e ) {
-            logger.warn( e );
+            logger.warn( e.getMessage(), e );
         }
 
         // create the database schema, if it's missing
@@ -100,7 +100,7 @@ public class DataBaseManager {
                 logger.debug( "Creating a new Session" );
                 session = sessionFactory.withOptions().interceptor(indexInterceptor).openSession();
             } catch( HibernateException e ) {
-                logger.warn( e );
+                logger.warn( e, e );
                 throw new DataBaseManagerException( e );
             }
         }
