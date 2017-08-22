@@ -1,5 +1,6 @@
 package com.nervestaple.gtdinbox.datastore.index.indexinterceptor;
 
+import com.nervestaple.gtdinbox.datastore.database.DataBaseManagerException;
 import junit.framework.TestCase;
 import com.nervestaple.gtdinbox.configuration.ConfigurationFactory;
 import com.nervestaple.gtdinbox.configuration.ConfigurationFactoryException;
@@ -43,6 +44,28 @@ public class TestIndexInterceptor extends TestCase {
         }
 
         configurationFactory.configure();
+
+        // get a usermanager
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+
+        try {
+            dataBaseManager.createSchemaIfMissing();
+        } catch( DataBaseManagerException e ) {
+            logger.info( e );
+        }
+    }
+
+    public void tearDown() {
+
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+
+        try {
+            if( dataBaseManager.schemaExists() ) {
+                dataBaseManager.dropSchema();
+            }
+        } catch( Exception e ) {
+            logger.info( e );
+        }
     }
 
     public void testAddObject() throws Exception {
