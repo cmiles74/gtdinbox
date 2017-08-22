@@ -4,7 +4,7 @@ GTD Inbox: A Simple To-Do Application
 This project provides a simple to-do list application that rougly follows the
 ["Get Things Done" (GTD) methodology](https://en.wikipedia.org/wiki/Getting_Things_Done).
 
-![Screenshot](https://github.com/cmiles74/gtdinbox/master/documentation/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/cmiles74/gtdinbox/master/documentation/screenshot.png)
 
 This is application is written in Java and leverages Swing for the user interface. I 
 had written it a long, long time ago (back when my day job involved Swing) and I had
