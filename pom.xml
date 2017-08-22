@@ -149,7 +149,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.6.2</version>
                 <configuration>
                     <source>7</source>
                     <target>7</target>
@@ -159,14 +159,66 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.nervestaple.gtdinbox.GTDInbox</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>install</id>
-                        <phase>install</phase>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>sources</goal>
+                            <goal>single</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>launch4j</goal></goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>target/gtdinbox.exe</outfile>
+                            <jar>target/gtdinbox-1.0-jar-with-dependencies.jar</jar>
+                            <errTitle>GTD Inbox</errTitle>
+                            <icon>windows/application.ico</icon>
+                            <classPath>
+                                <mainClass>com.nervestaple.gtdinbox.GTDInbox</mainClass>
+                                <addDependencies>false</addDependencies>
+                                <preCp>anything</preCp>
+                            </classPath>
+                            <jre>
+                                <minVersion>1.7.0</minVersion>
+                                <opts>
+                                    <opt>-Dawt.useSystemAAFontSettings=on</opt>
+                                    <opt>-Djava.endorsed.dirs=./endorsed</opt>
+                                </opts>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>0.6.0.0</fileVersion>
+                                <txtFileVersion>1.0</txtFileVersion>
+                                <fileDescription>GTD Inbox</fileDescription>
+                                <copyright>Nervestaple Development</copyright>
+                                <fileVersion>0.6.0.0</fileVersion>
+                                <txtProductVersion>1.0</txtProductVersion>
+                                <productName>GTD Inbox</productName>
+                                <internalName>GTDInbox</internalName>
+                                <originalFilename>gtdinbox.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
