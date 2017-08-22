@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="com.nervestaple.gtdinbox.model.item.referenceitem.ReferenceItem"
+        table="ReferenceItems"
+    >
+
+        <id
+            name="id"
+            column="referenceItemId"
+            type="java.lang.Long"
+            unsaved-value="null"
+        >
+            <generator class="native">
+            </generator>
+        </id>
+
+        <property
+            name="name"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="name"
+        />
+
+        <property
+            name="description"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+        >
+            <column
+                name="description" 
+                length="32672"
+            />
+        </property>
+
+        <property
+            name="descriptionTextStyleType"
+            type="com.nervestaple.gtdinbox.model.textstyletypes.TextStyleTypeUserType"
+            update="true"
+            insert="true"
+        >
+            <column
+                name="descriptionTextStyleType" 
+            />
+        </property>
+
+        <property
+            name="createdDate"
+            type="java.util.Date"
+            update="true"
+            insert="true"
+            column="createdDate"
+        />
+
+        <property
+            name="lastModifiedDate"
+            type="java.util.Date"
+            update="true"
+            insert="true"
+            column="lastModifiedDate"
+        />
+
+        <property
+            name="deleted"
+            type="java.lang.Boolean"
+            update="true"
+            insert="true"
+            column="deleted"
+        />
+
+        <many-to-one
+            name="category"
+            class="com.nervestaple.gtdinbox.model.reference.category.Category"
+            cascade="none"
+            outer-join="auto"
+            update="true"
+            insert="true"
+            column="categoryId"
+        />
+
+        <set
+            name="tags"
+            table="referenceItemTags"
+            lazy="true"
+            inverse="true"
+            cascade="save-update"
+            sort="unsorted"
+        >
+
+            <key
+                column="tagId"
+            >
+            </key>
+
+            <many-to-many class="com.nervestaple.gtdinbox.model.tag.Tag" />
+
+        </set>
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-ReferenceItem.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+        <joined-subclass
+            name="com.nervestaple.gtdinbox.model.item.referenceitem.ReferenceItem"
+            table="SimpleReferenceItems"
+        >
+            <key
+            />
+        <property
+            name="content"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="content"
+        />
+
+        <property
+            name="contentTextStyleType"
+            type="com.nervestaple.gtdinbox.model.textstyletypes.TextStyleTypeUserType"
+            update="true"
+            insert="true"
+        >
+            <column
+                name="contentTextStyleType" 
+                length="32672"
+            />
+        </property>
+
+        </joined-subclass>
+
+    </class>
+
+</hibernate-mapping>

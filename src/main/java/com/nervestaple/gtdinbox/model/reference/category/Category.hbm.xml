@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="com.nervestaple.gtdinbox.model.reference.category.Category"
+        table="categories"
+    >
+        <cache usage="read-write" />
+
+        <id
+            name="id"
+            column="projectId"
+            type="java.lang.Long"
+            unsaved-value="null"
+        >
+            <generator class="native">
+              <!--  
+                  To add non XDoclet generator parameters, create a file named 
+                  hibernate-generator-params-Category.xml 
+                  containing the additional parameters and place it in your merge dir. 
+              --> 
+            </generator>
+        </id>
+
+        <property
+            name="name"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="name"
+        />
+
+        <property
+            name="description"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+        >
+            <column
+                name="description" 
+                length="32672"
+            />
+        </property>
+
+        <property
+            name="textStyleType"
+            type="com.nervestaple.gtdinbox.model.textstyletypes.TextStyleTypeUserType"
+            update="true"
+            insert="true"
+        >
+            <column
+                name="descriptionTextStyleType" 
+            />
+        </property>
+
+        <property
+            name="red"
+            type="java.lang.Integer"
+            update="true"
+            insert="true"
+            column="red"
+        />
+
+        <property
+            name="green"
+            type="java.lang.Integer"
+            update="true"
+            insert="true"
+            column="green"
+        />
+
+        <property
+            name="blue"
+            type="java.lang.Integer"
+            update="true"
+            insert="true"
+            column="blue"
+        />
+
+        <property
+            name="deleted"
+            type="java.lang.Boolean"
+            update="true"
+            insert="true"
+            column="deleted"
+        />
+
+        <set
+            name="referenceItems"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            sort="unsorted"
+        >
+            <cache 
+                usage="read-write" 
+            />
+
+            <key
+                column="categoryId"
+            >
+            </key>
+
+            <one-to-many
+                  class="com.nervestaple.gtdinbox.model.item.referenceitem.ReferenceItem"
+            />
+
+        </set>
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-Category.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

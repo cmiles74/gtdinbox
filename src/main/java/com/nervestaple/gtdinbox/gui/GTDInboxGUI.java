@@ -120,12 +120,12 @@ public class GTDInboxGUI {
 
                     // try to configure the configuration again
                     configurationFactory.configure();
-                } catch( ConfigurationFactoryException e1 ) {
+                } catch( ConfigurationFactoryException exception ) {
 
-                    handleException( e1 );
+                    handleException( exception );
                 }
             }
-        } catch( Exception e ) {
+        } catch( Throwable e ) {
 
             handleException( e );
         }
@@ -257,6 +257,9 @@ public class GTDInboxGUI {
         } catch( DataBaseManagerException e ) {
 
             frame.handleErrorOccurred( e );
+        } finally {
+
+            System.exit(0);
         }
     }
 
@@ -309,12 +312,20 @@ public class GTDInboxGUI {
 
     // private methods
 
-    private void handleException( Exception exception ) {
+    private void handleException( Throwable exception ) {
+
+        logger.warn(exception.getMessage(), exception);
+
+        String message = exception.getMessage();
+
+        if(message == null) {
+            message = "An unknown application occured, I am very sorry!";
+        }
 
         final JOptionPane pane = new JOptionPane(
                 "<html>" + System.getProperty( "OptionPane.css" ) +
                         "<b>GTD Inbox cannot startup.</b><p>" +
-                        exception.getMessage(),
+                        message,
                 JOptionPane.ERROR_MESSAGE
         );
         Object[] options = { "Quit" };

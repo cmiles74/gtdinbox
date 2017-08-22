@@ -4,8 +4,12 @@
 *.ipr
 *.iws
 *.idea
+*.log
 libraries/*
 libraries-build/*
 classes/*
 target/*
 dist/*
+
+com.nervestaple.gtdinbox.properties
+data/*

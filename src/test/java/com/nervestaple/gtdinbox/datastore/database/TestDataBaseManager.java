@@ -38,7 +38,7 @@ public class TestDataBaseManager extends TestCase {
             configurationFactory.configure();
         } catch( ConfigurationFactoryException e ) {
 
-            logger.info( e );
+            logger.info( e, e );
 
             if( e instanceof NoStorageLocationException ) {
 

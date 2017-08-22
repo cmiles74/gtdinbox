@@ -64,7 +64,7 @@ public class TopLevelContainerRenderer {
      * Returns the rendered component.
      *
      * @param jTree            Tree the component is a part of
-     * @param container        The top level container to renderª
+     * @param container        The top level container to render
      * @param isSelected       True if the object is selected
      * @param isExpanded       True if the object is expanded
      * @param isLeaf           True if the object has no children

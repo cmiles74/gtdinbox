@@ -4,12 +4,19 @@ import com.nervestaple.gtdinbox.configuration.ConfigurationFactory;
 import com.nervestaple.gtdinbox.datastore.index.indexinterceptor.IndexInterceptor;
 import org.apache.log4j.Logger;
 import org.hibernate.*;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.internal.SessionImpl;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.hibernate.tool.schema.TargetType;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.EnumSet;
 
 /**
  * Provides an object for managing the data store. This is a singleton instance.
@@ -54,7 +61,7 @@ public class DataBaseManager {
         // get a configuration from the application's configuration factory
         configuration = ConfigurationFactory.getInstance().getHibernateConfiguration().getConfiguration();
 
-        // setup the session factory and pass it the interceptior
+        // setup the session factory and pass it the interceptor
         try {
             sessionFactory = configuration.buildSessionFactory();
         } catch( HibernateException e ) {
@@ -91,7 +98,7 @@ public class DataBaseManager {
 
             try {
                 logger.debug( "Creating a new Session" );
-                session = sessionFactory.openSession( indexInterceptor );
+                session = sessionFactory.withOptions().interceptor(indexInterceptor).openSession();
             } catch( HibernateException e ) {
                 logger.warn( e );
                 throw new DataBaseManagerException( e );
@@ -148,7 +155,8 @@ public class DataBaseManager {
      */
     public void commitTransaction() throws DataBaseManagerException {
 
-        if( transaction != null && !transaction.wasCommitted() && !transaction.wasRolledBack() ) {
+        if( transaction != null && !(transaction.getStatus() == TransactionStatus.COMMITTED) &&
+                !(transaction.getStatus() == TransactionStatus.ROLLED_BACK)) {
 
             try {
                 transaction.commit();
@@ -173,8 +181,9 @@ public class DataBaseManager {
      */
     public void rollbackTransaction() throws DataBaseManagerException {
 
-        if( transaction != null && transaction.isActive() && !transaction.wasCommitted()
-                && !transaction.wasRolledBack() ) {
+        if( transaction != null && transaction.isActive() &&
+                !(transaction.getStatus() == TransactionStatus.COMMITTED) &&
+                !(transaction.getStatus() == TransactionStatus.ROLLED_BACK)) {
 
             try {
                 transaction.rollback();
@@ -208,13 +217,18 @@ public class DataBaseManager {
     public final void createSchema() throws DataBaseManagerException {
 
         // create a schema export instance for our configuration
-        SchemaExport schemaExport = new SchemaExport( configuration );
+        SchemaExport schemaExport = new SchemaExport();
+        schemaExport.setHaltOnError(true);
 
         // create the schema
+        EnumSet<TargetType> targetTypes = EnumSet.of(TargetType.DATABASE);
+        StandardServiceRegistry serviceRegistry = configuration.getStandardServiceRegistryBuilder().build();
+        Metadata metadata = new MetadataSources(serviceRegistry).getMetadataBuilder().build();
+
         try {
-            schemaExport.create( true, true );
+            schemaExport.createOnly(targetTypes, metadata);
         } catch( Exception e ) {
-            logger.info( e );
+            logger.warn( e, e );
         }
 
         logger.info( "Created database schema" );
@@ -224,10 +238,14 @@ public class DataBaseManager {
     public final void dropSchema() {
 
         // create a schema export instance for our configuration
-        SchemaExport schemaExport = new SchemaExport( configuration );
+        SchemaExport schemaExport = new SchemaExport();
 
         // drop the schema
-        schemaExport.drop( true, true );
+        EnumSet<TargetType> targetTypes = EnumSet.of(TargetType.DATABASE);
+        StandardServiceRegistry serviceRegistry = configuration.getStandardServiceRegistryBuilder().build();
+        Metadata metadata = new MetadataSources(serviceRegistry).getMetadataBuilder().build();
+
+        schemaExport.drop(targetTypes, metadata);
 
         logger.info( "Removed database schema" );
     }
@@ -259,8 +277,7 @@ public class DataBaseManager {
         // get a session and connection
         try {
 
-            Session session = getSession();
-            Connection connection = session.connection();
+            Connection connection = ((SessionImpl) getSession()).connection();
 
             // check for the tables
             try {

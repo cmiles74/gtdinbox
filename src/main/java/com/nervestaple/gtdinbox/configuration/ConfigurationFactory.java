@@ -54,14 +54,8 @@ public class ConfigurationFactory {
     /**
      * Tell the factory if it should configure itself for running in test mode.
      * @param testingConfiguration boolean
-     * @throws ConfigurationFactoryException if the instance has already been configured
      */
     public void setTestingConfiguration( final boolean testingConfiguration ) throws ConfigurationFactoryException {
-
-        if( CONFIGURATION_APPLICATION != null ) {
-
-            throw new ConfigurationFactoryException( "Cannot enter testing mode after configure() has been called" );
-        }
 
         this.testingConfiguration = testingConfiguration;
     }
@@ -79,7 +73,7 @@ public class ConfigurationFactory {
      * Configures this configuration.
      * @throws ConfigurationFactoryException problems loading or building the configuration
      */
-    public void configure() throws ConfigurationFactoryException {
+    public void configure() throws ConfigurationFactoryException, ExceptionInInitializerError {
 
         // create an application configuration
         CONFIGURATION_APPLICATION = new ApplicationConfiguration();

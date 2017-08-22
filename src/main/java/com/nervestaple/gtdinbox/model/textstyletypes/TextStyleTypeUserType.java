@@ -1,5 +1,6 @@
 package com.nervestaple.gtdinbox.model.textstyletypes;
 
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
 import org.hibernate.HibernateException;
 import org.apache.commons.collections.CollectionUtils;
@@ -110,8 +111,10 @@ public class TextStyleTypeUserType implements UserType {
      * @throws HibernateException
      * @throws SQLException
      */
-    public Object nullSafeGet( ResultSet resultSet, String[] names, Object owner ) throws HibernateException,
-            SQLException {
+    @Override
+    public Object nullSafeGet(ResultSet resultSet, String[] names,
+                              SharedSessionContractImplementor owner,
+                              Object o) throws HibernateException, SQLException {
 
         String name = resultSet.getString( names[ 0 ] );
 
@@ -123,11 +126,14 @@ public class TextStyleTypeUserType implements UserType {
      * @param statement Database query
      * @param value TextStyleType
      * @param index Index in query to change
+     * @param owner Entity
      * @throws HibernateException
      * @throws SQLException
      */
-    public void nullSafeSet( PreparedStatement statement, Object value, int index ) throws HibernateException,
-            SQLException {
+    @Override
+    public void nullSafeSet(PreparedStatement statement, Object value, int index,
+                            SharedSessionContractImplementor owner)
+            throws HibernateException, SQLException {
 
         if( value == null ) {
             statement.setNull( index, Types.VARCHAR );
