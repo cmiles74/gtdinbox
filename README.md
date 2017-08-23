@@ -35,3 +35,5 @@ version number will change). When you unzip that archive you'll get a directory 
 `gtdinbox-1.0` that contains the project README and a folder for each distribution 
 (Mac OSX, Unix-like and Windows). Inside each one is a reasonable executable for
 that environment (on a Unix-like, you can run the included shell script).
+
+Or you can download the latest release available on this project page. `:-)`
