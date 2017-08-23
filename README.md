@@ -25,16 +25,13 @@ With those installed, simply build the application like so...
 
     mvn install
     
-## Running the Project
-    
-The `target` directory will contain the application. If you are on Windows, simply 
-double-click the `gtdinbox.exe` file to launch. If you are on Mac OS X, you'll find
-the application bundle in the `gtdinbox-1.0` directory. If you are on Linux, you can 
-make the launcher script executable and then run that.
+This will run compile the application, run the tests and the build the final 
+distribution.
 
-    chmod +x ./gtdinbox.sh
-    ./gtdinbox.sh
-    
-There are some minor bugs and the UI defaults to the old Metal theme on Linux. The
-GTK theme works, but the dark variant looks absolutely awful; the application needs
-to handle that more gracefully.
+## Running the Application
+
+The final distribution is the ZIP archive named `gtdinbox-1.0-distribution.zip` (the
+version number will change). When you unzip that archive you'll get a directory called 
+`gtdinbox-1.0` that contains the project README and a folder for each distribution 
+(Mac OSX, Unix-like and Windows). Inside each one is a reasonable executable for
+that environment (on a Unix-like, you can run the included shell script).
