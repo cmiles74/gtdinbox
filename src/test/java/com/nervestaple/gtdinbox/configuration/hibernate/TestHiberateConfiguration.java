@@ -1,5 +1,7 @@
 package com.nervestaple.gtdinbox.configuration.hibernate;
 
+import com.nervestaple.gtdinbox.configuration.ConfigurationFactory;
+import com.nervestaple.gtdinbox.configuration.ConfigurationFactoryException;
 import junit.framework.TestCase;
 import com.nervestaple.gtdinbox.configuration.application.ApplicationConfiguration;
 
@@ -11,6 +13,12 @@ import com.nervestaple.gtdinbox.configuration.application.ApplicationConfigurati
  */
 public class TestHiberateConfiguration extends TestCase {
 
+    public void setUp() throws ConfigurationFactoryException {
+
+        ConfigurationFactory configurationFactory = ConfigurationFactory.getInstance();
+        configurationFactory.setTestingConfiguration(true);
+        configurationFactory.configure();
+    }
 
     public void testConstructor() throws Exception {
 

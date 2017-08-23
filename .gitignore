@@ -10,6 +10,3 @@ libraries-build/*
 classes/*
 target/*
 dist/*
-
-com.nervestaple.gtdinbox.properties
-data/*

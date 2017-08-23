@@ -1,6 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.nervestaple.gtdinbox</groupId>
     <artifactId>gtdinbox</artifactId>
@@ -8,7 +9,43 @@
     <version>1.0</version>
 
     <properties>
-        <skipTests>true</skipTests>
+
+        <!-- project settings -->
+        <product-vendor>Nervestaple Development</product-vendor>
+        <main-class>com.nervestaple.gtdinbox.GTDInbox</main-class>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <launch4j.minimum.jvm>1.8.0</launch4j.minimum.jvm>
+        <launch4j.file.version>0.6</launch4j.file.version>
+        <launch4j.windows.icon>windows/application.ico</launch4j.windows.icon>
+
+        <!-- depdendency versions -->
+        <version.browserlauncher>1.3</version.browserlauncher>
+        <version.commons-beanutils>1.9.3</version.commons-beanutils>
+        <version.commons-collections>3.2</version.commons-collections>
+        <version.commons-configuration>1.2</version.commons-configuration>
+        <version.commons-lang>2.1</version.commons-lang>
+        <version.derby>10.13.1.1</version.derby>
+        <version.dom4j>1.6.1</version.dom4j>
+        <version.glazedlists>1.7.0</version.glazedlists>
+        <version.hibernate>5.2.10.Final</version.hibernate>
+        <version.lucene>2.0.0</version.lucene>
+        <version.lucene-analyzers>5.4.0</version.lucene-analyzers>
+        <version.log4j>1.2.17</version.log4j>
+        <version.markdownj>1.0.2b1-0.2.0</version.markdownj>
+        <version.mrjadapter>1.0.9</version.mrjadapter>
+        <version.nervestaple-utilities>1.2</version.nervestaple-utilities>
+        <version.quaqua>7.3.4</version.quaqua>
+
+        <!-- development dependency versions -->
+        <version.junit>4.12</version.junit>
+
+        <!-- plugin versions -->
+        <version.plugin.maven-compiler>3.6.2</version.plugin.maven-compiler>
+        <version.plugin.surefire>2.20</version.plugin.surefire>
+        <version.plugin.maven-resources>3.0.2</version.plugin.maven-resources>
+        <version.plugin.maven-assembly>3.1.0</version.plugin.maven-assembly>
+        <version.plugin.launch4j>1.7.19</version.plugin.launch4j>
     </properties>
 
     <profiles>
@@ -23,6 +60,7 @@
         </profile>
     </profiles>
 
+    <!-- We have a couple old dependencies that are hard to find -->
     <repositories>
         <repository>
             <id>nervestaple</id>
@@ -39,67 +77,47 @@
         <dependency>
             <groupId>edu.stanford.ejalbert</groupId>
             <artifactId>BrowserLauncher2</artifactId>
-            <version>1.3</version>
+            <version>${version.browserlauncher}</version>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.3</version>
+            <version>${version.commons-beanutils}</version>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.1</version>
+            <version>${version.commons-collections}</version>
         </dependency>
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
-            <version>1.2</version>
+            <version>${version.commons-configuration}</version>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.1</version>
+            <version>${version.commons-lang}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
-            <version>10.13.1.1</version>
+            <version>${version.derby}</version>
         </dependency>
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
+            <version>${version.dom4j}</version>
         </dependency>
         <dependency>
             <groupId>net.java.dev.glazedlists</groupId>
             <artifactId>glazedlists_java15</artifactId>
-            <version>1.7.0</version>
+            <version>${version.glazedlists}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.2.10.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>2.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-analyzers-common</artifactId>
-            <version>5.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <version>${version.hibernate}</version>
         </dependency>
         <dependency>
             <groupId>com.intellij</groupId>
@@ -107,24 +125,47 @@
             <version>7.0.3</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>${version.lucene}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers-common</artifactId>
+            <version>${version.lucene-analyzers}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${version.log4j}</version>
+        </dependency>
+        <dependency>
             <groupId>com.petebevin</groupId>
             <artifactId>markdownj</artifactId>
-            <version>1.0.2b1-0.2.0</version>
+            <version>${version.markdownj}</version>
         </dependency>
         <dependency>
             <groupId>io.github.dheid</groupId>
             <artifactId>mrjadapter</artifactId>
-            <version>1.0.9</version>
+            <version>${version.mrjadapter}</version>
         </dependency>
         <dependency>
             <groupId>com.nervestaple.utilities</groupId>
             <artifactId>nervestaple-utilities</artifactId>
-            <version>1.2</version>
+            <version>${version.nervestaple-utilities}</version>
         </dependency>
         <dependency>
             <groupId>org.devzendo</groupId>
             <artifactId>Quaqua</artifactId>
-            <version>7.3.4</version>
+            <version>${version.quaqua}</version>
+        </dependency>
+
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -149,58 +190,22 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.2</version>
+                <version>${version.plugin.maven-compiler}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${version.plugin.surefire}</version>
                 <configuration>
-                    <source>7</source>
-                    <target>7</target>
-                    <encoding>UTF-8</encoding>
+                    <reuseForks>false</reuseForks>
+                    <forkCount>1</forkCount>
                 </configuration>
             </plugin>
 
             <plugin>
-                <groupId>com.akathist.maven.plugins.launch4j</groupId>
-                <artifactId>launch4j-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals><goal>launch4j</goal></goals>
-                        <configuration>
-                            <headerType>gui</headerType>
-                            <outfile>target/gtdinbox.exe</outfile>
-                            <jar>target/gtdinbox-1.0-jar-with-dependencies.jar</jar>
-                            <errTitle>GTD Inbox</errTitle>
-                            <icon>windows/application.ico</icon>
-                            <classPath>
-                                <mainClass>com.nervestaple.gtdinbox.GTDInbox</mainClass>
-                                <addDependencies>false</addDependencies>
-                                <preCp>anything</preCp>
-                            </classPath>
-                            <jre>
-                                <minVersion>1.7.0</minVersion>
-                                <opts>
-                                    <opt>-Dawt.useSystemAAFontSettings=on</opt>
-                                </opts>
-                            </jre>
-                            <versionInfo>
-                                <fileVersion>0.6.0.0</fileVersion>
-                                <txtFileVersion>1.0</txtFileVersion>
-                                <fileDescription>GTD Inbox</fileDescription>
-                                <copyright>Nervestaple Development</copyright>
-                                <fileVersion>0.6.0.0</fileVersion>
-                                <productVersion>1.0.0.0</productVersion>
-                                <txtProductVersion>1.0</txtProductVersion>
-                                <productName>GTD Inbox</productName>
-                                <internalName>GTDInbox</internalName>
-                                <originalFilename>gtdinbox.exe</originalFilename>
-                            </versionInfo>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>${version.plugin.maven-resources}</version>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
@@ -224,14 +229,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${version.plugin.maven-assembly}</version>
                 <configuration>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.nervestaple.gtdinbox.GTDInbox</mainClass>
+                            <mainClass>${main-class}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -242,6 +247,48 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- build the native launcher -->
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>${version.plugin.launch4j}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>launch4j</goal></goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>target/gtdinbox.exe</outfile>
+                            <jar>target/${project.artifactId}-${project.version}-jar-with-dependencies.jar</jar>
+                            <errTitle>${project.name}</errTitle>
+                            <icon>${launch4j.windows.icon}</icon>
+                            <classPath>
+                                <mainClass>${main-class}</mainClass>
+                                <addDependencies>false</addDependencies>
+                                <preCp>anything</preCp>
+                            </classPath>
+                            <jre>
+                                <minVersion>${launch4j.minimum.jvm}</minVersion>
+                                <opts>
+                                    <opt>-Dawt.useSystemAAFontSettings=on</opt>
+                                </opts>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>${launch4j.file.version}.0.0</fileVersion>
+                                <txtFileVersion>${launch4j.file.version}</txtFileVersion>
+                                <fileDescription>${project.name}</fileDescription>
+                                <copyright>${product-vendor}</copyright>
+                                <productVersion>${project.version}.0.0</productVersion>
+                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <internalName>${project.artifactId}</internalName>
+                                <originalFilename>${project.artifactId}.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

@@ -1,11 +1,13 @@
 package com.nervestaple.gtdinbox.configuration.application;
 
+import com.nervestaple.gtdinbox.configuration.ConfigurationFactoryException;
 import com.nervestaple.gtdinbox.datastore.index.IndexManager;
 import com.nervestaple.gtdinbox.datastore.index.IndexManagerException;
 import com.nervestaple.utility.Platform;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.log4j.Logger;
 
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -17,6 +19,11 @@ import java.io.File;
  * @version 1.0
  */
 public class ApplicationConfiguration {
+
+    /**
+     * Logger instance.
+     */
+    private Logger logger = Logger.getLogger( this.getClass() );
 
     /**
      * Data model to store the configuration settings.
@@ -118,13 +125,39 @@ public class ApplicationConfiguration {
             configurationPath = "com.nervestaple.gtdinbox.properties";
         }
 
-        File configurationFile = new File( configurationPath );
+        File configurationFile = null;
+        if(testingConfiguration) {
+
+            // load the configuration from the classpath
+            configurationFile = new File(
+                    getClass().getClassLoader().getResource(configurationPath).getFile());
+        } else {
+            configurationFile = new File(configurationPath);
+        }
 
         try {
             configuration = new PropertiesConfiguration( configurationFile );
         } catch( ConfigurationException e ) {
 
             throw new ApplicationConfigurationException( e );
+        }
+
+        try {
+            getDataStorageLocation();
+        } catch( ConfigurationFactoryException e ) {
+
+            logger.info( e );
+
+            if( e instanceof NoStorageLocationException ) {
+
+                // set the default storage location
+                logger.info( "Using default data location" );
+                File storage = createDefaultDataStorageLocation();
+                setDataStorageLocation( storage );
+
+                // try to configure the configuration again
+                configure();
+            }
         }
 
         model.setDataStorageLocation( getDataStorageLocation() );
@@ -169,24 +202,24 @@ public class ApplicationConfiguration {
 
         model.setDataStorageLocation( new File( dataStorageLocationPath ) );
 
-        if( !model.getDataStorageLocation().exists() ) {
+        if (!model.getDataStorageLocation().exists()) {
 
-            throw new NoStorageLocationException( "The storage location does not exist" );
+            throw new NoStorageLocationException("The storage location does not exist");
         }
 
-        if( !model.getDataStorageLocation().isDirectory() ) {
+        if (!model.getDataStorageLocation().isDirectory()) {
 
-            throw new NoStorageLocationException( "The storage location is not a directory" );
+            throw new NoStorageLocationException("The storage location is not a directory");
         }
 
-        if( !model.getDataStorageLocation().canWrite() ) {
+        if (!model.getDataStorageLocation().canWrite()) {
 
-            throw new NoStorageLocationException( "Cannot read from the storage location" );
+            throw new NoStorageLocationException("Cannot read from the storage location");
         }
 
-        if( !model.getDataStorageLocation().canWrite() ) {
+        if (!model.getDataStorageLocation().canWrite()) {
 
-            throw new NoStorageLocationException( "Cannot write to the storage location" );
+            throw new NoStorageLocationException("Cannot write to the storage location");
         }
 
         return ( model.getDataStorageLocation() );

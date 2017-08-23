@@ -104,27 +104,6 @@ public class GTDInboxGUI {
 
             // configure the configuration
             configurationFactory.configure();
-        } catch( ConfigurationFactoryException e ) {
-
-            logger.info( e );
-
-            if( e instanceof NoStorageLocationException ) {
-
-                // set the default storage location
-                logger.info( "Using default data location" );
-
-                try {
-                    File storage =
-                            configurationFactory.getApplicationConfiguration().createDefaultDataStorageLocation();
-                    configurationFactory.getApplicationConfiguration().setDataStorageLocation( storage );
-
-                    // try to configure the configuration again
-                    configurationFactory.configure();
-                } catch( ConfigurationFactoryException exception ) {
-
-                    handleException( exception );
-                }
-            }
         } catch( Throwable e ) {
 
             handleException( e );
