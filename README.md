@@ -28,8 +28,9 @@ With those installed, simply build the application like so...
 ## Running the Project
     
 The `target` directory will contain the application. If you are on Windows, simply 
-double-click the `gtdinbox.exe` file to launch. If you are on Linux, you can make the
-launcher script executable and then run that.
+double-click the `gtdinbox.exe` file to launch. If you are on Mac OS X, you'll find
+the application bundle in the "gtdinbox-1.0" directory. If you are on Linux, you can 
+make the launcher script executable and then run that.
 
     chmod +x ./gtdinbox.sh
     ./gtdinbox.sh
