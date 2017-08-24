@@ -67,14 +67,12 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
      * This action item's project.
      */
     @ManyToOne
-    @JoinColumn(name = "project_id")
     private Project project;
 
     /**
      * This action item's context
      */
     @ManyToOne
-    @JoinColumn(name = "inboxcontextid")
     private InboxContext inboxContext;
 
     /**

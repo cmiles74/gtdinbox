@@ -58,7 +58,7 @@ public class Project implements Serializable, Indexable, Trashable {
     /**
      * Action items associates with this project.
      */
-    @OneToMany(targetEntity = ActionItem.class)
+    @OneToMany(targetEntity = ActionItem.class, mappedBy = "project")
     private Set actionItems = new HashSet();
 
     /**
