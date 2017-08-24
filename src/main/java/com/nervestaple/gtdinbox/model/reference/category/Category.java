@@ -1,11 +1,13 @@
 package com.nervestaple.gtdinbox.model.reference.category;
 
+import com.nervestaple.gtdinbox.index.IndexListener;
 import com.nervestaple.gtdinbox.model.Indexable;
 import com.nervestaple.gtdinbox.model.Trashable;
 import com.nervestaple.gtdinbox.model.item.referenceitem.ReferenceItem;
 import com.nervestaple.gtdinbox.model.textstyletypes.TextStyleType;
 import org.apache.commons.lang.Validate;
 
+import javax.persistence.*;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -13,17 +15,17 @@ import java.util.Set;
 
 /**
  * Provides an object to model a category. In this application, a category is used to group references items.
- *
- * @author Christopher Miles
- * @version 1.0
- * @hibernate.class table="categories"
- * @hibernate.cache usage="read-write"
  */
+@Entity
+@EntityListeners({IndexListener.class})
 public class Category implements Serializable, Indexable, Trashable {
 
     /**
      * Unique id.
      */
+    @Id
+    @SequenceGenerator(name = "CategoryItemSequence")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "CategoryItemSequence")
     private Long id;
 
     /**
@@ -64,6 +66,7 @@ public class Category implements Serializable, Indexable, Trashable {
     /**
      * Reference items associated with this category.
      */
+    @OneToMany(targetEntity = ReferenceItem.class)
     private Set referenceItems;
 
     /**

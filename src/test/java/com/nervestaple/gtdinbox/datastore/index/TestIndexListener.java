@@ -12,7 +12,6 @@ import org.apache.lucene.index.Term;
 import org.apache.log4j.Logger;
 
 import java.io.File;
-import java.util.Iterator;
 
 /**
  * Provides a test suite for the IndexInterceptor.
@@ -20,7 +19,7 @@ import java.util.Iterator;
  * @author Christopher Miles
  * @version 1.0
  */
-public class TestIndexInterceptor extends TestCase {
+public class TestIndexListener extends TestCase {
 
     /**
      * Logger instance.
@@ -77,7 +76,7 @@ public class TestIndexInterceptor extends TestCase {
         // perisist the project
         DataBaseManager databaseManager = DataBaseManager.getInstance();
         databaseManager.beginTransaction();
-        databaseManager.getSession().save( project );
+        databaseManager.getEntityManager().persist( project );
         databaseManager.commitTransaction();
 
         // create a new query to find our project
@@ -93,10 +92,10 @@ public class TestIndexInterceptor extends TestCase {
         IndexSearcher indexSearcher = indexManager.getIndexSearcher();
         Hits hits = indexSearcher.search( query );
         int results = hits.length();
-      
+
         // remove the project
         databaseManager.beginTransaction();
-        databaseManager.getSession().delete( project );
+        databaseManager.getEntityManager().remove( project );
         databaseManager.commitTransaction();
 
         logger.info( query );
@@ -114,7 +113,7 @@ public class TestIndexInterceptor extends TestCase {
         // perisist the project
         DataBaseManager databaseManager = DataBaseManager.getInstance();
         databaseManager.beginTransaction();
-        databaseManager.getSession().save( project );
+        databaseManager.getEntityManager().persist( project );
         databaseManager.commitTransaction();
 
         // create a new query to find our project
@@ -127,7 +126,7 @@ public class TestIndexInterceptor extends TestCase {
 
         // remove the project
         databaseManager.beginTransaction();
-        databaseManager.getSession().delete( project );
+        databaseManager.getEntityManager().remove( project );
         databaseManager.commitTransaction();
 
         // verify the project has been removed

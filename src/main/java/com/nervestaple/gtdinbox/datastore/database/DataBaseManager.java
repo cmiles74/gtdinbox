@@ -1,22 +1,26 @@
 package com.nervestaple.gtdinbox.datastore.database;
 
 import com.nervestaple.gtdinbox.configuration.ConfigurationFactory;
-import com.nervestaple.gtdinbox.datastore.index.indexinterceptor.IndexInterceptor;
 import org.apache.log4j.Logger;
-import org.hibernate.*;
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.internal.SessionImpl;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
+import org.hibernate.service.ServiceRegistry;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernate.tool.schema.TargetType;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.metamodel.EntityType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Provides an object for managing the data store. This is a singleton instance.
@@ -32,20 +36,11 @@ public class DataBaseManager {
     /** Data store manager instance. */
     private final static DataBaseManager DATA_BASE_MANAGER;
 
-    /** Hibernate configuration. */
-    private Configuration configuration;
+    /** Hibernate entity manager. */
+    private EntityManager entityManager;
 
-    /** Session factory. */
-    private SessionFactory sessionFactory;
-
-    /** Interceptor to index objects in the database. */
-    private Interceptor indexInterceptor;
-
-    /** Thread local instance for the session. */
-    private Session session;
-
-    /** Thread local instance for the transaction. */
-    private Transaction transaction;
+    /** Entity manager factory. */
+    private EntityManagerFactory entityManagerFactory;
 
     static {
 
@@ -55,24 +50,16 @@ public class DataBaseManager {
     /** Creates a new data store manager. */
     private DataBaseManager() {
 
-        // create a new index interceptor
-        indexInterceptor = new IndexInterceptor();
-
         // get a configuration from the application's configuration factory
-        configuration = ConfigurationFactory.getInstance().getHibernateConfiguration().getConfiguration();
-
-        // setup the session factory and pass it the interceptor
-        try {
-            sessionFactory = configuration.buildSessionFactory();
-        } catch( HibernateException e ) {
-            logger.warn( e.getMessage(), e );
-        }
+        entityManagerFactory = ConfigurationFactory.getInstance().getHibernateConfiguration().getEntityManagerFactory();
 
         // create the database schema, if it's missing
-        try {
-            createSchemaIfMissing();
-        } catch( Exception e ) {
-            logger.warn( e );
+        if(!ConfigurationFactory.getInstance().isTestingConfiguration()) {
+            try {
+                createSchemaIfMissing();
+            } catch (Exception e) {
+                logger.warn(e);
+            }
         }
     }
 
@@ -87,42 +74,42 @@ public class DataBaseManager {
     }
 
     /**
-     * Returns a hibernate session.
+     * Returns a hibernate entity manager.
      *
-     * @return session
+     * @return entityManager
      * @throws DataBaseManagerException on failure to open a new session
      */
-    public Session getSession() throws DataBaseManagerException {
+    public EntityManager getEntityManager() throws DataBaseManagerException {
 
-        if( session == null || !session.isConnected() ) {
+        if( entityManager == null || !entityManager.isOpen() ) {
 
             try {
-                logger.debug( "Creating a new Session" );
-                session = sessionFactory.withOptions().interceptor(indexInterceptor).openSession();
+                logger.debug( "Creating a new entity manager" );
+                entityManager = entityManagerFactory.createEntityManager();
             } catch( HibernateException e ) {
                 logger.warn( e, e );
                 throw new DataBaseManagerException( e );
             }
         }
 
-        return ( session );
+        return ( entityManager );
     }
 
     /**
-     * Closes the current session.
+     * Closes the current entity manager.
      * <p/>
      * WARNING: You probably don't want to call this, we keep a long running session open for the life of the
      * application. We would only change this if we're connecting to a remote machine for our data.
      *
      * @throws DataBaseManagerException on failure to close the session.
      */
-    public void closeSession() throws DataBaseManagerException {
+    public void closeEntityManager() throws DataBaseManagerException {
 
-        if( session != null && session.isOpen() ) {
+        if( entityManager != null && entityManager.isOpen() ) {
 
             try {
-                session.close();
-                session = null;
+                entityManager.close();
+                entityManager = null;
             } catch( HibernateException e ) {
                 logger.warn( e );
                 throw new DataBaseManagerException( e );
@@ -137,10 +124,11 @@ public class DataBaseManager {
      */
     public void beginTransaction() throws DataBaseManagerException {
 
-        if( transaction == null || !transaction.isActive() ) {
+        if( getEntityManager().getTransaction() == null ||
+                !getEntityManager().getTransaction().isActive() ) {
 
             try {
-                transaction = getSession().beginTransaction();
+                getEntityManager().getTransaction().begin();
             } catch( HibernateException e ) {
                 logger.warn( e );
                 throw new DataBaseManagerException( e );
@@ -155,12 +143,10 @@ public class DataBaseManager {
      */
     public void commitTransaction() throws DataBaseManagerException {
 
-        if( transaction != null && !(transaction.getStatus() == TransactionStatus.COMMITTED) &&
-                !(transaction.getStatus() == TransactionStatus.ROLLED_BACK)) {
+        if(getEntityManager().getTransaction() != null && getEntityManager().getTransaction().isActive()) {
 
             try {
-                transaction.commit();
-                transaction = null;
+                getEntityManager().getTransaction().commit();
             } catch( HibernateException e ) {
 
                 logger.warn( e );
@@ -181,13 +167,10 @@ public class DataBaseManager {
      */
     public void rollbackTransaction() throws DataBaseManagerException {
 
-        if( transaction != null && transaction.isActive() &&
-                !(transaction.getStatus() == TransactionStatus.COMMITTED) &&
-                !(transaction.getStatus() == TransactionStatus.ROLLED_BACK)) {
+        if(getEntityManager().getTransaction() != null && getEntityManager().getTransaction().isActive()) {
 
             try {
-                transaction.rollback();
-                transaction = null;
+                getEntityManager().getTransaction().rollback();
             } catch( HibernateException e ) {
 
                 logger.warn( e );
@@ -209,6 +192,28 @@ public class DataBaseManager {
         }
     }
 
+    private Metadata getHibernateMetadata() throws DataBaseManagerException {
+
+        Set<Class> entityClasses = new HashSet<>();
+
+        SessionFactory sessionFactory = getEntityManager().getEntityManagerFactory().unwrap(SessionFactory.class);
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().configure()
+                .applySettings(sessionFactory.getProperties()).build();
+
+        MetadataSources metadataSources = new MetadataSources(serviceRegistry);
+
+        for(EntityType entityType : getEntityManager().getMetamodel().getEntities()) {
+
+            if(!entityClasses.contains(entityType.getBindableJavaType())) {
+                logger.info("Found entity: " + entityType.getBindableJavaType());
+                entityClasses.add(entityType.getBindableJavaType());
+                metadataSources.addAnnotatedClass(entityType.getBindableJavaType());
+            }
+        }
+
+        return metadataSources.getMetadataBuilder().build();
+    }
+
     /**
      * Creates the database schema if it is not already present.
      *
@@ -220,13 +225,10 @@ public class DataBaseManager {
         SchemaExport schemaExport = new SchemaExport();
         schemaExport.setHaltOnError(true);
 
-        // create the schema
-        EnumSet<TargetType> targetTypes = EnumSet.of(TargetType.DATABASE);
-        StandardServiceRegistry serviceRegistry = configuration.getStandardServiceRegistryBuilder().build();
-        Metadata metadata = new MetadataSources(serviceRegistry).getMetadataBuilder().build();
-
         try {
-            schemaExport.createOnly(targetTypes, metadata);
+            beginTransaction();
+            schemaExport.createOnly(EnumSet.of(TargetType.DATABASE, TargetType.STDOUT), getHibernateMetadata());
+            commitTransaction();
         } catch( Exception e ) {
             logger.warn( e, e );
         }
@@ -235,17 +237,15 @@ public class DataBaseManager {
     }
 
     /** Drops the current database schema. */
-    public final void dropSchema() {
+    public final void dropSchema() throws DataBaseManagerException {
 
         // create a schema export instance for our configuration
         SchemaExport schemaExport = new SchemaExport();
+        schemaExport.setHaltOnError(true);
 
-        // drop the schema
-        EnumSet<TargetType> targetTypes = EnumSet.of(TargetType.DATABASE);
-        StandardServiceRegistry serviceRegistry = configuration.getStandardServiceRegistryBuilder().build();
-        Metadata metadata = new MetadataSources(serviceRegistry).getMetadataBuilder().build();
-
-        schemaExport.drop(targetTypes, metadata);
+        beginTransaction();
+        schemaExport.drop(EnumSet.of(TargetType.DATABASE, TargetType.STDOUT), getHibernateMetadata());
+        commitTransaction();
 
         logger.info( "Removed database schema" );
     }
@@ -277,13 +277,15 @@ public class DataBaseManager {
         // get a session and connection
         try {
 
-            Connection connection = ((SessionImpl) getSession()).connection();
+            Connection connection = ((SessionImpl) getEntityManager()).connection();
 
             // check for the tables
             try {
 
                 // get meta data
-                ResultSet resultset = connection.getMetaData().getTables( null, null, "PROJECTS", null );
+                String[] types = {"TABLE"};
+                    ResultSet resultset = connection.getMetaData().
+                            getTables( connection.getCatalog(), "%", "PROJECT", types );
 
                 // loop through the result set for the actual results
                 if( resultset.next() ) {

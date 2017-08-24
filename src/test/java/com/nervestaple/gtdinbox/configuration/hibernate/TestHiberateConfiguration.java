@@ -62,7 +62,7 @@ public class TestHiberateConfiguration extends TestCase {
 
         configuration.configure();
 
-        assertNotNull( configuration.getConfiguration() );
+        assertNotNull( configuration.getEntityManagerFactory() );
     }
 
     

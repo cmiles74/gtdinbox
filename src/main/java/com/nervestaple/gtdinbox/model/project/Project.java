@@ -1,5 +1,6 @@
 package com.nervestaple.gtdinbox.model.project;
 
+import com.nervestaple.gtdinbox.index.IndexListener;
 import com.nervestaple.gtdinbox.model.Indexable;
 import com.nervestaple.gtdinbox.model.Trashable;
 import com.nervestaple.gtdinbox.model.item.actionitem.ActionItem;
@@ -7,6 +8,7 @@ import com.nervestaple.gtdinbox.model.textstyletypes.TextStyleType;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -15,22 +17,17 @@ import java.util.Set;
 /**
  * Provides an object to model a project instance. In this application, a Project groups actions that are related to the
  * same goal.
- *
- * @author Christopher Miles
- * @version 1.0
- * @hibernate.class table="projects"
- * @hibernate.cache usage="read-write"
  */
+@Entity
+@EntityListeners({IndexListener.class})
 public class Project implements Serializable, Indexable, Trashable {
-
-    /**
-     * Logger instace.
-     */
-    private Logger logger = Logger.getLogger( this.getClass() );
 
     /**
      * Unique id.
      */
+    @Id
+    @SequenceGenerator(name = "ProjectItemSequence")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "ProjectItemSequence")
     private Long id;
 
     /**
@@ -61,6 +58,7 @@ public class Project implements Serializable, Indexable, Trashable {
     /**
      * Action items associates with this project.
      */
+    @OneToMany(targetEntity = ActionItem.class)
     private Set actionItems = new HashSet();
 
     /**

@@ -7,6 +7,7 @@ import com.nervestaple.gtdinbox.configuration.ConfigurationFactoryException;
 import com.nervestaple.gtdinbox.configuration.ConfigurationFactory;
 import com.nervestaple.gtdinbox.configuration.application.NoStorageLocationException;
 
+import javax.persistence.EntityManager;
 import java.io.File;
 
 /**
@@ -77,39 +78,39 @@ public class TestDataBaseManager extends TestCase {
 
         DataBaseManager dataBaseManager = DataBaseManager.getInstance();
 
-        Session session = null;
+        EntityManager entityManager = null;
         try {
-            session = dataBaseManager.getSession();
+            entityManager = dataBaseManager.getEntityManager();
         } catch( DataBaseManagerException e ) {
 
             logger.info( e );
         }
 
-        assertNotNull( session );
+        assertNotNull( entityManager );
     }
 
     public void testCloseSession() throws Exception{
 
         DataBaseManager dataBaseManager = DataBaseManager.getInstance();
 
-        Session session = session = dataBaseManager.getSession();
+        EntityManager entityManager = dataBaseManager.getEntityManager();
 
-        dataBaseManager.closeSession();
+        dataBaseManager.closeEntityManager();
 
-        assertFalse( session.isOpen() );
+        assertFalse( entityManager.isOpen() );
 
-        assertFalse( session.isOpen() );
+        assertFalse( entityManager.isOpen() );
     }
 
     public void testBeginTransaction() throws Exception {
 
         DataBaseManager dataBaseManager = DataBaseManager.getInstance();
 
-        Session session = dataBaseManager.getSession();
+        EntityManager entityManager = dataBaseManager.getEntityManager();
 
         dataBaseManager.beginTransaction();
 
-        assertNotNull( session.getTransaction() );
+        assertNotNull( entityManager.getTransaction() );
     }
 
     public void testEndTransaction() throws DataBaseManagerException {
@@ -118,7 +119,7 @@ public class TestDataBaseManager extends TestCase {
 
         try {
             logger.info( "Opening session..." );
-            dataBaseManager.getSession();
+            dataBaseManager.getEntityManager();
         } catch( DataBaseManagerException e ) {
             logger.info( e );
         }
@@ -126,9 +127,9 @@ public class TestDataBaseManager extends TestCase {
         logger.info( "Starting transaction..." );
         dataBaseManager.beginTransaction();
 
-        logger.info( dataBaseManager.getSession() );
-        logger.info( dataBaseManager.getSession().getTransaction() );
-        logger.info( "Session open? " + dataBaseManager.getSession().isOpen() );
+        logger.info( dataBaseManager.getEntityManager() );
+        logger.info( dataBaseManager.getEntityManager().getTransaction() );
+        logger.info( "Session open? " + dataBaseManager.getEntityManager().isOpen() );
 
         logger.debug( "Committing transaction..." );
         dataBaseManager.commitTransaction();
@@ -139,7 +140,7 @@ public class TestDataBaseManager extends TestCase {
         DataBaseManager dataBaseManager = DataBaseManager.getInstance();
 
         try {
-            dataBaseManager.getSession();
+            dataBaseManager.getEntityManager();
         } catch( DataBaseManagerException e ) {
 
             logger.info( e );
@@ -208,6 +209,9 @@ public class TestDataBaseManager extends TestCase {
         // get a usermanager
         DataBaseManager dataBaseManager = DataBaseManager.getInstance();
 
+        // we need a schema to drop
+        dataBaseManager.createSchemaIfMissing();
+
         // drop the schema
         dataBaseManager.dropSchema();
 
@@ -225,6 +229,9 @@ public class TestDataBaseManager extends TestCase {
 
         // get a usermanager
         DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+
+        // we need a schema to rebuild
+        dataBaseManager.createSchemaIfMissing();
 
         dataBaseManager.rebuildDatabaseSchema();
 

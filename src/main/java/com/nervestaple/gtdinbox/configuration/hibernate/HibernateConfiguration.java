@@ -2,12 +2,14 @@ package com.nervestaple.gtdinbox.configuration.hibernate;
 
 import com.nervestaple.gtdinbox.configuration.application.ApplicationConfiguration;
 import com.nervestaple.gtdinbox.configuration.application.ApplicationConfigurationException;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.HibernateException;
 import org.apache.log4j.Logger;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.io.File;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Provides an object for configuring Hibernate.
@@ -23,14 +25,14 @@ public class HibernateConfiguration {
     private Logger logger = Logger.getLogger( this.getClass() );
 
     /**
-     * Hibernate configuration.
-     */
-    private Configuration configuration;
-
-    /**
      * Application configuration.
      */
     private ApplicationConfiguration applicationConfiguration;
+
+    /**
+     * Hibernate Session Factory.
+     */
+    private EntityManagerFactory entityManagerFactory;
 
     /**
      * Flag to indicate if the configuration is for testing.
@@ -46,51 +48,55 @@ public class HibernateConfiguration {
         this.applicationConfiguration = applicationConfiguration;
     }
 
+    public Map<String, Object> getConfigurationProperties() {
+
+        File databaseStorageLocation = applicationConfiguration.getDatabaseStorageLocation();
+        logger.debug( "DatabaseStorageLocation: " + databaseStorageLocation );
+
+        // setup out database connection
+        Map<String, Object> properties = new HashMap<>();
+
+        if( databaseStorageLocation.exists() ) {
+
+            properties.put( "javax.persistence.jdbc.url", "jdbc:derby:" +
+                    databaseStorageLocation.getAbsolutePath() );
+        } else {
+
+            properties.put( "javax.persistence.jdbc.url", "jdbc:derby:" +
+                    databaseStorageLocation.getAbsolutePath()
+                    + ";create=true" );
+        }
+
+        return properties;
+    }
+
     /**
      * Configures the Hibernate configuration.
      * @throws HibernateException on problems configuring Hibernate
      */
     public void configure() throws HibernateConfigurationException {
 
-        configuration = new Configuration();
+        // setup out database connection
+        Map<String, Object> properties = getConfigurationProperties();
 
         try {
 
-            // let the configuration configure itself
-            configuration.configure();
+            // create a new entity manager factory
+            entityManagerFactory =
+                    Persistence.createEntityManagerFactory("com.nervestaple.gtdinbox.jpa", properties);
         } catch( HibernateException e ) {
 
             throw new HibernateConfigurationException( e );
         }
-
-        // get the location for the database
-        File databaseStorageLocation = applicationConfiguration.getDatabaseStorageLocation();
-        logger.debug( "DatabaseStorageLocation: " + databaseStorageLocation );
-
-        // setup runtime properties
-        Properties properties = new Properties();
-        if( databaseStorageLocation.exists() ) {
-
-            properties.put( "hibernate.connection.url", "jdbc:derby:" + databaseStorageLocation.getAbsolutePath() );
-        } else {
-
-            properties.put( "hibernate.connection.url", "jdbc:derby:" + databaseStorageLocation.getAbsolutePath()
-                    + ";create=true" );
-        }
-
-        // merge in our properties
-        configuration.mergeProperties( properties );
-        logger.debug( properties );
     }
 
-    // accessor methods
-
     /**
-     * Returns the Hibernate configuration.
-     * @return
+     * Returns the Hibernate entity manager factory.
+     *
+     * @return EntityManagerFactory
      */
-    public Configuration getConfiguration() {
-        return configuration;
+    public EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
     }
 
     /**
@@ -111,7 +117,7 @@ public class HibernateConfiguration {
      */
     public void setTestingConfiguration( final boolean testingConfiguration ) throws ApplicationConfigurationException {
 
-        if( configuration != null ) {
+        if( entityManagerFactory != null ) {
 
             throw new ApplicationConfigurationException(
                     "Cannot enter testing mode after configure() has been called" );

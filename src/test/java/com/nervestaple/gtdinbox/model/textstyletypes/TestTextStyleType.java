@@ -19,17 +19,8 @@ public class TestTextStyleType extends TestCase {
 
         TextStyleType plain = TextStyleType.PLAIN_TEXT;
 
-        TextStyleType plain2 = TextStyleType.getInstance( "plain-text" );
+        TextStyleType plain2 = TextStyleType.valueOf( "PLAIN_TEXT" );
 
         assertTrue( plain == plain2 );
-    }
-
-    public void testReadResolve() {
-
-        TextStyleType plain = TextStyleType.PLAIN_TEXT;
-
-        TextStyleType plain2 = TextStyleType.getInstance( "plain-text" );
-
-        assertTrue( plain == plain2.readResolve() );
     }
 }

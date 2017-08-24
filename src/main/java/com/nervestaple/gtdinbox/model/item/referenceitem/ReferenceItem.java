@@ -1,5 +1,6 @@
 package com.nervestaple.gtdinbox.model.item.referenceitem;
 
+import com.nervestaple.gtdinbox.index.IndexListener;
 import com.nervestaple.gtdinbox.model.Indexable;
 import com.nervestaple.gtdinbox.model.Trashable;
 import com.nervestaple.gtdinbox.model.item.Item;
@@ -7,6 +8,7 @@ import com.nervestaple.gtdinbox.model.reference.category.Category;
 import com.nervestaple.gtdinbox.model.tag.Tag;
 import com.nervestaple.gtdinbox.model.textstyletypes.TextStyleType;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -15,16 +17,17 @@ import java.util.Set;
 /**
  * Provides an object to model a reference item. In this application, a reference item is information that is stored and
  * filed away. This class is abstract, it will be extended to implement specific types of reference items.
- *
- * @author Christopher Miles
- * @version 1.0
- * @hibernate.class table="ReferenceItems"
  */
+@Entity
+@EntityListeners({IndexListener.class})
 public abstract class ReferenceItem implements Serializable, Indexable, Trashable, Item {
 
     /**
      * Unique id.
      */
+    @Id
+    @SequenceGenerator(name = "ReferenceItemSequence")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "ReferenceItemSequence")
     private Long id;
 
     /**
@@ -65,6 +68,8 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
     /**
      * This reference item's tags.
      */
+    @OneToMany(targetEntity = Tag.class)
+    @JoinTable
     private Set tags;
 
     /**

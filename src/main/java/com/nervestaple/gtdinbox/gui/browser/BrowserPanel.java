@@ -53,6 +53,7 @@ import org.apache.lucene.search.TermQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.EntityManager;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.CaretEvent;
@@ -296,7 +297,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
     public void doRemoveProject(final Project project) {
 
         try {
-            DataBaseManager.getInstance().getSession().update(project);
+            DataBaseManager.getInstance().getEntityManager().persist(project);
         } catch (DataBaseManagerException e) {
 
             handleErrorOccurred(e);
@@ -367,7 +368,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
     public void doRemoveInboxContext(final InboxContext inboxContext) {
 
         try {
-            DataBaseManager.getInstance().getSession().update(inboxContext);
+            DataBaseManager.getInstance().getEntityManager().persist(inboxContext);
         } catch (DataBaseManagerException e) {
 
             handleErrorOccurred(e);
@@ -440,7 +441,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
     public void doRemoveCategory(final Category category) {
 
         try {
-            DataBaseManager.getInstance().getSession().update(category);
+            DataBaseManager.getInstance().getEntityManager().persist(category);
         } catch (DataBaseManagerException e) {
 
             handleErrorOccurred(e);
@@ -526,7 +527,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
     public void doRemoveActionItem(final ActionItem actionItem) {
 
         try {
-            DataBaseManager.getInstance().getSession().update(actionItem);
+            DataBaseManager.getInstance().getEntityManager().persist(actionItem);
         } catch (DataBaseManagerException e) {
 
             handleErrorOccurred(e);
@@ -950,16 +951,16 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         try {
 
             // get a session and attach the project
-            Session session = DataBaseManager.getInstance().getSession();
-            session.update(actionItem);
+            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
+            entityManager.persist(actionItem);
 
             // start a new transaction and set the project as deleted
-            Transaction transaction = session.beginTransaction();
+            DataBaseManager.getInstance().beginTransaction();
             actionItem.setDeleted(Boolean.valueOf(true));
-            session.saveOrUpdate(actionItem);
+            entityManager.persist(actionItem);
 
             // commit the transaction and close the session
-            transaction.commit();
+            DataBaseManager.getInstance().commitTransaction();
 
             // lock for writing
             model.getTrash().getReadWriteLock().writeLock().lock();
@@ -995,13 +996,13 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         try {
 
             // get a session and attach the project
-            Session session = DataBaseManager.getInstance().getSession();
-            session.update(category);
+            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
+            entityManager.persist(category);
 
             // start a new transaction and set the project as deleted
-            Transaction transaction = session.beginTransaction();
+            DataBaseManager.getInstance().beginTransaction();
             category.setDeleted(Boolean.valueOf(true));
-            session.saveOrUpdate(category);
+            entityManager.persist(category);
 
             // loop through the actions attached to the project
             Iterator iterator = category.getReferenceItems().iterator();
@@ -1010,11 +1011,11 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
                 // set the action as deleted and save to the data store
                 ReferenceItem referenceItem = (ReferenceItem) iterator.next();
                 referenceItem.setDeleted(Boolean.valueOf(true));
-                session.saveOrUpdate(referenceItem);
+                entityManager.persist(referenceItem);
             }
 
             // commit the transaction and close the session
-            transaction.commit();
+            DataBaseManager.getInstance().commitTransaction();
 
             // lock for writing
             model.getCategories().getReadWriteLock().writeLock().lock();
@@ -1066,13 +1067,13 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         try {
 
             // get a session and attach the project
-            Session session = DataBaseManager.getInstance().getSession();
-            session.update(inboxContext);
+            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
+            entityManager.persist(inboxContext);
 
             // start a new transaction and set the project as deleted
-            Transaction transaction = session.beginTransaction();
+            DataBaseManager.getInstance().beginTransaction();
             inboxContext.setDeleted(Boolean.valueOf(true));
-            session.saveOrUpdate(inboxContext);
+            entityManager.persist(inboxContext);
 
             // loop through the actions attached to the project
             Iterator iterator = inboxContext.getActionItems().iterator();
@@ -1081,11 +1082,11 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
                 // clear the context for the action item
                 ActionItem actionItem = (ActionItem) iterator.next();
                 actionItem.setInboxContext(null);
-                session.saveOrUpdate(actionItem);
+                entityManager.persist(actionItem);
             }
 
             // commit the transaction and close the session
-            transaction.commit();
+            DataBaseManager.getInstance().commitTransaction();
 
             // lock for writing
             model.getContexts().getReadWriteLock().writeLock().lock();
@@ -1137,13 +1138,13 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         try {
 
             // get a session and attach the project
-            Session session = DataBaseManager.getInstance().getSession();
-            session.update(project);
+            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
+            entityManager.persist(project);
 
             // start a new transaction and set the project as deleted
-            Transaction transaction = session.beginTransaction();
+            DataBaseManager.getInstance().beginTransaction();
             project.setDeleted(Boolean.valueOf(true));
-            session.saveOrUpdate(project);
+            entityManager.persist(project);
 
             // loop through the actions attached to the project
             Iterator iterator = project.getActionItems().iterator();
@@ -1152,11 +1153,11 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
                 // set the action as deleted and save to the data store
                 ActionItem actionItem = (ActionItem) iterator.next();
                 actionItem.setDeleted(Boolean.valueOf(true));
-                session.saveOrUpdate(actionItem);
+                entityManager.persist(actionItem);
             }
 
             // commit the transaction and close the session
-            transaction.commit();
+            DataBaseManager.getInstance().commitTransaction();
 
             // lock for writing
             model.getProjects().getReadWriteLock().writeLock().lock();
@@ -2026,6 +2027,25 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         splitPaneMain.setDividerLocation(200);
     }
 
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+    }
+
     {
 // GUI initializer generated by IntelliJ IDEA GUI Designer
 // >>> IMPORTANT!! <<<
@@ -2174,25 +2194,6 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         buttonAddAction.setVerticalAlignment(0);
         buttonAddAction.setVerticalTextPosition(3);
         panel1.add(buttonAddAction, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, new Dimension(32, 32), new Dimension(32, 32), new Dimension(32, 32), 0, false));
-    }
-
-    /**
-     * @noinspection ALL
-     */
-    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
-        if (currentFont == null) return null;
-        String resultName;
-        if (fontName == null) {
-            resultName = currentFont.getName();
-        } else {
-            Font testFont = new Font(fontName, Font.PLAIN, 10);
-            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
-                resultName = fontName;
-            } else {
-                resultName = currentFont.getName();
-            }
-        }
-        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**

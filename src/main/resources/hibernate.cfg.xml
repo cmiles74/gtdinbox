@@ -33,12 +33,5 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
         <property name="use_sql_comments">true</property>
-
-        <mapping resource="com/nervestaple/gtdinbox/model/item/actionitem/ActionItem.hbm.xml"/>
-        <mapping resource="com/nervestaple/gtdinbox/model/inboxcontext/InboxContext.hbm.xml"/>
-        <mapping resource="com/nervestaple/gtdinbox/model/project/Project.hbm.xml"/>
-        <mapping resource="com/nervestaple/gtdinbox/model/reference/category/Category.hbm.xml"/>
-        <mapping resource="com/nervestaple/gtdinbox/model/item/referenceitem/ReferenceItem.hbm.xml"/>
-        <mapping resource="com/nervestaple/gtdinbox/model/tag/Tag.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

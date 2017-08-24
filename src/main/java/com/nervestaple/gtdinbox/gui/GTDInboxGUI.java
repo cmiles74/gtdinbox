@@ -4,8 +4,6 @@ import ch.randelshofer.quaqua.JSheet;
 import ch.randelshofer.quaqua.SheetEvent;
 import ch.randelshofer.quaqua.SheetListener;
 import com.nervestaple.gtdinbox.configuration.ConfigurationFactory;
-import com.nervestaple.gtdinbox.configuration.ConfigurationFactoryException;
-import com.nervestaple.gtdinbox.configuration.application.NoStorageLocationException;
 import com.nervestaple.gtdinbox.datastore.database.DataBaseManager;
 import com.nervestaple.gtdinbox.datastore.database.DataBaseManagerException;
 import com.nervestaple.gtdinbox.datastore.index.IndexManager;
@@ -22,7 +20,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 
 /**
  * Provides the main object for the GTD Inbox Swing GUI.
@@ -226,7 +223,7 @@ public class GTDInboxGUI {
             IndexManager.getInstance().flushIndex();
 
             // close the database
-            DataBaseManager.getInstance().closeSession();
+            DataBaseManager.getInstance().closeEntityManager();
 
             // exit the VM
             System.exit( 0 );

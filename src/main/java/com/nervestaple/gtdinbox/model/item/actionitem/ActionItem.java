@@ -1,5 +1,6 @@
 package com.nervestaple.gtdinbox.model.item.actionitem;
 
+import com.nervestaple.gtdinbox.index.IndexListener;
 import com.nervestaple.gtdinbox.model.Indexable;
 import com.nervestaple.gtdinbox.model.Trashable;
 import com.nervestaple.gtdinbox.model.inboxcontext.InboxContext;
@@ -8,6 +9,7 @@ import com.nervestaple.gtdinbox.model.project.Project;
 import com.nervestaple.gtdinbox.model.tag.Tag;
 import com.nervestaple.gtdinbox.model.textstyletypes.TextStyleType;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -16,18 +18,18 @@ import java.util.Set;
 /**
  * Provides an object to model an action item. In this application, an action item is a task that needs to be performed.
  * This action item represents the simplest kind of item and may be extended to provide more complex behaviors in the
- * future.
- *
- * @author Christopher Miles
- * @version 1.0
- * @hibernate.class table="ActionItems"
- * @hibernate.cache usage="read-write"
+ * future
  */
+@Entity
+@EntityListeners({IndexListener.class})
 public class ActionItem implements Serializable, Indexable, Trashable, Item {
 
     /**
      * Unique id.
      */
+    @Id
+    @SequenceGenerator(name = "ActionItemSequence")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "ActionItemSequence")
     private Long id;
 
     /**
@@ -38,6 +40,7 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
     /**
      * The style of text used for the description.
      */
+    @Enumerated(EnumType.STRING)
     private TextStyleType descriptionTextStyleType;
 
     /**
@@ -63,16 +66,22 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
     /**
      * This action item's project.
      */
+    @ManyToOne
+    @JoinColumn(name = "project_id")
     private Project project;
 
     /**
      * This action item's context
      */
+    @ManyToOne
+    @JoinColumn(name = "inboxcontextid")
     private InboxContext inboxContext;
 
     /**
      * The action item's tags.
      */
+    @OneToMany(targetEntity = Tag.class)
+    @JoinTable
     private Set tags;
 
     /**

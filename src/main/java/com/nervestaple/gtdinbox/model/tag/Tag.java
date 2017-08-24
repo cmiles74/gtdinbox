@@ -1,11 +1,14 @@
 package com.nervestaple.gtdinbox.model.tag;
 
+import com.nervestaple.gtdinbox.index.IndexListener;
 import com.nervestaple.gtdinbox.model.Indexable;
 import com.nervestaple.gtdinbox.model.Trashable;
 import com.nervestaple.gtdinbox.model.item.actionitem.ActionItem;
 import com.nervestaple.gtdinbox.model.item.referenceitem.ReferenceItem;
 import org.apache.commons.lang.Validate;
+import org.hibernate.tool.schema.TargetType;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,16 +16,17 @@ import java.util.Set;
 /**
  * Provides an object to model a tag. In this application, a tag is a short string (all one word) that is used for
  * quick, on-the-fly grouping. This is very similar to the tags used by tagging services like Del.icio.us.
- *
- * @author Christopher Miles
- * @version 1.0
- * @hibernate.class table="Tags"
  */
+@Entity
+@EntityListeners({IndexListener.class})
 public class Tag implements Serializable, Indexable, Trashable {
 
     /**
      * Unique id.
      */
+    @Id
+    @SequenceGenerator(name = "TagItemSequence")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "TagItemSequence")
     private Long id;
 
     /**
@@ -38,11 +42,15 @@ public class Tag implements Serializable, Indexable, Trashable {
     /**
      * Reference items associated with this tag
      */
+    @OneToMany(targetEntity = ReferenceItem.class)
+    @JoinTable
     private Set referenceItems = new HashSet();
 
     /**
      * Action items associated with this tag
      */
+    @OneToMany(targetEntity = ActionItem.class)
+    @JoinTable
     private Set actionItems = new HashSet();
 
     /**

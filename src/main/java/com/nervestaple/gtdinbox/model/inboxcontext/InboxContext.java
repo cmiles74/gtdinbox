@@ -1,5 +1,6 @@
 package com.nervestaple.gtdinbox.model.inboxcontext;
 
+import com.nervestaple.gtdinbox.index.IndexListener;
 import com.nervestaple.gtdinbox.model.Indexable;
 import com.nervestaple.gtdinbox.model.Trashable;
 import com.nervestaple.gtdinbox.model.item.actionitem.ActionItem;
@@ -7,6 +8,7 @@ import com.nervestaple.gtdinbox.model.textstyletypes.TextStyleType;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,22 +16,17 @@ import java.util.Set;
 /**
  * Provides an object to model a context instance. In this application, a context groups actions that need to be carried
  * out in a particular location or work area.
- *
- * @author Christopher Miles
- * @version 1.0
- * @hibernate.class table="InboxContexts"
- * @hibernate.cache usage="read-write"
  */
+@Entity
+@EntityListeners({IndexListener.class})
 public class InboxContext implements Serializable, Indexable, Trashable {
-
-    /**
-     * Logger instance.
-     */
-    private Logger logger = Logger.getLogger( this.getClass() );
 
     /**
      * Unique id.
      */
+    @Id
+    @SequenceGenerator(name = "InboxContextSequence")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "InboxContextSequence")
     private Long id;
 
     /**
@@ -55,6 +52,7 @@ public class InboxContext implements Serializable, Indexable, Trashable {
     /**
      * Action items associated with this context.
      */
+    @OneToMany(targetEntity = ActionItem.class)
     private Set actionItems = new HashSet();
 
     /**
@@ -80,12 +78,7 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         // do nothing
     }
 
-    // accessor and mutator methods
 
-    /**
-     * @return unique id
-     * @hibernate.id column="inboxContextId" unsaved-value="null" generator-class="native"
-     */
     public Long getId() {
         return id;
     }
@@ -94,10 +87,6 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         this.id = id;
     }
 
-    /**
-     * @return name of the context
-     * @hibernate.property
-     */
     public String getName() {
         return name;
     }
@@ -106,11 +95,6 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         this.name = name;
     }
 
-    /**
-     * @return description of the context
-     * @hibernate.property
-     * @hibernate.column name="description" length="32672"
-     */
     public String getDescription() {
         return description;
     }
@@ -119,11 +103,6 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         this.description = description;
     }
 
-    /**
-     * @return text style type of the description
-     * @hibernate.property type="com.nervestaple.gtdinbox.model.textstyletypes.TextStyleTypeUserType"
-     * @hibernate.column name="descriptionTextStyleType"
-     */
     public TextStyleType getTextStyleType() {
         return textStyleType;
     }
@@ -132,11 +111,6 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         this.textStyleType = textStyleType;
     }
 
-
-    /**
-     * @return true if this item has been deleted
-     * @hibernate.property
-     */
     public Boolean getDeleted() {
         return deleted;
     }
@@ -145,13 +119,6 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         this.deleted = deleted;
     }
 
-    /**
-     * @return set of action items for this context
-     * @hibernate.set inverse="true" lazy="true"
-     * @hibernate.collection-key column="inboxContextId"
-     * @hibernate.collection-one-to-many class="com.nervestaple.gtdinbox.model.item.actionitem.ActionItem"
-     * @hibernate.cache usage="read-write"
-     */
     public Set getActionItems() {
         return actionItems;
     }

@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.EntityManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -144,19 +145,19 @@ public class TrashDetailController {
                     if( !holdForLater ) {
 
                         try {
-                            Session session = DataBaseManager.getInstance().getSession();
+                            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
 
                             // make sure we have an up-to-date version
-                            session.refresh( trashable );
+                            entityManager.refresh( trashable );
                             trashable.prepareForDeletion();
 
                             // start a new transaction and delete the item
-                            Transaction transaction = session.beginTransaction();
+                            DataBaseManager.getInstance().beginTransaction();
                             logger.debug( "DELETING: " + trashable );
-                            session.delete( trashable );
+                            entityManager.remove( trashable );
 
                             // commit the transaction and close our session
-                            transaction.commit();
+                            DataBaseManager.getInstance().commitTransaction();
                         } catch( DataBaseManagerException e ) {
                             exceptionHandler.handleException( e );
                         }
@@ -172,20 +173,20 @@ public class TrashDetailController {
 
                         try {
 
-                            Session session = DataBaseManager.getInstance().getSession();
+                            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
 
                             // make sure we have an up-to-date version
-                            session.refresh( project );
+                            entityManager.refresh( project );
                             project.prepareForDeletion();
 
                             if( project.getActionItems().size() < 1 ) {
 
                                 // start a new transaction and delete the item
-                                Transaction transaction = session.beginTransaction();
-                                session.delete( project );
+                                DataBaseManager.getInstance().beginTransaction();
+                                entityManager.remove( project );
 
                                 // commit the transaction and close our session
-                                transaction.commit();
+                                DataBaseManager.getInstance().commitTransaction();
                             }
                         } catch( DataBaseManagerException e ) {
                             exceptionHandler.handleException( e );
@@ -202,20 +203,20 @@ public class TrashDetailController {
 
                         try {
 
-                            Session session = DataBaseManager.getInstance().getSession();
+                            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
 
                             // make sure we have an up-to-date version
-                            session.refresh( context );
+                            entityManager.refresh( context );
                             context.prepareForDeletion();
 
                             if( context.getActionItems().size() < 1 ) {
 
                                 // start a new transaction and delete the item
-                                Transaction transaction = session.beginTransaction();
-                                session.delete( context );
+                                DataBaseManager.getInstance().beginTransaction();
+                                entityManager.remove( context );
 
                                 // commit the transaction and close our session
-                                transaction.commit();
+                                DataBaseManager.getInstance().commitTransaction();
                             }
                         } catch( DataBaseManagerException e ) {
                             exceptionHandler.handleException( e );
@@ -232,20 +233,20 @@ public class TrashDetailController {
 
                         try {
 
-                            Session session = DataBaseManager.getInstance().getSession();
+                            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
 
                             // make sure we have an up-to-date version
-                            session.refresh( category );
+                            entityManager.refresh( category );
                             category.prepareForDeletion();
 
                             if( category.getReferenceItems().size() < 1 ) {
 
                                 // start a new transaction and delete the item
-                                Transaction transaction = session.beginTransaction();
-                                session.delete( category );
+                                DataBaseManager.getInstance().beginTransaction();
+                                entityManager.remove( category );
 
                                 // commit the transaction and close our session
-                                transaction.commit();
+                                DataBaseManager.getInstance().commitTransaction();
                             }
                         } catch( DataBaseManagerException e ) {
                             exceptionHandler.handleException( e );
@@ -313,14 +314,14 @@ public class TrashDetailController {
                             trashable.setDeleted( new Boolean( false ) );
 
                             try {
-                                Session session = DataBaseManager.getInstance().getSession();
+                                EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
 
                                 // start a new transaction and save the item
-                                Transaction transaction = session.beginTransaction();
-                                session.saveOrUpdate( trashable );
+                                DataBaseManager.getInstance().beginTransaction();
+                                entityManager.persist( trashable );
 
                                 // commit the transaction and close our session
-                                transaction.commit();
+                                DataBaseManager.getInstance().commitTransaction();
 
                                 // notify listeners
                                 firePutAwayTrashable( trashable );
