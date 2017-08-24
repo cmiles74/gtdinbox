@@ -8,15 +8,19 @@ import java.util.Date;
 
 /**
  * Provides a comparator for ActionItems.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class ActionItemComparator implements Comparator {
 
     /** Logger instance. */
     private Logger logger = Logger.getLogger( this.getClass() );
 
+    /**
+     * We want to sort ActionItem instances by their creation date.
+     *
+     * @param a ActionItem
+     * @param b ActionItem
+     * @return Comparison result
+     */
     public int compare( Object a, Object b ) {
 
         if( a != null && a instanceof ActionItem && b != null && b instanceof ActionItem ) {

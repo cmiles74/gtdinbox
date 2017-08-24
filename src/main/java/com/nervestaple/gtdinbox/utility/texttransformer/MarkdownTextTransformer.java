@@ -4,9 +4,6 @@ import com.petebevin.markdown.MarkdownProcessor;
 
 /**
  * Provides a text transformer for converting Markdown.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class MarkdownTextTransformer implements TextTransformer {
 

@@ -2,9 +2,6 @@ package com.nervestaple.gtdinbox.utility.stoppable;
 
 /**
  * Provides a thread that can be stopped before its task has completed.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class StoppableThread extends Thread {
 

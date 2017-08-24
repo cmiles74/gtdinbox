@@ -88,10 +88,6 @@ public class Project implements Serializable, Indexable, Trashable {
 
     // accessor and mutator methods
 
-    /**
-     * @return unique id
-     * @hibernate.id column="projectId" unsaved-value="null" generator-class="native"
-     */
     public Long getId() {
         return id;
     }
@@ -100,10 +96,6 @@ public class Project implements Serializable, Indexable, Trashable {
         this.id = id;
     }
 
-    /**
-     * @return name of the project
-     * @hibernate.property
-     */
     public String getName() {
         return name;
     }
@@ -112,11 +104,6 @@ public class Project implements Serializable, Indexable, Trashable {
         this.name = name;
     }
 
-    /**
-     * @return description of the project
-     * @hibernate.property
-     * @hibernate.column name="description" length="32672"
-     */
     public String getDescription() {
         return description;
     }
@@ -125,11 +112,6 @@ public class Project implements Serializable, Indexable, Trashable {
         this.description = description;
     }
 
-    /**
-     * @return text style type of the description
-     * @hibernate.property type="com.nervestaple.gtdinbox.model.textstyletypes.TextStyleTypeUserType"
-     * @hibernate.column name="descriptionTextStyleType"
-     */
     public TextStyleType getTextStyleType() {
         return textStyleType;
     }
@@ -138,10 +120,6 @@ public class Project implements Serializable, Indexable, Trashable {
         this.textStyleType = textStyleType;
     }
 
-    /**
-     * @return date the project was created
-     * @hibernate.property
-     */
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -150,10 +128,6 @@ public class Project implements Serializable, Indexable, Trashable {
         this.createdDate = createdDate;
     }
 
-    /**
-     * @return true if the item has been deleted
-     * @hibernate.property
-     */
     public Boolean getDeleted() {
         return deleted;
     }
@@ -162,13 +136,6 @@ public class Project implements Serializable, Indexable, Trashable {
         this.deleted = deleted;
     }
 
-    /**
-     * @return set of action items for this context
-     * @hibernate.set inverse="true" lazy="true"
-     * @hibernate.collection-key column="projectId"
-     * @hibernate.collection-one-to-many class="com.nervestaple.gtdinbox.model.item.actionitem.ActionItem"
-     * @hibernate.cache usage="read-write"
-     */
     public Set getActionItems() {
         return actionItems;
     }

@@ -2,9 +2,6 @@ package com.nervestaple.gtdinbox.utility.texttransformer;
 
 /**
  * Provides an object for transforming plain text into a format for display.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class PlainTextTransformer implements TextTransformer {
 

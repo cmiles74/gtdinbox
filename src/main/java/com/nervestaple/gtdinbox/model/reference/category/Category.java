@@ -91,10 +91,6 @@ public class Category implements Serializable, Indexable, Trashable {
 
     // accessor and mutator methods
 
-    /**
-     * @return unique id
-     * @hibernate.id column="projectId" unsaved-value="null" generator-class="native"
-     */
     public Long getId() {
         return id;
     }
@@ -103,10 +99,6 @@ public class Category implements Serializable, Indexable, Trashable {
         this.id = id;
     }
 
-    /**
-     * @return name of the category
-     * @hibernate.property
-     */
     public String getName() {
         return name;
     }
@@ -115,11 +107,6 @@ public class Category implements Serializable, Indexable, Trashable {
         this.name = name;
     }
 
-    /**
-     * @return description of the category
-     * @hibernate.property
-     * @hibernate.column name="description" length="32672"
-     */
     public String getDescription() {
         return description;
     }
@@ -128,11 +115,6 @@ public class Category implements Serializable, Indexable, Trashable {
         this.description = description;
     }
 
-    /**
-     * @return text style type of the description
-     * @hibernate.property type="com.nervestaple.gtdinbox.model.textstyletypes.TextStyleTypeUserType"
-     * @hibernate.column name="descriptionTextStyleType"
-     */
     public TextStyleType getTextStyleType() {
         return textStyleType;
     }
@@ -141,10 +123,6 @@ public class Category implements Serializable, Indexable, Trashable {
         this.textStyleType = textStyleType;
     }
 
-    /**
-     * @return red color value
-     * @hibernate.property
-     */
     public Integer getRed() {
         return red;
     }
@@ -153,10 +131,6 @@ public class Category implements Serializable, Indexable, Trashable {
         this.red = red;
     }
 
-    /**
-     * @return green color value
-     * @hibernate.property
-     */
     public Integer getGreen() {
         return green;
     }
@@ -165,10 +139,6 @@ public class Category implements Serializable, Indexable, Trashable {
         this.green = green;
     }
 
-    /**
-     * @return blue color value
-     * @hibernate.property
-     */
     public Integer getBlue() {
         return blue;
     }
@@ -177,10 +147,6 @@ public class Category implements Serializable, Indexable, Trashable {
         this.blue = blue;
     }
 
-    /**
-     * @return true if the item has been deleted
-     * @hibernate.property
-     */
     public Boolean getDeleted() {
         return deleted;
     }
@@ -189,13 +155,6 @@ public class Category implements Serializable, Indexable, Trashable {
         this.deleted = deleted;
     }
 
-    /**
-     * @return set of action items for this context
-     * @hibernate.set inverse="true" lazy="true"
-     * @hibernate.collection-key column="categoryId"
-     * @hibernate.collection-one-to-many class="com.nervestaple.gtdinbox.model.item.referenceitem.ReferenceItem"
-     * @hibernate.cache usage="read-write"
-     */
     public Set getReferenceItems() {
         return referenceItems;
     }

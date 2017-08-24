@@ -4,9 +4,6 @@ import java.util.Comparator;
 
 /**
  * Provides a very simple comarator. All objects passed in must implement the Comparable interface.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class SimpleComparator implements Comparator {
 

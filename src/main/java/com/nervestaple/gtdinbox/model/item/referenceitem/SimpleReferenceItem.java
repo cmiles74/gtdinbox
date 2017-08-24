@@ -6,11 +6,6 @@ import java.util.Date;
 
 /**
  * Provides an object to model a simple reference item. This reference item contains plain, styled text.
- *
- * @author Christopher Miles
- * @version 1.0
- * @hibernate.class
- * @hibernate.joined-subclass table="SimpleReferenceItems"
  */
 public class SimpleReferenceItem extends ReferenceItem {
 
@@ -28,10 +23,6 @@ public class SimpleReferenceItem extends ReferenceItem {
 
     // accessor and mutator methods
 
-    /**
-     * @return content reference item
-     * @hibernate.property
-     */
     public String getContent() {
         return content;
     }
@@ -41,11 +32,6 @@ public class SimpleReferenceItem extends ReferenceItem {
         setLastModifiedDate( new Date() );
     }
 
-    /**
-     * @return text style type of the description
-     * @hibernate.property type="com.nervestaple.gtdinbox.model.textstyletypes.TextStyleTypeUserType"
-     * @hibernate.column name="contentTextStyleType" length="32672"
-     */
     public TextStyleType getContentTextStyleType() {
         return contentTextStyleType;
     }

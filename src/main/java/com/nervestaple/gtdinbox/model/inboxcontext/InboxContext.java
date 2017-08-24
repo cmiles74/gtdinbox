@@ -78,7 +78,6 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         // do nothing
     }
 
-
     public Long getId() {
         return id;
     }

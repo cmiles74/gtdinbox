@@ -5,9 +5,6 @@ import org.apache.log4j.Logger;
 
 /**
  * Provides an object for transforming text.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class UtilityTextTransformer {
 
@@ -15,7 +12,7 @@ public class UtilityTextTransformer {
      * Logger instance.
      */
     private static Logger logger = Logger.getLogger(
-            "com.nervestaple.gtdinbox.utility.texttransformer.UtilityTextTransformer" );
+            "com.nervestaple.gtdinbox.utility.texttransformer.UtilityTextTransformer");
 
     /**
      * Plain text transformer.

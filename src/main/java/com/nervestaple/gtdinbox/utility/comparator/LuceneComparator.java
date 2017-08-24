@@ -6,9 +6,6 @@ import java.util.Comparator;
 
 /**
  * Provides a comparator that sorts Lucene documents by a "rank" field.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class LuceneComparator implements Comparator {
 

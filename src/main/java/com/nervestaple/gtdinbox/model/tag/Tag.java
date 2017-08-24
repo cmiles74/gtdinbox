@@ -76,10 +76,6 @@ public class Tag implements Serializable, Indexable, Trashable {
 
     // accessor and mutator methods
 
-    /**
-     * @return unique id
-     * @hibernate.id column="tagId" unsaved-value="null" generator-class="native"
-     */
     public Long getId() {
         return id;
     }
@@ -88,10 +84,6 @@ public class Tag implements Serializable, Indexable, Trashable {
         this.id = id;
     }
 
-    /**
-     * @return name of the tag
-     * @hibernate.property
-     */
     public String getName() {
         return name;
     }
@@ -100,10 +92,6 @@ public class Tag implements Serializable, Indexable, Trashable {
         this.name = name;
     }
 
-    /**
-     * @return true if the item has been deleted
-     * @hibernate.property
-     */
     public Boolean getDeleted() {
         return deleted;
     }
@@ -112,12 +100,6 @@ public class Tag implements Serializable, Indexable, Trashable {
         this.deleted = deleted;
     }
 
-    /**
-     * @return collection of reference items for this tag
-     * @hibernate.set table="referenceItemTags" lazy="true"
-     * @hibernate.collection-key column="referenceItemId"
-     * @hibernate.collection-many-to-many class="com.nervestaple.gtdinbox.model.item.referenceitem.ReferenceItem"
-     */
     public Set getReferenceItems() {
         return referenceItems;
     }
@@ -126,12 +108,6 @@ public class Tag implements Serializable, Indexable, Trashable {
         this.referenceItems = referenceItems;
     }
 
-    /**
-     * @return collection of action items for this tag
-     * @hibernate.set table="actionItemTags" lazy="true"
-     * @hibernate.collection-key column="actionItemId"
-     * @hibernate.collection-many-to-many class="com.nervestaple.gtdinbox.model.item.actionitem.ActionItem"
-     */
     public Set getActionItems() {
         return actionItems;
     }

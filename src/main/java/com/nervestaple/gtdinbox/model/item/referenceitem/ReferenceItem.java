@@ -63,6 +63,7 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
     /**
      * This reference item's category
      */
+    @ManyToOne
     private Category category;
 
     /**
@@ -98,10 +99,6 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
 
     // accessor and mutator methods
 
-    /**
-     * @return unique id
-     * @hibernate.id column="referenceItemId" unsaved-value="null" generator-class="native"
-     */
     public Long getId() {
         return id;
     }
@@ -110,10 +107,6 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         this.id = id;
     }
 
-    /**
-     * @return name of the reference item
-     * @hibernate.property
-     */
     public String getName() {
         return name;
     }
@@ -122,11 +115,6 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         this.name = name;
     }
 
-    /**
-     * @return description of the reference item
-     * @hibernate.property
-     * @hibernate.column name="description" length="32672"
-     */
     public String getDescription() {
         return description;
     }
@@ -136,11 +124,6 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         lastModifiedDate = new Date();
     }
 
-    /**
-     * @return text style type of the description
-     * @hibernate.property type="com.nervestaple.gtdinbox.model.textstyletypes.TextStyleTypeUserType"
-     * @hibernate.column name="descriptionTextStyleType"
-     */
     public TextStyleType getDescriptionTextStyleType() {
         return DescriptionTextStyleType;
     }
@@ -149,10 +132,6 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         this.DescriptionTextStyleType = descriptionTextStyleType;
     }
 
-    /**
-     * @return date the item was created
-     * @hibernate.property
-     */
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -161,10 +140,6 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         this.createdDate = createdDate;
     }
 
-    /**
-     * @return date the item was last updated
-     * @hibernate.property
-     */
     public Date getLastModifiedDate() {
         return lastModifiedDate;
     }
@@ -173,10 +148,6 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    /**
-     * @return true if the item has been deleted
-     * @hibernate.property
-     */
     public Boolean getDeleted() {
         return deleted;
     }
@@ -185,10 +156,6 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         this.deleted = deleted;
     }
 
-    /**
-     * @return category for this item
-     * @hibernate.many-to-one column="categoryId"
-     */
     public Category getCategory() {
         return category;
     }
@@ -214,12 +181,6 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         }
     }
 
-    /**
-     * @return collection of tags for this action
-     * @hibernate.set table="referenceItemTags" inverse="true" lazy="true" cascade="save-update"
-     * @hibernate.collection-key column="tagId"
-     * @hibernate.collection-many-to-many class="com.nervestaple.gtdinbox.model.tag.Tag"
-     */
     public Set getTags() {
         return tags;
     }

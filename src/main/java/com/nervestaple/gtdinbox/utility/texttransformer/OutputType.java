@@ -5,9 +5,6 @@ import java.util.Map;
 
 /**
  * Provides an enumeration that defines the different types of output text.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class OutputType {
 

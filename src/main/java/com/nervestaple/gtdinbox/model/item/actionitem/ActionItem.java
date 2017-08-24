@@ -118,10 +118,6 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
 
     // accessor and mutator methods
 
-    /**
-     * @return unique id
-     * @hibernate.id column="actionItemId" unsaved-value="null" generator-class="native"
-     */
     public Long getId() {
         return id;
     }
@@ -130,11 +126,6 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         this.id = id;
     }
 
-    /**
-     * @return description
-     * @hibernate.property
-     * @hibernate.column name="description" length="32672"
-     */
     public String getDescription() {
         return description;
     }
@@ -144,11 +135,6 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         lastModifiedDate = new Date();
     }
 
-    /**
-     * @return text style type of the description
-     * @hibernate.property type="com.nervestaple.gtdinbox.model.textstyletypes.TextStyleTypeUserType"
-     * @hibernate.column name="descriptionTextStyleType"
-     */
     public TextStyleType getDescriptionTextStyleType() {
         return descriptionTextStyleType;
     }
@@ -157,10 +143,6 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         this.descriptionTextStyleType = descriptionTextStyleType;
     }
 
-    /**
-     * @return date the action was created
-     * @hibernate.property
-     */
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -169,10 +151,6 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         this.createdDate = createdDate;
     }
 
-    /**
-     * @return date the action was last modified
-     * @hibernate.property
-     */
     public Date getLastModifiedDate() {
         return lastModifiedDate;
     }
@@ -181,10 +159,6 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    /**
-     * @return true if the item was deleted
-     * @hibernate.property
-     */
     public Boolean getDeleted() {
         return deleted;
     }
@@ -193,10 +167,6 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         this.deleted = deleted;
     }
 
-    /**
-     * @return the project that owns this action
-     * @hibernate.many-to-one column="projectId"
-     */
     public Project getProject() {
         return project;
     }
@@ -222,10 +192,6 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         }
     }
 
-    /**
-     * @return the context for the action
-     * @hibernate.many-to-one column="inboxContextId"
-     */
     public InboxContext getInboxContext() {
         return inboxContext;
     }
@@ -251,10 +217,6 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         }
     }
 
-    /**
-     * @return date the item was completed
-     * @hibernate.property
-     */
     public Date getCompletedDate() {
         return completedDate;
     }
@@ -263,13 +225,6 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         this.completedDate = completedDate;
     }
 
-    /**
-     * @return collection of tags for this action
-     * @hibernate.set table="actionItemTags" inverse="true" lazy="true" cascade="save-update"
-     * @hibernate.collection-key column="tagId"
-     * @hibernate.collection-many-to-many class="com.nervestaple.gtdinbox.model.tag.Tag"
-     * @hibernate.cache usage="read-write"
-     */
     public Set getTags() {
         return tags;
     }
@@ -353,7 +308,6 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         result = 31 * result + ( inboxContext != null ? inboxContext.hashCode() : 0 );
         return result;
     }
-
 
     public String toString() {
         return "ActionItem{" +
