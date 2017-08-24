@@ -52,7 +52,7 @@ public class InboxContext implements Serializable, Indexable, Trashable {
     /**
      * Action items associated with this context.
      */
-    @OneToMany(targetEntity = ActionItem.class)
+    @OneToMany(targetEntity = ActionItem.class, mappedBy = "inboxContext")
     private Set actionItems = new HashSet();
 
     /**
