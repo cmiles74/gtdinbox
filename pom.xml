@@ -41,10 +41,11 @@
         <version.junit>4.12</version.junit>
 
         <!-- plugin versions -->
-        <version.plugin.maven-compiler>3.6.2</version.plugin.maven-compiler>
-        <version.plugin.surefire>2.20</version.plugin.surefire>
-        <version.plugin.maven-resources>3.0.2</version.plugin.maven-resources>
         <version.plugin.maven-assembly>3.1.0</version.plugin.maven-assembly>
+        <version.plugin.maven-compiler>3.6.2</version.plugin.maven-compiler>
+        <version.plugin.maven-resources>3.0.2</version.plugin.maven-resources>
+        <version.plugin.maven-shade>3.1.0</version.plugin.maven-shade>
+        <version.plugin.maven-surefire>2.20</version.plugin.maven-surefire>
         <version.plugin.launch4j>1.7.19</version.plugin.launch4j>
     </properties>
 
@@ -196,7 +197,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${version.plugin.surefire}</version>
+                <version>${version.plugin.maven-surefire}</version>
                 <configuration>
                     <reuseForks>false</reuseForks>
                     <forkCount>1</forkCount>
@@ -228,26 +229,30 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${version.plugin.maven-shade}</version>
+                <configuration>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>${main-class}</mainClass>
+                        </transformer>
+                    </transformers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>${version.plugin.maven-assembly}</version>
                 <executions>
-                    <execution>
-                        <id>build-uberjar</id>
-                        <configuration>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                            <archive>
-                                <manifest>
-                                    <mainClass>${main-class}</mainClass>
-                                </manifest>
-                            </archive>
-                        </configuration>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
                     <execution>
                         <id>build-distribution</id>
                         <configuration>
@@ -276,7 +281,7 @@
                         <configuration>
                             <headerType>gui</headerType>
                             <outfile>target/gtdinbox.exe</outfile>
-                            <jar>target/${project.artifactId}-${project.version}-jar-with-dependencies.jar</jar>
+                            <jar>target/${project.artifactId}-${project.version}.jar</jar>
                             <errTitle>${project.name}</errTitle>
                             <icon>${launch4j.windows.icon}</icon>
                             <classPath>

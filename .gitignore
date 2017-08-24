@@ -10,3 +10,5 @@ libraries-build/*
 classes/*
 target/*
 dist/*
+
+dependency-reduced-pom.xml

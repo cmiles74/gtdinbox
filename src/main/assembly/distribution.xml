@@ -32,7 +32,7 @@
             <directory>target/</directory>
             <outputDirectory>unix</outputDirectory>
             <includes>
-                <include>*-with-dependencies.jar</include>
+                <include>${project.artifactId}-${project.version}.jar</include>
             </includes>
         </fileSet>
 

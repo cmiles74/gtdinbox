@@ -22,7 +22,7 @@ public class TestStoppableThread extends TestCase {
                 while( !stop ) {
 
                     try {
-                        Thread.sleep( 100 );
+                        Thread.sleep( 10 );
                     } catch( InterruptedException e ) {
                         logger.warn( e );
                     }
@@ -35,7 +35,7 @@ public class TestStoppableThread extends TestCase {
 
         thread.stopThread();
 
-        Thread.sleep( 1000 );
+        Thread.sleep( 100 );
 
         assertTrue( !thread.isAlive() && thread.isStop() );
     }
