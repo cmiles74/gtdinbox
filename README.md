@@ -36,4 +36,16 @@ version number will change). When you unzip that archive you'll get a directory 
 (Mac OSX, Unix-like and Windows). Inside each one is a reasonable executable for
 that environment (on a Unix-like, you can run the included shell script).
 
+In all environments, you must have a Java JRE version 1.8 or greater installed.
+
 Or you can download the latest release available on this project page. `:-)`
+
+## Notes and Issues
+
+Since the migration, I've noticed a couple of issues...
+
+* On Linux, the dark variant of the GTK theme is handled badly and the app is nearly
+illegible.
+
+* On Mac OS X, the "About" menu item under the Apple menu is the stock item, the 
+custom "About" menu item is under the "File" menu.
