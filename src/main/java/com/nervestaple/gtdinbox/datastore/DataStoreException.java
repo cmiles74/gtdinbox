@@ -4,9 +4,6 @@ import com.nervestaple.gtdinbox.GTDInboxException;
 
 /**
  * Provides an exception object for the DataStore.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class DataStoreException extends GTDInboxException {
 

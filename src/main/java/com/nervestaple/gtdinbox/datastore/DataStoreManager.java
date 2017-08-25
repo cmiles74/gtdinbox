@@ -1,8 +1,8 @@
 package com.nervestaple.gtdinbox.datastore;
 
 import com.nervestaple.gtdinbox.configuration.ConfigurationFactory;
-import com.nervestaple.gtdinbox.datastore.database.DataBaseManager;
 import com.nervestaple.gtdinbox.datastore.database.DataBaseManagerException;
+import com.nervestaple.gtdinbox.datastore.database.QueryBuilder;
 import com.nervestaple.gtdinbox.model.Trashable;
 import com.nervestaple.gtdinbox.model.inboxcontext.InboxContext;
 import com.nervestaple.gtdinbox.model.item.actionitem.ActionItem;
@@ -12,10 +12,6 @@ import com.nervestaple.gtdinbox.model.reference.category.Category;
 import com.nervestaple.gtdinbox.model.tag.Tag;
 import org.apache.log4j.Logger;
 
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.*;
 
 /**
@@ -26,12 +22,40 @@ public class DataStoreManager {
     /**
      * Logger instance.
      */
-    private static Logger logger = Logger.getLogger( "com.nervestaple.gtdinbox.datastore.DataStoreManager" );
+    private static Logger logger = Logger.getLogger("com.nervestaple.gtdinbox.datastore.DataStoreManager");
 
     /**
      * Calendar instance.
      */
     private static Calendar calendar = Calendar.getInstance();
+
+    /**
+     * Singleton instance.
+     */
+    private final static DataStoreManager dataStoreManager;
+
+    // query builders
+    private static QueryBuilder<Project> projectQueryBuilder;
+    private static QueryBuilder<ActionItem> actionItemQueryBuilder;
+    private static QueryBuilder<InboxContext> inboxContextQueryBuilder;
+    private static QueryBuilder<Category> categoryQueryBuilder;
+    private static QueryBuilder<ReferenceItem> referenceItemQueryBuilder;
+    private static QueryBuilder<Tag> tagQueryBuilder;
+
+    static {
+
+        dataStoreManager = new DataStoreManager();
+    }
+
+    private DataStoreManager() {
+
+        projectQueryBuilder =  new QueryBuilder<>(Project.class);
+        actionItemQueryBuilder = new QueryBuilder<>(ActionItem.class);
+        inboxContextQueryBuilder = new QueryBuilder<>(InboxContext.class);
+        categoryQueryBuilder = new QueryBuilder<>(Category.class);
+        referenceItemQueryBuilder = new QueryBuilder<>(ReferenceItem.class);
+        tagQueryBuilder = new QueryBuilder<>(Tag.class);
+    }
 
     /**
      * Returns a list of all Projects objects in the data store.
@@ -43,18 +67,12 @@ public class DataStoreManager {
 
         try {
 
-            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
-            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<Project> query = builder.createQuery(Project.class);
-            Root<Project> project = query.from(Project.class);
-            query.select(project).where(builder.or(builder.isNotNull(project.get("deleted")),
-                    builder.equal(project.get("deleted"), true)));
-            List<Project> projects = entityManager.createQuery(query).getResultList();
+            List<Project> items = projectQueryBuilder.buildNotDeletedQuery().getResultList();
 
-            return ( projects );
-        } catch( DataBaseManagerException e ) {
+            return (items);
+        } catch (DataBaseManagerException e) {
 
-            throw new DataStoreException( e );
+            throw new DataStoreException(e);
         }
     }
 
@@ -68,18 +86,12 @@ public class DataStoreManager {
 
         try {
 
-            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
-            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<InboxContext> query = builder.createQuery(InboxContext.class);
-            Root<InboxContext> context = query.from(InboxContext.class);
-            query.select(context).where(builder.or(builder.isNotNull(context.get("deleted")),
-                    builder.equal(context.get("deleted"), true)));
-            List<InboxContext> contexts = entityManager.createQuery(query).getResultList();
+            List<InboxContext> contexts = inboxContextQueryBuilder.buildNotDeletedQuery().getResultList();
 
-            return ( contexts );
-        } catch( DataBaseManagerException e ) {
+            return (contexts);
+        } catch (DataBaseManagerException e) {
 
-            throw new DataStoreException( e );
+            throw new DataStoreException(e);
         }
     }
 
@@ -93,35 +105,13 @@ public class DataStoreManager {
 
         try {
 
-            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
-            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<Category> query = builder.createQuery(Category.class);
-            Root<Category> category = query.from(Category.class);
-            query.select(category).where(builder.or(builder.isNotNull(category.get("deleted")),
-                    builder.equal(category.get("deleted"), true)));
-            List<Category> categories = entityManager.createQuery(query).getResultList();
+            List<Category> categories = categoryQueryBuilder.buildNotDeletedQuery().getResultList();
 
-            return ( categories );
-        } catch( DataBaseManagerException e ) {
+            return (categories);
+        } catch (DataBaseManagerException e) {
 
-            throw new DataStoreException( e );
+            throw new DataStoreException(e);
         }
-    }
-
-    private static List<Trashable> getTrashedItemsByClass(Class entityClass) throws DataStoreException {
-
-        List<Trashable> trashables = new ArrayList<>();
-
-        EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-
-        CriteriaQuery<ActionItem> query = builder.createQuery(entityClass);
-        Root trashable = query.from(entityClass);
-        query.select(trashable).where(builder.equal(trashable.get("deleted"), true));
-        List trash = entityManager.createQuery(query).getResultList();
-        trashables.addAll(trash);
-
-        return trashables;
     }
 
     /**
@@ -135,19 +125,19 @@ public class DataStoreManager {
         try {
 
             List<Trashable> trash = new ArrayList<>();
-            trash.addAll(getTrashedItemsByClass(InboxContext.class));
-            trash.addAll(getTrashedItemsByClass(ActionItem.class));
-            trash.addAll(getTrashedItemsByClass(ReferenceItem.class));
-            trash.addAll(getTrashedItemsByClass(Project.class));
-            trash.addAll(getTrashedItemsByClass(Category.class));
-            trash.addAll(getTrashedItemsByClass(Tag.class));
 
+            trash.addAll(actionItemQueryBuilder.buildDeletedQuery().getResultList());
+            trash.addAll(projectQueryBuilder.buildDeletedQuery().getResultList());
+            trash.addAll(inboxContextQueryBuilder.buildDeletedQuery().getResultList());
+            trash.addAll(categoryQueryBuilder.buildDeletedQuery().getResultList());
+            trash.addAll(referenceItemQueryBuilder.buildDeletedQuery().getResultList());
+            trash.addAll(tagQueryBuilder.buildDeletedQuery().getResultList());
 
-            logger.debug( "Trash contains " + trash.size() + " objects" );
-            return ( trash );
-        } catch( DataBaseManagerException e ) {
+            logger.debug("Trash contains " + trash.size() + " objects");
+            return (trash);
+        } catch (DataBaseManagerException e) {
 
-            throw new DataStoreException( e );
+            throw new DataStoreException(e);
         }
     }
 
@@ -161,27 +151,22 @@ public class DataStoreManager {
 
         // get archive days
         Integer days = ConfigurationFactory.getInstance().getApplicationConfiguration().getArchiveDays();
-        logger.debug( "Archive starts " + days + " ago" );
+        logger.debug("Archive starts " + days + " ago");
 
         // figure out the date we're looking for
-        calendar.setTime( new Date() );
-        calendar.add( Calendar.DAY_OF_YEAR, ( days * -1 ) );
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_YEAR, (days * -1));
         Date date = calendar.getTime();
 
         try {
 
-            EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
-            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<ActionItem> query = builder.createQuery(ActionItem.class);
-            Root<ActionItem> item = query.from(ActionItem.class);
-            query.select(item).where(builder.lessThanOrEqualTo(item.get("completedDate"), date));
-            List<ActionItem> archive = entityManager.createQuery(query).getResultList();
+            List<ActionItem> archive = actionItemQueryBuilder.buildArchivedQuery(date).getResultList();
 
-            logger.debug( "Archive contains " + archive.size() + " objects" );
-            return ( archive );
-        } catch( DataBaseManagerException e ) {
+            logger.debug("Archive contains " + archive.size() + " objects");
+            return (archive);
+        } catch (DataBaseManagerException e) {
 
-            throw new DataStoreException( e );
+            throw new DataStoreException(e);
         }
     }
 }
