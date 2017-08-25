@@ -80,6 +80,12 @@ public class QueryBuilder<T> {
         return entityManager.createQuery(query);
     }
 
+    /**
+     * Fetches the current entity manager instance.
+     *
+     * @return the Hibernate EntityManager instance
+     * @throws DataBaseManagerException
+     */
     private EntityManager getEntityManager() throws DataBaseManagerException {
         return DataBaseManager.getInstance().getEntityManager();
     }
