@@ -18,7 +18,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <launch4j.minimum.jvm>1.8.0</launch4j.minimum.jvm>
         <launch4j.file.version>0.6</launch4j.file.version>
-        <launch4j.windows.icon>windows/application.ico</launch4j.windows.icon>
+        <launch4j.windows.icon>src/main/resources/application.ico</launch4j.windows.icon>
 
         <!-- depdendency versions -->
         <version.browserlauncher>1.3</version.browserlauncher>
