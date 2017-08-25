@@ -19,9 +19,6 @@ import java.awt.event.InputEvent;
 
 /**
  * Provides a menu bar for the application.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class ApplicationMenuBar extends JScreenMenuBar {
 
@@ -215,7 +212,7 @@ public class ApplicationMenuBar extends JScreenMenuBar {
         menuItemAddContext.addUserFrame(BrowserFrame.class);
         menuOrganize.add(menuItemAddContext);
 
-        // New project item
+        // New category item
         /*menuItemAddCategory = new JScreenMenuItem( "Add a Category..." );
         menuItemAddCategory.addActionListener( actionListener );
         menuItemAddCategory.addUserFrame( BrowserFrame.class );
@@ -223,7 +220,7 @@ public class ApplicationMenuBar extends JScreenMenuBar {
 
         menuOrganize.addSeparator();
 
-        // Edit category item
+        // Edit project item
         menuItemEditProject = new JScreenMenuItem("Edit Project...");
         menuItemEditProject.addActionListener(actionListener);
         menuItemEditProject.addUserFrame(BrowserFrame.class);
@@ -243,7 +240,7 @@ public class ApplicationMenuBar extends JScreenMenuBar {
 
         menuOrganize.addSeparator();
 
-        // Remove category item
+        // Remove project item
         menuItemRemoveProject = new JScreenMenuItem("Remove Project...");
         menuItemRemoveProject.addActionListener(actionListener);
         menuItemRemoveProject.addUserFrame(BrowserFrame.class);

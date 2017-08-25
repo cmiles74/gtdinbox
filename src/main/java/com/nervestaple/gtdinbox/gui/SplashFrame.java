@@ -11,9 +11,6 @@ import java.awt.*;
 
 /**
  * Provides a splash frame for the application.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class SplashFrame extends JWindow {
 
