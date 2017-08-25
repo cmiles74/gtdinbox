@@ -17,7 +17,7 @@ public class ApplicationConfigurationModel {
     /**
      * Logger instance.
      */
-    private transient Logger logger = Logger.getLogger( this.getClass() );
+    private transient Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * Property change support object.
@@ -46,27 +46,27 @@ public class ApplicationConfigurationModel {
 
     public ApplicationConfigurationModel() {
 
-        propertychangesupport = new PropertyChangeSupport( this );
+        propertychangesupport = new PropertyChangeSupport(this);
     }
 
     // property change support methods
 
-    public void addPropertyChangeListener( PropertyChangeListener listener ) {
-        propertychangesupport.addPropertyChangeListener( listener );
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertychangesupport.addPropertyChangeListener(listener);
     }
 
-    public void removePropertyChangeListener( PropertyChangeListener listener ) {
-        propertychangesupport.removePropertyChangeListener( listener );
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertychangesupport.removePropertyChangeListener(listener);
     }
 
-    public void addPropertyChangeListener( String property,
-                                           PropertyChangeListener listener ) {
-        propertychangesupport.addPropertyChangeListener( property, listener );
+    public void addPropertyChangeListener(String property,
+                                          PropertyChangeListener listener) {
+        propertychangesupport.addPropertyChangeListener(property, listener);
     }
 
-    public void removePropertyChangeListener( String property,
-                                              PropertyChangeListener listener ) {
-        propertychangesupport.removePropertyChangeListener( property, listener );
+    public void removePropertyChangeListener(String property,
+                                             PropertyChangeListener listener) {
+        propertychangesupport.removePropertyChangeListener(property, listener);
     }
 
     // accessor and mutator methods
@@ -75,39 +75,39 @@ public class ApplicationConfigurationModel {
         return dataStorageLocation;
     }
 
-    public void setDataStorageLocation( File dataStorageLocation ) {
+    public void setDataStorageLocation(File dataStorageLocation) {
         File valueOld = this.dataStorageLocation;
         this.dataStorageLocation = dataStorageLocation;
-        propertychangesupport.firePropertyChange( "dataStorageLocation", valueOld, this.dataStorageLocation );
+        propertychangesupport.firePropertyChange("dataStorageLocation", valueOld, this.dataStorageLocation);
     }
 
     public File getDatabaseStorageLocation() {
         return databaseStorageLocation;
     }
 
-    public void setDatabaseStorageLocation( File databaseStorageLocation ) {
+    public void setDatabaseStorageLocation(File databaseStorageLocation) {
         File valueOld = this.databaseStorageLocation;
         this.databaseStorageLocation = databaseStorageLocation;
-        propertychangesupport.firePropertyChange( "databaseStorageLocation", valueOld, this.databaseStorageLocation );
+        propertychangesupport.firePropertyChange("databaseStorageLocation", valueOld, this.databaseStorageLocation);
     }
 
     public File getIndexStorageLocation() {
         return indexStorageLocation;
     }
 
-    public void setIndexStorageLocation( File indexStorageLocation ) {
+    public void setIndexStorageLocation(File indexStorageLocation) {
         File valueOld = this.indexStorageLocation;
         this.indexStorageLocation = indexStorageLocation;
-        propertychangesupport.firePropertyChange( "indexStorageLocation", valueOld, this.indexStorageLocation );
+        propertychangesupport.firePropertyChange("indexStorageLocation", valueOld, this.indexStorageLocation);
     }
 
     public Integer getArchiveDays() {
         return archiveDays;
     }
 
-    public void setArchiveDays( Integer archiveDays ) {
+    public void setArchiveDays(Integer archiveDays) {
         Integer valueOld = this.archiveDays;
         this.archiveDays = archiveDays;
-        propertychangesupport.firePropertyChange( "archiveDays", valueOld, this.archiveDays );
+        propertychangesupport.firePropertyChange("archiveDays", valueOld, this.archiveDays);
     }
 }

@@ -13,19 +13,22 @@ public interface ProjectFormListener {
 
     /**
      * Called when a new project is added.
+     *
      * @param project Project that was added
      */
-    public void projectAdded( Project project );
+    public void projectAdded(Project project);
 
     /**
      * Called when a new project is updated.
+     *
      * @param project Project that was updated
      */
-    public void projectUpdated( Project project);
+    public void projectUpdated(Project project);
 
     /**
      * Called when an error occurs.
+     *
      * @param exception The exception that occurred
      */
-    public void exceptionOccurred( GTDInboxException exception );
+    public void exceptionOccurred(GTDInboxException exception);
 }

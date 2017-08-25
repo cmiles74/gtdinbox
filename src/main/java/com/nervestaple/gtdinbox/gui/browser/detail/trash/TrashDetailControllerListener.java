@@ -10,7 +10,7 @@ import com.nervestaple.gtdinbox.model.Trashable;
  */
 public interface TrashDetailControllerListener {
 
-    public void putAwayTrashable( Trashable trashable );
+    public void putAwayTrashable(Trashable trashable);
 
-    public void confirmEmptyTrash( String message );
+    public void confirmEmptyTrash(String message);
 }

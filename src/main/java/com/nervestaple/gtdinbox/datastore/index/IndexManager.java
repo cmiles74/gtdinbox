@@ -29,16 +29,13 @@ import java.util.List;
 /**
  * Provides an object for managing the application's indexes. This is a singleton class, there can only be one per
  * running instance of the application.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class IndexManager {
 
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * Singleton instance.
@@ -100,24 +97,24 @@ public class IndexManager {
      */
     public void configure() throws IndexManagerException {
 
-        if( indexStorageLocation == null ) {
+        if (indexStorageLocation == null) {
 
             // get the location for the index
             setupIndex(
-                    ConfigurationFactory.getInstance().getApplicationConfiguration().getIndexStorageLocation() );
+                    ConfigurationFactory.getInstance().getApplicationConfiguration().getIndexStorageLocation());
         }
     }
 
-    public void addIndexManagerListener( IndexManagerListener listener ) {
+    public void addIndexManagerListener(IndexManagerListener listener) {
 
-        if( !listeners.contains( listener ) ) {
-            listeners.add( listener );
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
         }
     }
 
-    public void removeIndexManagerListener( IndexManagerListener listener ) {
+    public void removeIndexManagerListener(IndexManagerListener listener) {
 
-        listeners.remove( listener );
+        listeners.remove(listener);
     }
 
     /**
@@ -127,7 +124,7 @@ public class IndexManager {
      */
     public void flushIndex() throws IndexManagerException {
 
-        if( indexWriter == null ) {
+        if (indexWriter == null) {
             return;
         }
 
@@ -135,34 +132,34 @@ public class IndexManager {
 
         try {
             indexWriter.optimize();
-        } catch( IOException e ) {
-            throw new IndexManagerException( e );
+        } catch (IOException e) {
+            throw new IndexManagerException(e);
         }
 
         try {
             indexWriter.close();
-        } catch( IOException e ) {
-            throw new IndexManagerException( e );
+        } catch (IOException e) {
+            throw new IndexManagerException(e);
         }
 
         indexWriter = null;
 
-        if( indexSearcher != null ) {
+        if (indexSearcher != null) {
 
             try {
                 indexSearcher.close();
-            } catch( IOException e ) {
-                throw new IndexManagerException( e );
+            } catch (IOException e) {
+                throw new IndexManagerException(e);
             }
             indexSearcher = null;
         }
 
-        if( indexReader != null ) {
+        if (indexReader != null) {
 
             try {
                 indexReader.close();
-            } catch( IOException e ) {
-                logger.warn( e );
+            } catch (IOException e) {
+                logger.warn(e);
             }
             indexReader = null;
         }
@@ -175,7 +172,7 @@ public class IndexManager {
      */
     public static IndexManager getInstance() {
 
-        return ( indexManager );
+        return (indexManager);
     }
 
     /**
@@ -186,31 +183,31 @@ public class IndexManager {
      */
     public IndexWriter getIndexWriter() throws IndexManagerException {
 
-        if( indexReader != null ) {
+        if (indexReader != null) {
             try {
                 indexReader.close();
-            } catch( IOException e ) {
-                logger.warn( e );
+            } catch (IOException e) {
+                logger.warn(e);
             }
         }
 
-        if( indexSearcher != null ) {
+        if (indexSearcher != null) {
             try {
                 indexSearcher.close();
-            } catch( IOException e ) {
-                logger.warn( e );
+            } catch (IOException e) {
+                logger.warn(e);
             }
         }
 
-        if( indexWriter != null ) {
-            return ( indexWriter );
+        if (indexWriter != null) {
+            return (indexWriter);
         }
 
         // create a new index writer
         try {
-            indexWriter = new IndexWriter( directory, getAnalyzer(), false );
-        } catch( IOException e ) {
-            throw new IndexManagerException( e );
+            indexWriter = new IndexWriter(directory, getAnalyzer(), false);
+        } catch (IOException e) {
+            throw new IndexManagerException(e);
         }
 
         return indexWriter;
@@ -224,18 +221,18 @@ public class IndexManager {
      */
     public IndexReader getIndexReader() throws IndexManagerException {
 
-        if( indexWriter != null ) {
+        if (indexWriter != null) {
             flushIndex();
         }
 
-        if( indexReader != null ) {
-            return ( indexReader );
+        if (indexReader != null) {
+            return (indexReader);
         }
 
         try {
-            indexReader = IndexReader.open( directory );
-        } catch( IOException e ) {
-            throw new IndexManagerException( e );
+            indexReader = IndexReader.open(directory);
+        } catch (IOException e) {
+            throw new IndexManagerException(e);
         }
 
         return indexReader;
@@ -249,15 +246,15 @@ public class IndexManager {
      */
     public IndexSearcher getIndexSearcher() throws IndexManagerException {
 
-        if( indexWriter != null ) {
+        if (indexWriter != null) {
             flushIndex();
         }
 
-        if( indexSearcher != null ) {
-            return ( indexSearcher );
+        if (indexSearcher != null) {
+            return (indexSearcher);
         }
 
-        indexSearcher = new IndexSearcher( getIndexReader() );
+        indexSearcher = new IndexSearcher(getIndexReader());
 
         return indexSearcher;
     }
@@ -265,64 +262,64 @@ public class IndexManager {
     /**
      * Adds an indexable object to the index.
      * <p/>
-     * This method is called by the IndexInterceptor when Hibernate manipulates the database, you most likely do not
+     * This method is called by the IndexListener when Hibernate manipulates the database, you most likely do not
      * want to call this method directly.
      *
      * @param indexable
      * @throws IndexManagerException
      */
-    public void addIndexable( Indexable indexable ) throws IndexManagerException {
+    public void addIndexable(Indexable indexable) throws IndexManagerException {
 
-        if( indexable.getId() == null ) {
+        if (indexable.getId() == null) {
 
-            throw new IndexManagerException( "Cannot index an object without an id!" );
+            throw new IndexManagerException("Cannot index an object without an id!");
         }
 
-        BeanMap beanMap = new BeanMap( indexable );
+        BeanMap beanMap = new BeanMap(indexable);
 
-        updateBeanMap( beanMap );
+        updateBeanMap(beanMap);
     }
 
     /**
      * Updates the index with the new values for the indexable object.
      * <p/>
-     * This method is called by the IndexInterceptor when Hibernate manipulates the database, you most likely do not
+     * This method is called by the IndexListener when Hibernate manipulates the database, you most likely do not
      * want to call this method directly.
      *
      * @param indexable
      * @throws IndexManagerException
      */
-    public void updateIndexable( Indexable indexable ) throws IndexManagerException {
+    public void updateIndexable(Indexable indexable) throws IndexManagerException {
 
-        if( indexable.getId() == null ) {
+        if (indexable.getId() == null) {
 
-            throw new IndexManagerException( "Cannot index an object without an id!" );
+            throw new IndexManagerException("Cannot index an object without an id!");
         }
 
-        BeanMap beanMap = new BeanMap( indexable );
+        BeanMap beanMap = new BeanMap(indexable);
 
-        updateBeanMap( beanMap );
+        updateBeanMap(beanMap);
     }
 
     /**
      * Removes entries for the indexable object from the index.
      * <p/>
-     * This method is called by the IndexInterceptor when Hibernate manipulates the database, you most likely do not
+     * This method is called by the IndexListener when Hibernate manipulates the database, you most likely do not
      * want to call this method directly.
      *
      * @param indexable
      * @throws IndexManagerException
      */
-    public void removeIndexable( Indexable indexable ) throws IndexManagerException {
+    public void removeIndexable(Indexable indexable) throws IndexManagerException {
 
-        if( indexable.getId() == null ) {
+        if (indexable.getId() == null) {
 
-            throw new IndexManagerException( "Cannot index an object without an id!" );
+            throw new IndexManagerException("Cannot index an object without an id!");
         }
 
-        BeanMap beanMap = new BeanMap( indexable );
+        BeanMap beanMap = new BeanMap(indexable);
 
-        removeBeanMap( beanMap );
+        removeBeanMap(beanMap);
     }
 
     /**
@@ -340,22 +337,22 @@ public class IndexManager {
      * @param handler Handler for returned results
      * @throws IndexManagerException On problems running the search
      */
-    public void runSearch( final Query query, final SearchResultHandler handler ) throws IndexManagerException {
+    public void runSearch(final Query query, final SearchResultHandler handler) throws IndexManagerException {
 
-        if( threadSearch != null ) {
+        if (threadSearch != null) {
 
             // stop the current running search
             threadSearch.stopThread();
 
             // loop until the thread exits
-            while( threadSearch.isAlive() ) {
+            while (threadSearch.isAlive()) {
 
                 try {
 
-                    Thread.sleep( 50 );
-                } catch( InterruptedException ex ) {
+                    Thread.sleep(50);
+                } catch (InterruptedException ex) {
 
-                    logger.warn( ex );
+                    logger.warn(ex);
                 }
             }
         }
@@ -371,27 +368,27 @@ public class IndexManager {
                         try {
 
                             // run the search
-                            logger.debug( "Query: " + query );
-                            Hits hits = indexSearcher.search( query );
+                            logger.debug("Query: " + query);
+                            Hits hits = indexSearcher.search(query);
 
-                            handler.setNumberOfResults( hits.length() );
+                            handler.setNumberOfResults(hits.length());
 
                             // loop through the hits
-                            for( int index = 0; index < hits.length() && !stop; index++ ) {
+                            for (int index = 0; index < hits.length() && !stop; index++) {
 
                                 // get the next document
-                                Document document = hits.doc( index );
-                                document.add( new Field( "rank", ( new Float( hits.score( index ) ) ).toString(),
-                                        Field.Store.YES, Field.Index.NO ) );
+                                Document document = hits.doc(index);
+                                document.add(new Field("rank", (new Float(hits.score(index))).toString(),
+                                        Field.Store.YES, Field.Index.NO));
 
-                                handler.handleSearchResult( document );
+                                handler.handleSearchResult(document);
                             }
-                        } catch( IOException ex ) {
+                        } catch (IOException ex) {
 
-                            logger.warn( "Couldn't query the index" );
+                            logger.warn("Couldn't query the index");
                         }
                     }
-                } );
+                });
 
         // start the search
         threadSearch.start();
@@ -399,25 +396,25 @@ public class IndexManager {
 
     // private methods
 
-    private void fireDocumentAdded( Document document ) {
+    private void fireDocumentAdded(Document document) {
 
         IndexManagerListener[] listenerArray =
-                ( IndexManagerListener[] ) listeners.toArray( new IndexManagerListener[listeners.size()] );
+                (IndexManagerListener[]) listeners.toArray(new IndexManagerListener[listeners.size()]);
 
-        for( int index = 0; index < listenerArray.length; index++ ) {
+        for (int index = 0; index < listenerArray.length; index++) {
 
-            listenerArray[ index ].documentAdded( document );
+            listenerArray[index].documentAdded(document);
         }
     }
 
-    private void fireDocumentRemoved( Document document ) {
+    private void fireDocumentRemoved(Document document) {
 
         IndexManagerListener[] listenerArray =
-                ( IndexManagerListener[] ) listeners.toArray( new IndexManagerListener[listeners.size()] );
+                (IndexManagerListener[]) listeners.toArray(new IndexManagerListener[listeners.size()]);
 
-        for( int index = 0; index < listenerArray.length; index++ ) {
+        for (int index = 0; index < listenerArray.length; index++) {
 
-            listenerArray[ index ].documentRemoved( document );
+            listenerArray[index].documentRemoved(document);
         }
     }
 
@@ -427,33 +424,33 @@ public class IndexManager {
      * @param beanMap
      * @throws IndexManagerException on problems removing the bean or searching the index
      */
-    private void addBeanMap( BeanMap beanMap ) throws IndexManagerException {
+    private void addBeanMap(BeanMap beanMap) throws IndexManagerException {
 
         // create a document for the bean
         Document document = new Document();
 
         // loop through the bean's keys
         Iterator iteratorKeys = beanMap.keyIterator();
-        while( iteratorKeys.hasNext() ) {
+        while (iteratorKeys.hasNext()) {
 
             Object key = iteratorKeys.next();
-            Object value = beanMap.get( key );
+            Object value = beanMap.get(key);
 
             //logger.debug( "     key: " + key.toString() + ", value: " + value );
 
-            if( value != null && value instanceof Date ) {
+            if (value != null && value instanceof Date) {
                 document.add(
-                        new Field( key.toString(),
-                                DateTools.dateToString( ( Date ) value, DateTools.Resolution.MINUTE ),
-                                Field.Store.YES, Field.Index.TOKENIZED ) );
-            } else if( value != null && value instanceof Class ) {
+                        new Field(key.toString(),
+                                DateTools.dateToString((Date) value, DateTools.Resolution.MINUTE),
+                                Field.Store.YES, Field.Index.TOKENIZED));
+            } else if (value != null && value instanceof Class) {
                 document.add(
-                        new Field( key.toString(), ( ( Class ) value ).getName().toLowerCase(),
-                                Field.Store.YES, Field.Index.TOKENIZED ) );
-            } else if( value != null ) {
+                        new Field(key.toString(), ((Class) value).getName().toLowerCase(),
+                                Field.Store.YES, Field.Index.TOKENIZED));
+            } else if (value != null) {
                 document.add(
-                        new Field( key.toString(), value.toString(),
-                                Field.Store.YES, Field.Index.TOKENIZED ) );
+                        new Field(key.toString(), value.toString(),
+                                Field.Store.YES, Field.Index.TOKENIZED));
             }
         }
 
@@ -461,12 +458,12 @@ public class IndexManager {
 
         // add the document to the index
         try {
-            indexWriter.addDocument( document, getAnalyzer() );
-        } catch( IOException e ) {
-            throw new IndexManagerException( e );
+            indexWriter.addDocument(document, getAnalyzer());
+        } catch (IOException e) {
+            throw new IndexManagerException(e);
         }
 
-        fireDocumentAdded( document );
+        fireDocumentAdded(document);
 
         flushIndex();
     }
@@ -477,43 +474,43 @@ public class IndexManager {
      * @param beanMap
      * @throws IndexManagerException on problems removing the bean or searching the index
      */
-    private void removeBeanMap( BeanMap beanMap ) throws IndexManagerException {
+    private void removeBeanMap(BeanMap beanMap) throws IndexManagerException {
 
-        logger.debug( "Removing beanMap " + beanMap );
+        logger.debug("Removing beanMap " + beanMap);
 
         // query for the id
-        TermQuery queryId = new TermQuery( new Term( "id", beanMap.get( "id" ).toString() ) );
+        TermQuery queryId = new TermQuery(new Term("id", beanMap.get("id").toString()));
 
         // query for the class
         TermQuery queryClass = new TermQuery(
-                new Term( "class", ( ( Class ) beanMap.get( "class" ) ).getName().toLowerCase() ) );
+                new Term("class", ((Class) beanMap.get("class")).getName().toLowerCase()));
 
         // create a new query
         BooleanQuery query = new BooleanQuery();
-        query.add( new BooleanClause( queryId, BooleanClause.Occur.MUST ) );
-        query.add( new BooleanClause( queryClass, BooleanClause.Occur.MUST ) );
+        query.add(new BooleanClause(queryId, BooleanClause.Occur.MUST));
+        query.add(new BooleanClause(queryClass, BooleanClause.Occur.MUST));
 
         IndexSearcher indexSearcher = getIndexSearcher();
 
         try {
 
             // run the query
-            Hits hits = indexSearcher.search( query );
-            logger.debug( "Query: " + query );
-            logger.debug( "Will remove " + hits.length() + " documents" );
+            Hits hits = indexSearcher.search(query);
+            logger.debug("Query: " + query);
+            logger.debug("Will remove " + hits.length() + " documents");
 
             // loop through the hits aand delte them
             Iterator hitIterator = hits.iterator();
-            while( hitIterator.hasNext() ) {
+            while (hitIterator.hasNext()) {
 
-                Hit hit = ( Hit ) hitIterator.next();
-                logger.debug( "Removing document: " + hit.getDocument() );
-                fireDocumentRemoved( hit.getDocument() );
-                getIndexReader().deleteDocument( hit.getId() );
+                Hit hit = (Hit) hitIterator.next();
+                logger.debug("Removing document: " + hit.getDocument());
+                fireDocumentRemoved(hit.getDocument());
+                getIndexReader().deleteDocument(hit.getId());
             }
-        } catch( IOException e ) {
-            logger.warn( e );
-            throw new IndexManagerException( e );
+        } catch (IOException e) {
+            logger.warn(e);
+            throw new IndexManagerException(e);
         }
 
         flushIndex();
@@ -525,11 +522,11 @@ public class IndexManager {
      * @param beanMap
      * @throws IndexManagerException on problems removing the bean or searching the index
      */
-    private void updateBeanMap( BeanMap beanMap ) throws IndexManagerException {
+    private void updateBeanMap(BeanMap beanMap) throws IndexManagerException {
 
-        removeBeanMap( beanMap );
+        removeBeanMap(beanMap);
 
-        addBeanMap( beanMap );
+        addBeanMap(beanMap);
     }
 
     /**
@@ -538,7 +535,7 @@ public class IndexManager {
      * @param indexStorageLocation
      * @throws IndexManagerException
      */
-    private void setupIndex( File indexStorageLocation ) throws IndexManagerException {
+    private void setupIndex(File indexStorageLocation) throws IndexManagerException {
 
         // save the file location
         this.indexStorageLocation = indexStorageLocation;
@@ -546,13 +543,13 @@ public class IndexManager {
         // flag to indicate the index is being created
         boolean indexCreated = false;
 
-        if( indexStorageLocation.exists() ) {
+        if (indexStorageLocation.exists()) {
 
             // setup the directory instance
             try {
-                directory = FSDirectory.getDirectory( indexStorageLocation, false );
-            } catch( IOException e ) {
-                throw new IndexManagerException( e );
+                directory = FSDirectory.getDirectory(indexStorageLocation, false);
+            } catch (IOException e) {
+                throw new IndexManagerException(e);
             }
         } else {
 
@@ -561,34 +558,34 @@ public class IndexManager {
 
             // setup the directory instance
             try {
-                directory = FSDirectory.getDirectory( indexStorageLocation, true );
-            } catch( IOException e ) {
-                throw new IndexManagerException( e );
+                directory = FSDirectory.getDirectory(indexStorageLocation, true);
+            } catch (IOException e) {
+                throw new IndexManagerException(e);
             }
         }
 
-        if( indexCreated ) {
+        if (indexCreated) {
 
             // create a new index writer to instantiate the index
             IndexWriter indexWriter = null;
             try {
-                indexWriter = new IndexWriter( directory, getAnalyzer(), true );
+                indexWriter = new IndexWriter(directory, getAnalyzer(), true);
                 indexWriter.optimize();
                 indexWriter.close();
-            } catch( IOException e ) {
+            } catch (IOException e) {
 
-                throw new IndexManagerException( e );
+                throw new IndexManagerException(e);
             }
         } else {
 
             // make sure the index is unlocked
             try {
-                if( IndexReader.isLocked( directory ) ) {
+                if (IndexReader.isLocked(directory)) {
 
-                    IndexReader.unlock( directory );
+                    IndexReader.unlock(directory);
                 }
-            } catch( IOException e ) {
-                throw new IndexManagerException( e );
+            } catch (IOException e) {
+                throw new IndexManagerException(e);
             }
         }
     }
@@ -600,6 +597,6 @@ public class IndexManager {
      */
     private Analyzer getAnalyzer() {
 
-        return ( new StandardAnalyzer() );
+        return (new StandardAnalyzer());
     }
 }

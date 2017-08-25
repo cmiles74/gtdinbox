@@ -24,46 +24,46 @@ public class TestHiberateConfiguration extends TestCase {
 
         ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
 
-        applicationConfiguration.setTestingConfiguration( true );
+        applicationConfiguration.setTestingConfiguration(true);
 
         applicationConfiguration.configure();
 
-        HibernateConfiguration configuration = new HibernateConfiguration( applicationConfiguration );
+        HibernateConfiguration configuration = new HibernateConfiguration(applicationConfiguration);
 
-        assertNotNull( configuration );
+        assertNotNull(configuration);
     }
 
     public void testTestingConfiguration() throws Exception {
 
         ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
 
-        applicationConfiguration.setTestingConfiguration( true );
+        applicationConfiguration.setTestingConfiguration(true);
 
         applicationConfiguration.configure();
 
-        HibernateConfiguration configuration = new HibernateConfiguration( applicationConfiguration );
+        HibernateConfiguration configuration = new HibernateConfiguration(applicationConfiguration);
 
-        configuration.setTestingConfiguration( true );
+        configuration.setTestingConfiguration(true);
 
-        assertTrue( configuration.isTestingConfiguration() );
+        assertTrue(configuration.isTestingConfiguration());
     }
 
     public void testConfigure() throws Exception {
 
         ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
 
-        applicationConfiguration.setTestingConfiguration( true );
+        applicationConfiguration.setTestingConfiguration(true);
 
         applicationConfiguration.configure();
 
-        HibernateConfiguration configuration = new HibernateConfiguration( applicationConfiguration );
+        HibernateConfiguration configuration = new HibernateConfiguration(applicationConfiguration);
 
-        configuration.setTestingConfiguration( true );
+        configuration.setTestingConfiguration(true);
 
         configuration.configure();
 
-        assertNotNull( configuration.getEntityManagerFactory() );
+        assertNotNull(configuration.getEntityManagerFactory());
     }
 
-    
+
 }

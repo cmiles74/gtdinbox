@@ -8,5 +8,5 @@ package com.nervestaple.gtdinbox.gui.utility.glazedtreemodel;
  */
 public interface GlazedTreeNodeListener {
 
-    public void handleGlazedTreeModelEvent( GlazedTreeModelEvent event );
+    public void handleGlazedTreeModelEvent(GlazedTreeModelEvent event);
 }

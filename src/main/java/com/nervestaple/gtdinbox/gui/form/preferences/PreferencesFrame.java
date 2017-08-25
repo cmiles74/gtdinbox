@@ -24,7 +24,7 @@ public class PreferencesFrame extends JFrame {
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * Application icon small.
@@ -43,89 +43,89 @@ public class PreferencesFrame extends JFrame {
 
     public PreferencesFrame() {
 
-        super( "Preferences" );
+        super("Preferences");
 
-        ICON_APPLICATION_SMALL = new ImageIcon( getClass().getResource(
-                "/com/nervestaple/gtdinbox/gui/browser/images/preferences-16.png" ) );
+        ICON_APPLICATION_SMALL = new ImageIcon(getClass().getResource(
+                "/com/nervestaple/gtdinbox/gui/browser/images/preferences-16.png"));
 
-        setIconImage( ICON_APPLICATION_SMALL.getImage() );
+        setIconImage(ICON_APPLICATION_SMALL.getImage());
 
         model = new PreferencesModel();
-        panel = new PreferencesPanel( model );
+        panel = new PreferencesPanel(model);
 
-        getContentPane().add( panel );
+        getContentPane().add(panel);
 
         setupListeners();
 
         loadPreferences();
 
-        setSize( 340, 170 );
+        setSize(340, 170);
     }
 
     // private methods
 
     private void setupListeners() {
 
-        model.setActionListenerCancel( new ActionListener() {
+        model.setActionListenerCancel(new ActionListener() {
 
-            public void actionPerformed( ActionEvent actionEvent ) {
+            public void actionPerformed(ActionEvent actionEvent) {
 
                 cancel();
             }
-        } );
+        });
 
-        model.setActionListenerSave( new ActionListener() {
+        model.setActionListenerSave(new ActionListener() {
 
-            public void actionPerformed( ActionEvent actionEvent ) {
+            public void actionPerformed(ActionEvent actionEvent) {
 
                 panel.commitValues();
 
                 savePreferences();
             }
-        } );
+        });
     }
 
     private void loadPreferences() {
 
-        model.setArchiveDays( ConfigurationFactory.getInstance().getApplicationConfiguration().getArchiveDays() );
+        model.setArchiveDays(ConfigurationFactory.getInstance().getApplicationConfiguration().getArchiveDays());
     }
 
     private void savePreferences() {
 
         try {
 
-            ConfigurationFactory.getInstance().getApplicationConfiguration().setArchiveDays( model.getArchiveDays() );
-            setVisible( false );
-        } catch( CouldNotSaveConfigurationException e ) {
-            handleErrorOccurred( e );
-        } catch( NoStorageLocationException e ) {
-            handleErrorOccurred( e );
+            ConfigurationFactory.getInstance().getApplicationConfiguration().setArchiveDays(model.getArchiveDays());
+            setVisible(false);
+        } catch (CouldNotSaveConfigurationException e) {
+            handleErrorOccurred(e);
+        } catch (NoStorageLocationException e) {
+            handleErrorOccurred(e);
         }
     }
 
     private void cancel() {
 
-        setVisible( false );
+        setVisible(false);
     }
 
-    private void handleErrorOccurred( GTDInboxException exception ) {
+    private void handleErrorOccurred(GTDInboxException exception) {
 
         JOptionPane pane = new JOptionPane(
-                "<html>" + UIManager.getString( "OptionPane.css" ) +
+                "<html>" + UIManager.getString("OptionPane.css") +
                         "<b>There was a problem that I wasn't expecting.</b><p>" +
                         exception.getMessage(),
                 JOptionPane.WARNING_MESSAGE
         );
-        Object[] options = { "Okay" };
-        pane.setOptions( options );
-        pane.setInitialValue( options[ 0 ] );
+        Object[] options = {"Okay"};
+        pane.setOptions(options);
+        pane.setInitialValue(options[0]);
         pane.putClientProperty(
-                "Quaqua.OptionPane.destructiveOption", new Integer( 0 )
+                "Quaqua.OptionPane.destructiveOption", new Integer(0)
         );
-        JSheet.showSheet( pane, this, new SheetListener() {
-            public void optionSelected( SheetEvent evt ) {
+        JSheet.showSheet(pane, this, new SheetListener() {
+            public void optionSelected(SheetEvent evt) {
                 evt.getValue();
             }
-        } );
+        });
     }
 }

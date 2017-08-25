@@ -47,16 +47,16 @@ public class ContextFrame extends JFrame {
 
         panel = new ContextPanel();
 
-        ICON_APPLICATION_SMALL = new ImageIcon( getClass().getResource(
-                "/com/nervestaple/gtdinbox/gui/browser/images/context-16.png" ) );
+        ICON_APPLICATION_SMALL = new ImageIcon(getClass().getResource(
+                "/com/nervestaple/gtdinbox/gui/browser/images/context-16.png"));
 
-        setIconImage( ICON_APPLICATION_SMALL.getImage() );
+        setIconImage(ICON_APPLICATION_SMALL.getImage());
 
         initializeFrame();
 
         setupListeners();
 
-        setResizable( false );
+        setResizable(false);
     }
 
     /**
@@ -64,15 +64,15 @@ public class ContextFrame extends JFrame {
      *
      * @param args Command line arguments
      */
-    public static void main( final String[] args ) {
+    public static void main(final String[] args) {
 
         UtilitiesGui.configureSwingUI();
 
         ContextFrame frame = new ContextFrame();
 
-        GuiSwing.centerWindow( frame );
+        GuiSwing.centerWindow(frame);
 
-        frame.setVisible( true );
+        frame.setVisible(true);
     }
 
     /**
@@ -80,7 +80,7 @@ public class ContextFrame extends JFrame {
      */
     public void addNewInboxContext() {
 
-        setTitle( "Add a New Context" );
+        setTitle("Add a New Context");
         panel.addNewInboxContext();
     }
 
@@ -89,15 +89,15 @@ public class ContextFrame extends JFrame {
      *
      * @param inboxContext InboxContext to be updated
      */
-    public void updateInboxContext( InboxContext inboxContext ) {
+    public void updateInboxContext(InboxContext inboxContext) {
 
-        setTitle( "Edit a Context" );
+        setTitle("Edit a Context");
 
         try {
-            panel.updateInboxContext( inboxContext );
-        } catch( GTDInboxException e ) {
+            panel.updateInboxContext(inboxContext);
+        } catch (GTDInboxException e) {
 
-            handleErrorOccurred( e );
+            handleErrorOccurred(e);
         }
     }
 
@@ -106,11 +106,11 @@ public class ContextFrame extends JFrame {
      *
      * @param listener Listener to handle the events
      */
-    public void addInboxContextFormListener( ContextFormListener listener ) {
+    public void addInboxContextFormListener(ContextFormListener listener) {
 
-        if( !listeners.contains( listener ) ) {
+        if (!listeners.contains(listener)) {
 
-            listeners.add( listener );
+            listeners.add(listener);
         }
     }
 
@@ -119,9 +119,9 @@ public class ContextFrame extends JFrame {
      *
      * @param listener The listener to remove.
      */
-    public void removeInboxContextFormListener( ContextFormListener listener ) {
+    public void removeInboxContextFormListener(ContextFormListener listener) {
 
-        listeners.remove( listener );
+        listeners.remove(listener);
     }
 
     // accessor methods
@@ -132,82 +132,82 @@ public class ContextFrame extends JFrame {
 
     // private methods
 
-    private void fireInboxContextAdded( final InboxContext inboxContext ) {
+    private void fireInboxContextAdded(final InboxContext inboxContext) {
 
         ContextFormListener[] listenersArray =
-                ( ContextFormListener[] ) listeners.toArray( new ContextFormListener[listeners.size()] );
+                (ContextFormListener[]) listeners.toArray(new ContextFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].inboxContextAdded( inboxContext );
+            listenersArray[index].inboxContextAdded(inboxContext);
         }
 
-        if( isVisible() ) {
+        if (isVisible()) {
 
-            setVisible( false );
+            setVisible(false);
         }
     }
 
-    private void fireInboxContextUpdated( final InboxContext inboxContext ) {
+    private void fireInboxContextUpdated(final InboxContext inboxContext) {
 
         ContextFormListener[] listenersArray =
-                ( ContextFormListener[] ) listeners.toArray( new ContextFormListener[listeners.size()] );
+                (ContextFormListener[]) listeners.toArray(new ContextFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].inboxContextUpdated( inboxContext );
+            listenersArray[index].inboxContextUpdated(inboxContext);
         }
 
-        if( isVisible() ) {
+        if (isVisible()) {
 
-            setVisible( false );
+            setVisible(false);
         }
     }
 
-    private void fireErrorOccurred( final GTDInboxException exception ) {
+    private void fireErrorOccurred(final GTDInboxException exception) {
 
         ContextFormListener[] listenersArray =
-                ( ContextFormListener[] ) listeners.toArray( new ContextFormListener[listeners.size()] );
+                (ContextFormListener[]) listeners.toArray(new ContextFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].exceptionOccurred( exception );
+            listenersArray[index].exceptionOccurred(exception);
         }
     }
 
-    private void handleErrorOccurred( GTDInboxException exception ) {
+    private void handleErrorOccurred(GTDInboxException exception) {
 
         JOptionPane pane = new JOptionPane(
-                "<html>" + UIManager.getString( "OptionPane.css" ) +
+                "<html>" + UIManager.getString("OptionPane.css") +
                         "<b>There was a problem that I wasn't expecting.</b><p>" +
                         exception.getMessage(),
                 JOptionPane.WARNING_MESSAGE
         );
-        Object[] options = { "Okay" };
-        pane.setOptions( options );
-        pane.setInitialValue( options[ 0 ] );
+        Object[] options = {"Okay"};
+        pane.setOptions(options);
+        pane.setInitialValue(options[0]);
         pane.putClientProperty(
-                "Quaqua.OptionPane.destructiveOption", new Integer( 0 )
+                "Quaqua.OptionPane.destructiveOption", new Integer(0)
         );
-        JSheet.showSheet( pane, this, new SheetListener() {
-            public void optionSelected( SheetEvent evt ) {
+        JSheet.showSheet(pane, this, new SheetListener() {
+            public void optionSelected(SheetEvent evt) {
                 evt.getValue();
             }
-        } );
+        });
     }
 
     private void setupListeners() {
 
-        panel.addInboxContextFormListener( new ContextFormListener() {
+        panel.addInboxContextFormListener(new ContextFormListener() {
 
             /**
              * Called when a new inboxContext is added.
              *
              * @param inboxContext InboxContext that was added
              */
-            public void inboxContextAdded( InboxContext inboxContext ) {
+            public void inboxContextAdded(InboxContext inboxContext) {
 
-                fireInboxContextAdded( inboxContext );
+                fireInboxContextAdded(inboxContext);
             }
 
             /**
@@ -215,9 +215,9 @@ public class ContextFrame extends JFrame {
              *
              * @param inboxContext InboxContext that was updated
              */
-            public void inboxContextUpdated( InboxContext inboxContext ) {
+            public void inboxContextUpdated(InboxContext inboxContext) {
 
-                fireInboxContextUpdated( inboxContext );
+                fireInboxContextUpdated(inboxContext);
             }
 
             /**
@@ -225,19 +225,19 @@ public class ContextFrame extends JFrame {
              *
              * @param exception The exception that occurred
              */
-            public void exceptionOccurred( GTDInboxException exception ) {
+            public void exceptionOccurred(GTDInboxException exception) {
 
-                handleErrorOccurred( exception );
+                handleErrorOccurred(exception);
             }
-        } );
+        });
 
-        panel.setActionListenerCancel( new ActionListener() {
+        panel.setActionListenerCancel(new ActionListener() {
 
-            public void actionPerformed( ActionEvent actionEvent ) {
+            public void actionPerformed(ActionEvent actionEvent) {
 
-                setVisible( false );
+                setVisible(false);
             }
-        } );
+        });
     }
 
     /**
@@ -245,8 +245,8 @@ public class ContextFrame extends JFrame {
      */
     private void initializeFrame() {
 
-        getContentPane().setLayout( new GridLayout( 1, 1 ) );
-        getContentPane().add( panel );
+        getContentPane().setLayout(new GridLayout(1, 1));
+        getContentPane().add(panel);
 
         pack();
 

@@ -24,22 +24,27 @@ import java.util.Set;
 
 /**
  * Provides an object for managing the data store. This is a singleton instance.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class DataBaseManager {
 
-    /** Logger instances. */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    /**
+     * Logger instances.
+     */
+    private Logger logger = Logger.getLogger(this.getClass());
 
-    /** Data store manager instance. */
+    /**
+     * Data store manager instance.
+     */
     private final static DataBaseManager DATA_BASE_MANAGER;
 
-    /** Hibernate entity manager. */
+    /**
+     * Hibernate entity manager.
+     */
     private EntityManager entityManager;
 
-    /** Entity manager factory. */
+    /**
+     * Entity manager factory.
+     */
     private EntityManagerFactory entityManagerFactory;
 
     static {
@@ -47,14 +52,16 @@ public class DataBaseManager {
         DATA_BASE_MANAGER = new DataBaseManager();
     }
 
-    /** Creates a new data store manager. */
+    /**
+     * Creates a new data store manager.
+     */
     private DataBaseManager() {
 
         // get a configuration from the application's configuration factory
         entityManagerFactory = ConfigurationFactory.getInstance().getHibernateConfiguration().getEntityManagerFactory();
 
         // create the database schema, if it's missing
-        if(!ConfigurationFactory.getInstance().isTestingConfiguration()) {
+        if (!ConfigurationFactory.getInstance().isTestingConfiguration()) {
             try {
                 createSchemaIfMissing();
             } catch (Exception e) {
@@ -70,7 +77,7 @@ public class DataBaseManager {
      */
     public static DataBaseManager getInstance() {
 
-        return ( DATA_BASE_MANAGER );
+        return (DATA_BASE_MANAGER);
     }
 
     /**
@@ -81,18 +88,18 @@ public class DataBaseManager {
      */
     public EntityManager getEntityManager() throws DataBaseManagerException {
 
-        if( entityManager == null || !entityManager.isOpen() ) {
+        if (entityManager == null || !entityManager.isOpen()) {
 
             try {
-                logger.debug( "Creating a new entity manager" );
+                logger.debug("Creating a new entity manager");
                 entityManager = entityManagerFactory.createEntityManager();
-            } catch( HibernateException e ) {
-                logger.warn( e, e );
-                throw new DataBaseManagerException( e );
+            } catch (HibernateException e) {
+                logger.warn(e, e);
+                throw new DataBaseManagerException(e);
             }
         }
 
-        return ( entityManager );
+        return (entityManager);
     }
 
     /**
@@ -105,14 +112,14 @@ public class DataBaseManager {
      */
     public void closeEntityManager() throws DataBaseManagerException {
 
-        if( entityManager != null && entityManager.isOpen() ) {
+        if (entityManager != null && entityManager.isOpen()) {
 
             try {
                 entityManager.close();
                 entityManager = null;
-            } catch( HibernateException e ) {
-                logger.warn( e );
-                throw new DataBaseManagerException( e );
+            } catch (HibernateException e) {
+                logger.warn(e);
+                throw new DataBaseManagerException(e);
             }
         }
     }
@@ -124,14 +131,14 @@ public class DataBaseManager {
      */
     public void beginTransaction() throws DataBaseManagerException {
 
-        if( getEntityManager().getTransaction() == null ||
-                !getEntityManager().getTransaction().isActive() ) {
+        if (getEntityManager().getTransaction() == null ||
+                !getEntityManager().getTransaction().isActive()) {
 
             try {
                 getEntityManager().getTransaction().begin();
-            } catch( HibernateException e ) {
-                logger.warn( e );
-                throw new DataBaseManagerException( e );
+            } catch (HibernateException e) {
+                logger.warn(e);
+                throw new DataBaseManagerException(e);
             }
         }
     }
@@ -143,18 +150,18 @@ public class DataBaseManager {
      */
     public void commitTransaction() throws DataBaseManagerException {
 
-        if(getEntityManager().getTransaction() != null && getEntityManager().getTransaction().isActive()) {
+        if (getEntityManager().getTransaction() != null && getEntityManager().getTransaction().isActive()) {
 
             try {
                 getEntityManager().getTransaction().commit();
-            } catch( HibernateException e ) {
+            } catch (HibernateException e) {
 
-                logger.warn( e );
+                logger.warn(e);
 
                 try {
                     rollbackTransaction();
-                } catch( DataBaseManagerException e1 ) {
-                    logger.warn( e1 );
+                } catch (DataBaseManagerException e1) {
+                    logger.warn(e1);
                 }
             }
         }
@@ -167,14 +174,14 @@ public class DataBaseManager {
      */
     public void rollbackTransaction() throws DataBaseManagerException {
 
-        if(getEntityManager().getTransaction() != null && getEntityManager().getTransaction().isActive()) {
+        if (getEntityManager().getTransaction() != null && getEntityManager().getTransaction().isActive()) {
 
             try {
                 getEntityManager().getTransaction().rollback();
-            } catch( HibernateException e ) {
+            } catch (HibernateException e) {
 
-                logger.warn( e );
-                throw new DataBaseManagerException( e );
+                logger.warn(e);
+                throw new DataBaseManagerException(e);
             }
         }
     }
@@ -186,7 +193,7 @@ public class DataBaseManager {
      */
     public final void createSchemaIfMissing() throws DataBaseManagerException {
 
-        if( !schemaExists() ) {
+        if (!schemaExists()) {
 
             createSchema();
         }
@@ -202,9 +209,9 @@ public class DataBaseManager {
 
         MetadataSources metadataSources = new MetadataSources(serviceRegistry);
 
-        for(EntityType entityType : getEntityManager().getMetamodel().getEntities()) {
+        for (EntityType entityType : getEntityManager().getMetamodel().getEntities()) {
 
-            if(!entityClasses.contains(entityType.getBindableJavaType())) {
+            if (!entityClasses.contains(entityType.getBindableJavaType())) {
                 logger.info("Found entity: " + entityType.getBindableJavaType());
                 entityClasses.add(entityType.getBindableJavaType());
                 metadataSources.addAnnotatedClass(entityType.getBindableJavaType());
@@ -229,14 +236,16 @@ public class DataBaseManager {
             beginTransaction();
             schemaExport.createOnly(EnumSet.of(TargetType.DATABASE, TargetType.STDOUT), getHibernateMetadata());
             commitTransaction();
-        } catch( Exception e ) {
-            logger.warn( e, e );
+        } catch (Exception e) {
+            logger.warn(e, e);
         }
 
-        logger.info( "Created database schema" );
+        logger.info("Created database schema");
     }
 
-    /** Drops the current database schema. */
+    /**
+     * Drops the current database schema.
+     */
     public final void dropSchema() throws DataBaseManagerException {
 
         // create a schema export instance for our configuration
@@ -247,7 +256,7 @@ public class DataBaseManager {
         schemaExport.drop(EnumSet.of(TargetType.DATABASE, TargetType.STDOUT), getHibernateMetadata());
         commitTransaction();
 
-        logger.info( "Removed database schema" );
+        logger.info("Removed database schema");
     }
 
     /**
@@ -284,20 +293,20 @@ public class DataBaseManager {
 
                 // get meta data
                 String[] types = {"TABLE"};
-                    ResultSet resultset = connection.getMetaData().
-                            getTables( connection.getCatalog(), "%", "PROJECT", types );
+                ResultSet resultset = connection.getMetaData().
+                        getTables(connection.getCatalog(), "%", "PROJECT", types);
 
                 // loop through the result set for the actual results
-                if( resultset.next() ) {
+                if (resultset.next()) {
                     booleanExists = true;
                 }
-            } catch( SQLException e ) {
-                logger.warn( e );
+            } catch (SQLException e) {
+                logger.warn(e);
             }
-        } catch( DataBaseManagerException e ) {
-            throw new DataBaseManagerException( e );
+        } catch (DataBaseManagerException e) {
+            throw new DataBaseManagerException(e);
         }
 
-        return ( booleanExists );
+        return (booleanExists);
     }
 }

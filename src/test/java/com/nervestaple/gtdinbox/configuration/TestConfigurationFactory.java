@@ -19,19 +19,19 @@ public class TestConfigurationFactory extends TestCase {
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     public void testGetConfigurationFactory() {
 
         ConfigurationFactory configurationFactory = ConfigurationFactory.getInstance();
 
         try {
-            configurationFactory.setTestingConfiguration( true );
-        } catch( ConfigurationFactoryException e ) {
-            logger.warn( e );
+            configurationFactory.setTestingConfiguration(true);
+        } catch (ConfigurationFactoryException e) {
+            logger.warn(e);
         }
 
-        assertNotNull( configurationFactory );
+        assertNotNull(configurationFactory);
     }
 
     public void testTestingConfiguration() {
@@ -39,12 +39,12 @@ public class TestConfigurationFactory extends TestCase {
         ConfigurationFactory configurationFactory = ConfigurationFactory.getInstance();
 
         try {
-            configurationFactory.setTestingConfiguration( true );
-        } catch( ConfigurationFactoryException e ) {
-            logger.info( e );
+            configurationFactory.setTestingConfiguration(true);
+        } catch (ConfigurationFactoryException e) {
+            logger.info(e);
         }
 
-        assertTrue( configurationFactory.isTestingConfiguration() );
+        assertTrue(configurationFactory.isTestingConfiguration());
     }
 
     public void testConfigure() throws ConfigurationFactoryException {
@@ -52,27 +52,27 @@ public class TestConfigurationFactory extends TestCase {
         ConfigurationFactory configurationFactory = ConfigurationFactory.getInstance();
 
         try {
-            configurationFactory.setTestingConfiguration( true );
-        } catch( ConfigurationFactoryException e ) {
-            logger.warn( e );
+            configurationFactory.setTestingConfiguration(true);
+        } catch (ConfigurationFactoryException e) {
+            logger.warn(e);
         }
 
         try {
 
             // configure the configuration
             configurationFactory.configure();
-        } catch( ConfigurationFactoryException e ) {
+        } catch (ConfigurationFactoryException e) {
 
-            logger.info( e );
+            logger.info(e);
 
-            if( e instanceof NoStorageLocationException ) {
+            if (e instanceof NoStorageLocationException) {
 
                 // set the default storage location
-                logger.info( "Setting test data location" );
+                logger.info("Setting test data location");
 
                 File storage = configurationFactory.getApplicationConfiguration().createDefaultDataStorageLocation();
 
-                configurationFactory.getApplicationConfiguration().setDataStorageLocation( storage );
+                configurationFactory.getApplicationConfiguration().setDataStorageLocation(storage);
 
                 // try to configure the configuration again
                 configurationFactory.configure();
@@ -85,33 +85,33 @@ public class TestConfigurationFactory extends TestCase {
         ConfigurationFactory configurationFactory = ConfigurationFactory.getInstance();
 
         try {
-            configurationFactory.setTestingConfiguration( true );
-        } catch( ConfigurationFactoryException e ) {
-            logger.warn( e );
+            configurationFactory.setTestingConfiguration(true);
+        } catch (ConfigurationFactoryException e) {
+            logger.warn(e);
         }
 
         try {
 
             // configure the configuration
             configurationFactory.configure();
-        } catch( ConfigurationFactoryException e ) {
+        } catch (ConfigurationFactoryException e) {
 
-            logger.info( e );
+            logger.info(e);
 
-            if( e instanceof NoStorageLocationException ) {
+            if (e instanceof NoStorageLocationException) {
 
                 // set the default storage location
-                logger.info( "Setting test data location" );
+                logger.info("Setting test data location");
 
                 File storage = configurationFactory.getApplicationConfiguration().createDefaultDataStorageLocation();
-                configurationFactory.getApplicationConfiguration().setDataStorageLocation( storage );
+                configurationFactory.getApplicationConfiguration().setDataStorageLocation(storage);
 
                 // try to configure the configuration again
                 configurationFactory.configure();
             }
         }
 
-        assertNotNull( configurationFactory.getApplicationConfiguration() );
+        assertNotNull(configurationFactory.getApplicationConfiguration());
     }
 
     public void testGetHibernateConfiguration() throws Exception {
@@ -119,32 +119,32 @@ public class TestConfigurationFactory extends TestCase {
         ConfigurationFactory configurationFactory = ConfigurationFactory.getInstance();
 
         try {
-            configurationFactory.setTestingConfiguration( true );
-        } catch( ConfigurationFactoryException e ) {
-            logger.warn( e );
+            configurationFactory.setTestingConfiguration(true);
+        } catch (ConfigurationFactoryException e) {
+            logger.warn(e);
         }
 
         try {
 
             // configure the configuration
             configurationFactory.configure();
-        } catch( ConfigurationFactoryException e ) {
+        } catch (ConfigurationFactoryException e) {
 
-            logger.info( e );
+            logger.info(e);
 
-            if( e instanceof NoStorageLocationException ) {
+            if (e instanceof NoStorageLocationException) {
 
                 // set the default storage location
-                logger.info( "Setting test data location" );
+                logger.info("Setting test data location");
 
                 File storage = configurationFactory.getApplicationConfiguration().createDefaultDataStorageLocation();
-                configurationFactory.getApplicationConfiguration().setDataStorageLocation( storage );
+                configurationFactory.getApplicationConfiguration().setDataStorageLocation(storage);
 
                 // try to configure the configuration again
                 configurationFactory.configure();
             }
         }
 
-        assertNotNull( configurationFactory.getHibernateConfiguration() );
+        assertNotNull(configurationFactory.getHibernateConfiguration());
     }
 }

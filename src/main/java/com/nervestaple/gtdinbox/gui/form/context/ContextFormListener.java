@@ -16,19 +16,19 @@ public interface ContextFormListener {
      *
      * @param inboxContext InboxContext that was added
      */
-    public void inboxContextAdded( InboxContext inboxContext );
+    public void inboxContextAdded(InboxContext inboxContext);
 
     /**
      * Called when a new inboxContext is updated.
      *
      * @param inboxContext InboxContext that was updated
      */
-    public void inboxContextUpdated( InboxContext inboxContext );
+    public void inboxContextUpdated(InboxContext inboxContext);
 
     /**
      * Called when an error occurs.
      *
      * @param exception The exception that occurred
      */
-    public void exceptionOccurred( GTDInboxException exception );
+    public void exceptionOccurred(GTDInboxException exception);
 }

@@ -51,13 +51,13 @@ public class TopLevelContainerRenderer {
     public TopLevelContainerRenderer() {
 
         // load in the images
-        imageIconProjects = new ImageIcon( getClass().getResource( "images/projects-18.png" ) );
-        imageIconContexts = new ImageIcon( getClass().getResource( "images/contexts-18.png" ) );
-        imageIconCategories = new ImageIcon( getClass().getResource( "images/categories-18.png" ) );
-        imageIconTrash = new ImageIcon( getClass().getResource( "images/trash-18.png" ) );
-        imageIconArchive = new ImageIcon( getClass().getResource( "images/archive-18.png" ) );
+        imageIconProjects = new ImageIcon(getClass().getResource("images/projects-18.png"));
+        imageIconContexts = new ImageIcon(getClass().getResource("images/contexts-18.png"));
+        imageIconCategories = new ImageIcon(getClass().getResource("images/categories-18.png"));
+        imageIconTrash = new ImageIcon(getClass().getResource("images/trash-18.png"));
+        imageIconArchive = new ImageIcon(getClass().getResource("images/archive-18.png"));
 
-        font = UIManager.getFont( "Label.font" ).deriveFont( Font.PLAIN, FONT_SIZE );
+        font = UIManager.getFont("Label.font").deriveFont(Font.PLAIN, FONT_SIZE);
     }
 
     /**
@@ -73,24 +73,24 @@ public class TopLevelContainerRenderer {
      * @param defaultComponent The default rendering of the component
      * @return The rendered component
      */
-    public JLabel getTreeCellRendererComponent( JTree jTree, TopLevelContainer container, boolean isSelected,
-                                                boolean isExpanded, boolean isLeaf, int row, boolean hasFocus, JLabel defaultComponent ) {
+    public JLabel getTreeCellRendererComponent(JTree jTree, TopLevelContainer container, boolean isSelected,
+                                               boolean isExpanded, boolean isLeaf, int row, boolean hasFocus, JLabel defaultComponent) {
 
-        defaultComponent.setText( container.getName() );
-        defaultComponent.setFont( font );
+        defaultComponent.setText(container.getName());
+        defaultComponent.setFont(font);
 
-        if( container == TopLevelContainer.PROJECTS ) {
-            defaultComponent.setIcon( imageIconProjects );
-        } else if( container == TopLevelContainer.CONTEXTS ) {
-            defaultComponent.setIcon( imageIconContexts );
-        } else if( container == TopLevelContainer.CATEGORIES ) {
-            defaultComponent.setIcon( imageIconCategories );
-        } else if( container == TopLevelContainer.TRASH ) {
-            defaultComponent.setIcon( imageIconTrash );
-        } else if( container == TopLevelContainer.ARCHIVE ) {
-            defaultComponent.setIcon( imageIconArchive );
+        if (container == TopLevelContainer.PROJECTS) {
+            defaultComponent.setIcon(imageIconProjects);
+        } else if (container == TopLevelContainer.CONTEXTS) {
+            defaultComponent.setIcon(imageIconContexts);
+        } else if (container == TopLevelContainer.CATEGORIES) {
+            defaultComponent.setIcon(imageIconCategories);
+        } else if (container == TopLevelContainer.TRASH) {
+            defaultComponent.setIcon(imageIconTrash);
+        } else if (container == TopLevelContainer.ARCHIVE) {
+            defaultComponent.setIcon(imageIconArchive);
         }
 
-        return ( defaultComponent );
+        return (defaultComponent);
     }
 }

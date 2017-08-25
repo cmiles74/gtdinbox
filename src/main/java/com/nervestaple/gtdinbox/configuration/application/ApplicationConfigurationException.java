@@ -4,9 +4,6 @@ import com.nervestaple.gtdinbox.configuration.ConfigurationFactoryException;
 
 /**
  * Provides an exception object for the ApplicationConfiguration.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class ApplicationConfigurationException extends ConfigurationFactoryException {
 
@@ -15,10 +12,10 @@ public class ApplicationConfigurationException extends ConfigurationFactoryExcep
      *
      * @param message A String with the text of the exception message
      */
-    public ApplicationConfigurationException( final String message ) {
+    public ApplicationConfigurationException(final String message) {
 
         // call the parent constructor
-        super( message );
+        super(message);
     }
 
     /**
@@ -26,10 +23,10 @@ public class ApplicationConfigurationException extends ConfigurationFactoryExcep
      *
      * @param exception Root exception
      */
-    public ApplicationConfigurationException( final Exception exception ) {
+    public ApplicationConfigurationException(final Exception exception) {
 
         // call the parent constructor
-        super( exception );
+        super(exception);
     }
 
     /**
@@ -39,10 +36,10 @@ public class ApplicationConfigurationException extends ConfigurationFactoryExcep
      * @param message   A String with the text of the exception message
      * @param throwable The root exception
      */
-    public ApplicationConfigurationException( final String message, final Throwable throwable ) {
+    public ApplicationConfigurationException(final String message, final Throwable throwable) {
 
         // call the parent constructor
-        super( message );
+        super(message);
 
         // save the root exception
         this.throwableRoot = throwable;

@@ -14,16 +14,13 @@ import java.io.File;
 
 /**
  * Provides an object for configuring the application.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class ApplicationConfiguration {
 
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * Data model to store the configuration settings.
@@ -63,12 +60,32 @@ public class ApplicationConfiguration {
     /**
      * Default number of days to archive.
      */
-    private final static Integer DEFAULT_ARCHIVE_DAYS = new Integer( 7 );
+    private final static Integer DEFAULT_ARCHIVE_DAYS = new Integer(7);
 
     /**
      * Configure for testing.
      */
     private boolean testingConfiguration = false;
+
+    /**
+     * Name of the property file with this application's configuration.
+     */
+    private final String APP_PROPERTY_FILE_NAME = "com.nervestaple.gtdinbox.properties";
+
+    /**
+     * Name of the path we will use to decide where to store this application's data.
+     */
+    private final String DATA_STORAGE_PATH_NAME = ".gtdInboxData";
+
+    /**
+     * Name of the path we will use to decide where to store this application's preferences on MacOS X.
+     */
+    private final String MAC_OS_X_PREFERENCES_PATH_NAME = "/Library/Preferences/com.nervestaple.gtdinbox.properties";
+
+    /**
+     * Name of the path we will use to decide where to store this application's data on MacOS X.
+     */
+    private final String MAX_OS_X_DATA_STORAGE_PATH_NAME = "/Library/Application Support/GTDInbox/";
 
     /**
      * Creates a new ApplicationConfiguration.
@@ -80,22 +97,22 @@ public class ApplicationConfiguration {
 
     // property change support methods
 
-    public void addPropertyChangeListener( PropertyChangeListener listener ) {
-        model.addPropertyChangeListener( listener );
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        model.addPropertyChangeListener(listener);
     }
 
-    public void removePropertyChangeListener( PropertyChangeListener listener ) {
-        model.removePropertyChangeListener( listener );
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        model.removePropertyChangeListener(listener);
     }
 
-    public void addPropertyChangeListener( String property,
-                                           PropertyChangeListener listener ) {
-        model.addPropertyChangeListener( property, listener );
+    public void addPropertyChangeListener(String property,
+                                          PropertyChangeListener listener) {
+        model.addPropertyChangeListener(property, listener);
     }
 
-    public void removePropertyChangeListener( String property,
-                                              PropertyChangeListener listener ) {
-        model.removePropertyChangeListener( property, listener );
+    public void removePropertyChangeListener(String property,
+                                             PropertyChangeListener listener) {
+        model.removePropertyChangeListener(property, listener);
     }
 
     // other methods
@@ -103,30 +120,29 @@ public class ApplicationConfiguration {
     /**
      * Configures the application's configuration
      *
-     * @throws ApplicationConfigurationException
-     *                               Problem configuring the application
-     * @throws IndexManagerException Problems setting up the index
+     * @throws ApplicationConfigurationException Problem configuring the application
+     * @throws IndexManagerException             Problems setting up the index
      */
     public void configure() throws ApplicationConfigurationException, IndexManagerException {
 
         String configurationPath = null;
-        if( isTestingConfiguration() ) {
+        if (isTestingConfiguration()) {
 
-            configurationPath = "com.nervestaple.gtdinbox.properties";
-        } else if( Platform.checkMacintosh() ) {
+            configurationPath = APP_PROPERTY_FILE_NAME;
+        } else if (Platform.checkMacintosh()) {
 
             configurationPath = getUserHomeDirectory().getAbsolutePath()
-                    + "/Library/Preferences/com.nervestaple.gtdinbox.properties";
-        } else if( getUserHomeDirectory() != null ) {
+                    + MAC_OS_X_PREFERENCES_PATH_NAME;
+        } else if (getUserHomeDirectory() != null) {
 
-            configurationPath = getUserHomeDirectory().getAbsolutePath() + "/com.nervestaple.gtdinbox.properties";
+            configurationPath = getUserHomeDirectory().getAbsolutePath() + "/" + APP_PROPERTY_FILE_NAME;
         } else {
 
-            configurationPath = "com.nervestaple.gtdinbox.properties";
+            configurationPath = APP_PROPERTY_FILE_NAME;
         }
 
         File configurationFile = null;
-        if(testingConfiguration) {
+        if (testingConfiguration) {
 
             // load the configuration from the classpath
             configurationFile = new File(
@@ -136,35 +152,35 @@ public class ApplicationConfiguration {
         }
 
         try {
-            configuration = new PropertiesConfiguration( configurationFile );
-        } catch( ConfigurationException e ) {
+            configuration = new PropertiesConfiguration(configurationFile);
+        } catch (ConfigurationException e) {
 
-            throw new ApplicationConfigurationException( e );
+            throw new ApplicationConfigurationException(e);
         }
 
         try {
             getDataStorageLocation();
-        } catch( ConfigurationFactoryException e ) {
+        } catch (ConfigurationFactoryException e) {
 
-            logger.info( e );
+            logger.info(e);
 
-            if( e instanceof NoStorageLocationException ) {
+            if (e instanceof NoStorageLocationException) {
 
                 // set the default storage location
-                logger.info( "Using default data location" );
+                logger.info("Using default data location");
                 File storage = createDefaultDataStorageLocation();
-                setDataStorageLocation( storage );
+                setDataStorageLocation(storage);
 
                 // try to configure the configuration again
                 configure();
             }
         }
 
-        model.setDataStorageLocation( getDataStorageLocation() );
+        model.setDataStorageLocation(getDataStorageLocation());
 
-        model.setDatabaseStorageLocation( getDatabaseStorageLocation() );
+        model.setDatabaseStorageLocation(getDatabaseStorageLocation());
 
-        model.setIndexStorageLocation( getIndexStorageLocation() );
+        model.setIndexStorageLocation(getIndexStorageLocation());
 
         // configure the index manager
         IndexManager.getInstance().configure();
@@ -187,20 +203,20 @@ public class ApplicationConfiguration {
      */
     public File getDataStorageLocation() throws NoStorageLocationException {
 
-        if( model.getDatabaseStorageLocation() != null ) {
+        if (model.getDatabaseStorageLocation() != null) {
 
-            return ( model.getDatabaseStorageLocation() );
+            return (model.getDatabaseStorageLocation());
         }
 
         // get the data storage location path
-        String dataStorageLocationPath = configuration.getString( DATA_STORAGE_LOCATION_KEY );
+        String dataStorageLocationPath = configuration.getString(DATA_STORAGE_LOCATION_KEY);
 
-        if( dataStorageLocationPath == null ) {
+        if (dataStorageLocationPath == null) {
 
-            throw new NoStorageLocationException( "There is no storage location for this configuration" );
+            throw new NoStorageLocationException("There is no storage location for this configuration");
         }
 
-        model.setDataStorageLocation( new File( dataStorageLocationPath ) );
+        model.setDataStorageLocation(new File(dataStorageLocationPath));
 
         if (!model.getDataStorageLocation().exists()) {
 
@@ -222,37 +238,36 @@ public class ApplicationConfiguration {
             throw new NoStorageLocationException("Cannot write to the storage location");
         }
 
-        return ( model.getDataStorageLocation() );
+        return (model.getDataStorageLocation());
     }
 
     /**
      * Sets the data storage location. If the subdirectories do not exist, they are created.
      *
      * @param dataStorageLocation New storage location
-     * @throws CouldNotSaveConfigurationException
-     *                                    if the configuration couldn't be saved
-     * @throws NoStorageLocationException if the storage location is bad
+     * @throws CouldNotSaveConfigurationException if the configuration couldn't be saved
+     * @throws NoStorageLocationException         if the storage location is bad
      */
-    public void setDataStorageLocation( File dataStorageLocation ) throws CouldNotSaveConfigurationException,
+    public void setDataStorageLocation(File dataStorageLocation) throws CouldNotSaveConfigurationException,
             NoStorageLocationException {
 
-        model.setDataStorageLocation( dataStorageLocation );
+        model.setDataStorageLocation(dataStorageLocation);
 
-        configuration.setProperty( DATA_STORAGE_LOCATION_KEY, dataStorageLocation.getAbsolutePath() );
+        configuration.setProperty(DATA_STORAGE_LOCATION_KEY, dataStorageLocation.getAbsolutePath());
 
         try {
             configuration.save();
-        } catch( ConfigurationException e ) {
-            throw new CouldNotSaveConfigurationException( e );
+        } catch (ConfigurationException e) {
+            throw new CouldNotSaveConfigurationException(e);
         }
 
         // create the storage locaiton path
-        if( !dataStorageLocation.exists() ) {
+        if (!dataStorageLocation.exists()) {
 
             try {
                 dataStorageLocation.mkdir();
-            } catch( Exception e ) {
-                throw new NoStorageLocationException( e );
+            } catch (Exception e) {
+                throw new NoStorageLocationException(e);
             }
         }
 
@@ -261,14 +276,14 @@ public class ApplicationConfiguration {
                 + DEFAULT_DATABASE_STORAGE_DIR;
 
         // create the data storage location directory
-        model.setDatabaseStorageLocation( new File( defaultDatabaseStorageLocationPath ) );
+        model.setDatabaseStorageLocation(new File(defaultDatabaseStorageLocationPath));
 
         // create the index storage location path
         String defaultIndexStorageLocationPath = dataStorageLocation.getAbsolutePath() + "/"
                 + DEFAUL_INDEX_STORAGE_DIR;
 
         // create the data storage location directory
-        model.setIndexStorageLocation( new File( defaultIndexStorageLocationPath ) );
+        model.setIndexStorageLocation(new File(defaultIndexStorageLocationPath));
     }
 
     /**
@@ -276,26 +291,24 @@ public class ApplicationConfiguration {
      * directory, remember to set it as the storage location.
      *
      * @return File default storage location
-     * @throws NoDefaultStorageLocationException
-     *          The default storage location couldn't be created
-     * @throws CouldNotSaveConfigurationException
-     *          Could not set the storage subdirectory
+     * @throws NoDefaultStorageLocationException  The default storage location couldn't be created
+     * @throws CouldNotSaveConfigurationException Could not set the storage subdirectory
      */
     public File createDefaultDataStorageLocation() throws NoDefaultStorageLocationException,
             CouldNotSaveConfigurationException {
 
         // get the default storage name
-        String storagePathName = configuration.getString( "storage.dir" );
+        String storagePathName = configuration.getString("storage.dir");
 
-        if( storagePathName == null ) {
+        if (storagePathName == null) {
 
             storagePathName = DEFAULT_STORAGE_DIR;
-            configuration.setProperty( "storage.dir", storagePathName );
+            configuration.setProperty("storage.dir", storagePathName);
 
             try {
                 configuration.save();
-            } catch( ConfigurationException e ) {
-                throw new CouldNotSaveConfigurationException( e );
+            } catch (ConfigurationException e) {
+                throw new CouldNotSaveConfigurationException(e);
             }
         }
 
@@ -305,44 +318,45 @@ public class ApplicationConfiguration {
         // create the default data storage location path
         String defaultStorageLocationPath = null;
 
-        if( isTestingConfiguration() ) {
+        if (isTestingConfiguration()) {
 
             defaultStorageLocationPath = storagePathName;
-        } else if( Platform.checkMacintosh() ) {
+        } else if (Platform.checkMacintosh()) {
 
             defaultStorageLocationPath = getUserHomeDirectory().getAbsolutePath()
-                    + "/Library/Application Support/GTDInbox/" + storagePathName;
-        } else if( getUserHomeDirectory() != null ) {
+                    + MAX_OS_X_DATA_STORAGE_PATH_NAME + storagePathName;
+        } else if (getUserHomeDirectory() != null) {
 
-            defaultStorageLocationPath = getUserHomeDirectory().getAbsolutePath() + "/gtdInboxData/" + storagePathName;
+            defaultStorageLocationPath = getUserHomeDirectory().getAbsolutePath() + "/" +
+                    DATA_STORAGE_PATH_NAME + "/" + storagePathName;
         } else {
 
-            defaultStorageLocationPath = "gtdInboxData/" + storagePathName;
+            defaultStorageLocationPath = DATA_STORAGE_PATH_NAME + "/" + storagePathName;
         }
 
         // create the defaut data storage location directory
-        File defaultStorageLocation = new File( defaultStorageLocationPath );
+        File defaultStorageLocation = new File(defaultStorageLocationPath);
 
         defaultStorageLocation.mkdirs();
 
-        if( !defaultStorageLocation.exists() ) {
+        if (!defaultStorageLocation.exists()) {
 
-            throw new NoDefaultStorageLocationException( "The default storage location does not exist" );
+            throw new NoDefaultStorageLocationException("The default storage location does not exist");
         }
 
-        if( !defaultStorageLocation.isDirectory() ) {
+        if (!defaultStorageLocation.isDirectory()) {
 
-            throw new NoDefaultStorageLocationException( "The default storage location is not a directory" );
+            throw new NoDefaultStorageLocationException("The default storage location is not a directory");
         }
 
-        if( !defaultStorageLocation.canWrite() ) {
+        if (!defaultStorageLocation.canWrite()) {
 
-            throw new NoDefaultStorageLocationException( "Cannot read from the default storage location" );
+            throw new NoDefaultStorageLocationException("Cannot read from the default storage location");
         }
 
-        if( !defaultStorageLocation.canWrite() ) {
+        if (!defaultStorageLocation.canWrite()) {
 
-            throw new NoDefaultStorageLocationException( "Cannot write to the default storage location" );
+            throw new NoDefaultStorageLocationException("Cannot write to the default storage location");
         }
 
         // create the default database storage location path
@@ -350,11 +364,11 @@ public class ApplicationConfiguration {
                 + storagePathName + "/" + DEFAULT_DATABASE_STORAGE_DIR;
 
         // create the defaut data storage location directory
-        File defaultDatabaseStorageLocation = new File( defaultDatabaseStorageLocationPath );
+        File defaultDatabaseStorageLocation = new File(defaultDatabaseStorageLocationPath);
 
         defaultDatabaseStorageLocation.mkdir();
 
-        return ( defaultStorageLocation );
+        return (defaultStorageLocation);
     }
 
     /**
@@ -364,14 +378,14 @@ public class ApplicationConfiguration {
      */
     public File getDatabaseStorageLocation() {
 
-        if( model.getDatabaseStorageLocation() == null ) {
+        if (model.getDatabaseStorageLocation() == null) {
 
             // create the database storage location path
-            model.setDatabaseStorageLocation( new File( model.getDataStorageLocation().getAbsolutePath() + "/"
-                    + DEFAULT_DATABASE_STORAGE_DIR ) );
+            model.setDatabaseStorageLocation(new File(model.getDataStorageLocation().getAbsolutePath() + "/"
+                    + DEFAULT_DATABASE_STORAGE_DIR));
         }
 
-        return ( model.getDatabaseStorageLocation() );
+        return (model.getDatabaseStorageLocation());
     }
 
     /**
@@ -381,13 +395,13 @@ public class ApplicationConfiguration {
      */
     public File getIndexStorageLocation() {
 
-        if( model.getIndexStorageLocation() == null ) {
+        if (model.getIndexStorageLocation() == null) {
 
-            model.setIndexStorageLocation( new File( model.getDataStorageLocation().getAbsolutePath() + "/"
-                    + DEFAUL_INDEX_STORAGE_DIR ) );
+            model.setIndexStorageLocation(new File(model.getDataStorageLocation().getAbsolutePath() + "/"
+                    + DEFAUL_INDEX_STORAGE_DIR));
         }
 
-        return ( model.getIndexStorageLocation() );
+        return (model.getIndexStorageLocation());
     }
 
     /**
@@ -403,15 +417,14 @@ public class ApplicationConfiguration {
      * Tell the factory if it should configure itself for running in test mode.
      *
      * @param testingConfiguration boolean
-     * @throws ApplicationConfigurationException
-     *          if the instance has already been configured
+     * @throws ApplicationConfigurationException if the instance has already been configured
      */
-    public void setTestingConfiguration( final boolean testingConfiguration ) throws ApplicationConfigurationException {
+    public void setTestingConfiguration(final boolean testingConfiguration) throws ApplicationConfigurationException {
 
-        if( configuration != null ) {
+        if (configuration != null) {
 
             throw new ApplicationConfigurationException(
-                    "Cannot enter testing mode after configure() has been called" );
+                    "Cannot enter testing mode after configure() has been called");
         }
 
         this.testingConfiguration = testingConfiguration;
@@ -421,59 +434,58 @@ public class ApplicationConfiguration {
      * Returns a file handle on the current user's home directory.
      *
      * @return File
-     * @throws NoDefaultStorageLocationException
-     *          if the user's home directory doesn't exist or isn't read/writeable
+     * @throws NoDefaultStorageLocationException if the user's home directory doesn't exist or isn't read/writeable
      */
     public File getUserHomeDirectory() throws NoDefaultStorageLocationException {
 
         // set the user's home directory
-        String userHomeDirectoryPath = System.getProperty( "user.home" );
+        String userHomeDirectoryPath = System.getProperty("user.home");
 
-        if( userHomeDirectoryPath == null ) {
+        if (userHomeDirectoryPath == null) {
 
-            throw new NoDefaultStorageLocationException( "Noe user home path" );
+            throw new NoDefaultStorageLocationException("Noe user home path");
         }
 
-        File userHomeDirectory = new File( userHomeDirectoryPath );
+        File userHomeDirectory = new File(userHomeDirectoryPath);
 
-        if( !userHomeDirectory.exists() ) {
+        if (!userHomeDirectory.exists()) {
 
-            throw new NoDefaultStorageLocationException( "User home path doesn't exist" );
+            throw new NoDefaultStorageLocationException("User home path doesn't exist");
         }
 
-        if( !userHomeDirectory.isDirectory() ) {
+        if (!userHomeDirectory.isDirectory()) {
 
-            throw new NoDefaultStorageLocationException( "User home path doesn't resolve to a directory" );
+            throw new NoDefaultStorageLocationException("User home path doesn't resolve to a directory");
         }
 
-        if( !userHomeDirectory.canWrite() ) {
+        if (!userHomeDirectory.canWrite()) {
 
-            throw new NoDefaultStorageLocationException( "Cannot write to the user home directory" );
+            throw new NoDefaultStorageLocationException("Cannot write to the user home directory");
         }
 
-        return ( userHomeDirectory );
+        return (userHomeDirectory);
     }
 
     public Integer getArchiveDays() {
 
-        if( model.getArchiveDays() == null ) {
-            model.setArchiveDays( configuration.getInteger( ARCHIVE_DAYS_KEY, DEFAULT_ARCHIVE_DAYS ) );
+        if (model.getArchiveDays() == null) {
+            model.setArchiveDays(configuration.getInteger(ARCHIVE_DAYS_KEY, DEFAULT_ARCHIVE_DAYS));
         }
 
-        return ( model.getArchiveDays() );
+        return (model.getArchiveDays());
     }
 
-    public void setArchiveDays( Integer value ) throws CouldNotSaveConfigurationException,
+    public void setArchiveDays(Integer value) throws CouldNotSaveConfigurationException,
             NoStorageLocationException {
 
-        model.setArchiveDays( value );
+        model.setArchiveDays(value);
 
-        configuration.setProperty( ARCHIVE_DAYS_KEY, value );
+        configuration.setProperty(ARCHIVE_DAYS_KEY, value);
 
         try {
             configuration.save();
-        } catch( ConfigurationException e ) {
-            throw new CouldNotSaveConfigurationException( e );
+        } catch (ConfigurationException e) {
+            throw new CouldNotSaveConfigurationException(e);
         }
     }
 }

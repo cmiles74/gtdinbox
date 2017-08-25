@@ -13,13 +13,15 @@ public interface SearchResultHandler {
 
     /**
      * Method called every time a search result is returned from the index.
+     *
      * @param document The Lucene result Document
      */
-    public void handleSearchResult( Document document );
+    public void handleSearchResult(Document document);
 
     /**
      * Sets the number of results the index is returning.
+     *
      * @param results
      */
-    public void setNumberOfResults( int results );
+    public void setNumberOfResults(int results);
 }

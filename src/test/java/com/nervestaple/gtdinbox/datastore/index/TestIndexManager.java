@@ -21,23 +21,25 @@ import java.io.File;
  */
 public class TestIndexManager extends TestCase {
 
-    /** Logger instance. */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    /**
+     * Logger instance.
+     */
+    private Logger logger = Logger.getLogger(this.getClass());
 
     public void setUp() throws ConfigurationFactoryException {
 
         ConfigurationFactory configurationFactory = ConfigurationFactory.getInstance();
 
-        if( !configurationFactory.isTestingConfiguration() ) {
-            configurationFactory.setTestingConfiguration( true );
+        if (!configurationFactory.isTestingConfiguration()) {
+            configurationFactory.setTestingConfiguration(true);
         }
 
         try {
             configurationFactory.configure();
-        } catch( ConfigurationFactoryException e ) {
+        } catch (ConfigurationFactoryException e) {
 
             File file = configurationFactory.getApplicationConfiguration().createDefaultDataStorageLocation();
-            configurationFactory.getApplicationConfiguration().setDataStorageLocation( file );
+            configurationFactory.getApplicationConfiguration().setDataStorageLocation(file);
         }
 
         configurationFactory.configure();
@@ -47,7 +49,7 @@ public class TestIndexManager extends TestCase {
 
         IndexManager indexManager = IndexManager.getInstance();
 
-        assertNotNull( indexManager );
+        assertNotNull(indexManager);
     }
 
     public void testGetIndexWriter() throws Exception {
@@ -56,7 +58,7 @@ public class TestIndexManager extends TestCase {
 
         IndexWriter indexWriter = indexManager.getIndexWriter();
 
-        assertNotNull( indexWriter );
+        assertNotNull(indexWriter);
     }
 
     public void testGetIndexReader() throws Exception {
@@ -65,7 +67,7 @@ public class TestIndexManager extends TestCase {
 
         IndexReader indexReader = indexManager.getIndexReader();
 
-        assertNotNull( indexReader );
+        assertNotNull(indexReader);
     }
 
     public void testGetIndexSearcher() throws Exception {
@@ -74,133 +76,133 @@ public class TestIndexManager extends TestCase {
 
         IndexSearcher indexSearcher = indexManager.getIndexSearcher();
 
-        assertNotNull( indexSearcher );
+        assertNotNull(indexSearcher);
     }
 
     public void testAddBeanMap() throws Exception {
 
         Project project = new Project();
-        project.setId( Long.valueOf( 284262 ) );
-        project.setName( "Oogedy Booegedy Boo" );
+        project.setId(Long.valueOf(284262));
+        project.setName("Oogedy Booegedy Boo");
 
         IndexManager indexManager = IndexManager.getInstance();
-        indexManager.addIndexable( project );
+        indexManager.addIndexable(project);
 
         // create a new query to find our project
-        TermQuery queryId = new TermQuery( new Term( "id", project.getId().toString() ) );
-        TermQuery queryClass = new TermQuery( new Term( "class", project.getClass().getName().toLowerCase() ) );
+        TermQuery queryId = new TermQuery(new Term("id", project.getId().toString()));
+        TermQuery queryClass = new TermQuery(new Term("class", project.getClass().getName().toLowerCase()));
 
         BooleanQuery query = new BooleanQuery();
-        query.add( new BooleanClause( queryId, BooleanClause.Occur.MUST ) );
-        query.add( new BooleanClause( queryClass, BooleanClause.Occur.MUST ) );
+        query.add(new BooleanClause(queryId, BooleanClause.Occur.MUST));
+        query.add(new BooleanClause(queryClass, BooleanClause.Occur.MUST));
 
         // verify the project is in the database
         IndexSearcher indexSearcher = indexManager.getIndexSearcher();
-        Hits hits = indexSearcher.search( query );
+        Hits hits = indexSearcher.search(query);
         int results = hits.length();
 
-        indexManager.removeIndexable( project );
+        indexManager.removeIndexable(project);
 
-        logger.info( "Hits: " + results );
-        assertTrue( results == 1 );
+        logger.info("Hits: " + results);
+        assertTrue(results == 1);
     }
 
     public void testRemoveBeanMap() throws Exception {
 
         Project project = new Project();
-        project.setId( Long.valueOf( 284262 ) );
-        project.setName( "Oogedy Booegedy Boo" );
+        project.setId(Long.valueOf(284262));
+        project.setName("Oogedy Booegedy Boo");
 
         IndexManager indexManager = IndexManager.getInstance();
-        indexManager.addIndexable( project );
+        indexManager.addIndexable(project);
 
         // create a new query to find our project
-        TermQuery queryId = new TermQuery( new Term( "id", project.getId().toString() ) );
-        TermQuery queryClass = new TermQuery( new Term( "class", project.getClass().getName().toLowerCase() ) );
+        TermQuery queryId = new TermQuery(new Term("id", project.getId().toString()));
+        TermQuery queryClass = new TermQuery(new Term("class", project.getClass().getName().toLowerCase()));
 
         BooleanQuery query = new BooleanQuery();
-        query.add( new BooleanClause( queryId, BooleanClause.Occur.MUST ) );
-        query.add( new BooleanClause( queryClass, BooleanClause.Occur.MUST ) );
+        query.add(new BooleanClause(queryId, BooleanClause.Occur.MUST));
+        query.add(new BooleanClause(queryClass, BooleanClause.Occur.MUST));
 
-        indexManager.removeIndexable( project );
+        indexManager.removeIndexable(project);
 
         // verify the project is in the database
         IndexSearcher indexSearcher = indexManager.getIndexSearcher();
-        Hits hits = indexSearcher.search( query );
+        Hits hits = indexSearcher.search(query);
         int results = hits.length();
 
-        logger.info( "Hits: " + results );
-        assertTrue( results == 0 );
+        logger.info("Hits: " + results);
+        assertTrue(results == 0);
     }
 
     public void testUpdateBeanMap() throws Exception {
 
         Project project = new Project();
-        project.setId( Long.valueOf( 284262 ) );
-        project.setName( "Oogedy Booegedy Boo" );
+        project.setId(Long.valueOf(284262));
+        project.setName("Oogedy Booegedy Boo");
 
         IndexManager indexManager = IndexManager.getInstance();
-        indexManager.addIndexable( project );
+        indexManager.addIndexable(project);
 
-        project.setName( "Ooh La La" );
-        indexManager.updateIndexable( project );
+        project.setName("Ooh La La");
+        indexManager.updateIndexable(project);
 
-        TermQuery queryId = new TermQuery( new Term( "id", project.getId().toString() ) );
-        TermQuery queryClass = new TermQuery( new Term( "class", project.getClass().getName().toLowerCase() ) );
+        TermQuery queryId = new TermQuery(new Term("id", project.getId().toString()));
+        TermQuery queryClass = new TermQuery(new Term("class", project.getClass().getName().toLowerCase()));
 
         BooleanQuery query = new BooleanQuery();
-        query.add( new BooleanClause( queryId, BooleanClause.Occur.MUST ) );
-        query.add( new BooleanClause( queryClass, BooleanClause.Occur.MUST ) );
+        query.add(new BooleanClause(queryId, BooleanClause.Occur.MUST));
+        query.add(new BooleanClause(queryClass, BooleanClause.Occur.MUST));
 
         // verify the project is in the database
         IndexSearcher indexSearcher = indexManager.getIndexSearcher();
-        Hits hits = indexSearcher.search( query );
-        String name = ( ( Hit ) hits.iterator().next() ).getDocument().get( "name" );
+        Hits hits = indexSearcher.search(query);
+        String name = ((Hit) hits.iterator().next()).getDocument().get("name");
 
-        indexManager.removeIndexable( project );
+        indexManager.removeIndexable(project);
 
-        logger.info( "Name: " + name );
-        assertTrue( name.equals( project.getName() ) );
+        logger.info("Name: " + name);
+        assertTrue(name.equals(project.getName()));
     }
 
     public void testRunSearch() throws Exception {
 
         Project project = new Project();
-        project.setId( Long.valueOf( 284262 ) );
-        project.setName( "Oogedy Booegedy Boo" );
+        project.setId(Long.valueOf(284262));
+        project.setName("Oogedy Booegedy Boo");
 
         final IndexManager indexManager = IndexManager.getInstance();
-        indexManager.addIndexable( project );
+        indexManager.addIndexable(project);
 
         // create a new query to find our project
-        TermQuery queryId = new TermQuery( new Term( "id", project.getId().toString() ) );
-        TermQuery queryClass = new TermQuery( new Term( "class", project.getClass().getName().toLowerCase() ) );
+        TermQuery queryId = new TermQuery(new Term("id", project.getId().toString()));
+        TermQuery queryClass = new TermQuery(new Term("class", project.getClass().getName().toLowerCase()));
 
         final BooleanQuery query = new BooleanQuery();
-        query.add( new BooleanClause( queryId, BooleanClause.Occur.MUST ) );
-        query.add( new BooleanClause( queryClass, BooleanClause.Occur.MUST ) );
+        query.add(new BooleanClause(queryId, BooleanClause.Occur.MUST));
+        query.add(new BooleanClause(queryClass, BooleanClause.Occur.MUST));
 
         final TestSearchResultHandler handler = new TestSearchResultHandler();
 
-        Thread thread = new Thread( new Runnable() {
+        Thread thread = new Thread(new Runnable() {
 
             public void run() {
 
                 try {
-                    indexManager.runSearch( query, handler );
-                } catch( IndexManagerException e ) {
-                    logger.warn( e );
+                    indexManager.runSearch(query, handler);
+                } catch (IndexManagerException e) {
+                    logger.warn(e);
                 }
             }
         });
         thread.start();
 
-        Thread.sleep( 1000 );
+        Thread.sleep(1000);
 
-        indexManager.removeIndexable( project );
+        indexManager.removeIndexable(project);
 
-        logger.info( "SearchResultHanlder received " + handler.getResults() + " results" );
-        assertTrue( handler.getResults() > 0 );
+        logger.info("SearchResultHanlder received " + handler.getResults() + " results");
+        assertTrue(handler.getResults() > 0);
     }
 
     private class TestSearchResultHandler implements SearchResultHandler {
@@ -212,8 +214,8 @@ public class TestIndexManager extends TestCase {
          *
          * @param document The Lucene result Document
          */
-        public void handleSearchResult( Document document ) {
-            logger.info( "Returned document " + document );
+        public void handleSearchResult(Document document) {
+            logger.info("Returned document " + document);
         }
 
         /**
@@ -221,9 +223,9 @@ public class TestIndexManager extends TestCase {
          *
          * @param results
          */
-        public void setNumberOfResults( int results ) {
+        public void setNumberOfResults(int results) {
             this.results = results;
-            logger.info( "Returned " + results + " documents" );
+            logger.info("Returned " + results + " documents");
         }
 
 

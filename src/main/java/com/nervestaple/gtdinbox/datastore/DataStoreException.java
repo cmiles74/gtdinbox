@@ -12,10 +12,10 @@ public class DataStoreException extends GTDInboxException {
      *
      * @param message A String with the text of the exception message
      */
-    public DataStoreException( final String message ) {
+    public DataStoreException(final String message) {
 
         // call the parent constructor
-        super( message );
+        super(message);
     }
 
     /**
@@ -23,10 +23,10 @@ public class DataStoreException extends GTDInboxException {
      *
      * @param exception Root exception
      */
-    public DataStoreException( final Exception exception ) {
+    public DataStoreException(final Exception exception) {
 
         // call the parent constructor
-        super( exception );
+        super(exception);
     }
 
     /**
@@ -35,10 +35,10 @@ public class DataStoreException extends GTDInboxException {
      * @param message   A String with the text of the exception message
      * @param throwable The root exception
      */
-    public DataStoreException( final String message, final Throwable throwable ) {
+    public DataStoreException(final String message, final Throwable throwable) {
 
         // call the parent constructor
-        super( message );
+        super(message);
 
         // save the root exception
         this.throwableRoot = throwable;

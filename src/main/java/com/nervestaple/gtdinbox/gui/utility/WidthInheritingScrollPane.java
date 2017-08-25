@@ -11,10 +11,12 @@ import java.awt.*;
  */
 public class WidthInheritingScrollPane extends JScrollPane {
 
-    /** Component to look to for width information. */
+    /**
+     * Component to look to for width information.
+     */
     private Component componentMatch;
 
-    public WidthInheritingScrollPane( Component componentMatch ) {
+    public WidthInheritingScrollPane(Component componentMatch) {
 
         super();
 
@@ -26,10 +28,10 @@ public class WidthInheritingScrollPane extends JScrollPane {
         Dimension dimensionThis = super.getPreferredSize();
         Dimension dimensionMatch = componentMatch.getPreferredSize();
 
-        int width = ( new Double( dimensionMatch.getWidth() ) ).intValue();
-        int height = ( new Double ( dimensionThis.getHeight() ) ).intValue();
+        int width = (new Double(dimensionMatch.getWidth())).intValue();
+        int height = (new Double(dimensionThis.getHeight())).intValue();
 
-        return( new Dimension( width, height ) );
+        return (new Dimension(width, height));
     }
 
     public Dimension getMaximumSize() {
@@ -37,10 +39,10 @@ public class WidthInheritingScrollPane extends JScrollPane {
         Dimension dimensionThis = super.getPreferredSize();
         Dimension dimensionMatch = componentMatch.getPreferredSize();
 
-        int width = ( new Double( dimensionMatch.getWidth() ) ).intValue();
-        int height = ( new Double( dimensionThis.getHeight() ) ).intValue();
+        int width = (new Double(dimensionMatch.getWidth())).intValue();
+        int height = (new Double(dimensionThis.getHeight())).intValue();
 
-        return ( new Dimension( width, height ) );
+        return (new Dimension(width, height));
     }
 
     public Dimension getMinimumSize() {
@@ -48,9 +50,9 @@ public class WidthInheritingScrollPane extends JScrollPane {
         Dimension dimensionThis = super.getPreferredSize();
         Dimension dimensionMatch = componentMatch.getPreferredSize();
 
-        int width = ( new Double( dimensionMatch.getWidth() ) ).intValue();
-        int height = ( new Double( dimensionThis.getHeight() ) ).intValue();
+        int width = (new Double(dimensionMatch.getWidth())).intValue();
+        int height = (new Double(dimensionThis.getHeight())).intValue();
 
-        return ( new Dimension( width, height ) );
+        return (new Dimension(width, height));
     }
 }

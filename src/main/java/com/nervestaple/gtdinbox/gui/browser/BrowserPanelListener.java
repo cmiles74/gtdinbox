@@ -12,5 +12,5 @@ public interface BrowserPanelListener {
 
     public void selectedDetailItemChanged();
 
-    public void confirmEmptyTrash( String message );
+    public void confirmEmptyTrash(String message);
 }

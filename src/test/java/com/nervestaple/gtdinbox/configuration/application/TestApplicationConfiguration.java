@@ -23,66 +23,66 @@ public class TestApplicationConfiguration extends TestCase {
 
         ApplicationConfiguration configuration = new ApplicationConfiguration();
 
-        assertNotNull( configuration );
+        assertNotNull(configuration);
     }
 
     public void testTestingConfiguration() throws Exception {
 
         ApplicationConfiguration configuration = new ApplicationConfiguration();
 
-        configuration.setTestingConfiguration( true );
+        configuration.setTestingConfiguration(true);
 
-        assertTrue( configuration.isTestingConfiguration() );
+        assertTrue(configuration.isTestingConfiguration());
     }
 
     public void testGetUserHomeDirectory() throws Exception {
 
         ApplicationConfiguration configuration = new ApplicationConfiguration();
 
-        assertNotNull( configuration.getUserHomeDirectory() );
+        assertNotNull(configuration.getUserHomeDirectory());
     }
 
     public void testConfigure() throws Exception {
 
         ApplicationConfiguration configuration = new ApplicationConfiguration();
 
-        configuration.setTestingConfiguration( true );
+        configuration.setTestingConfiguration(true);
 
         configuration.configure();
 
-        assertNotNull( configuration.getConfiguration() );
+        assertNotNull(configuration.getConfiguration());
     }
 
     public void testGetDataStorageLocation() throws Exception {
 
         ApplicationConfiguration configuration = new ApplicationConfiguration();
 
-        configuration.setTestingConfiguration( true );
+        configuration.setTestingConfiguration(true);
 
         configuration.configure();
 
-        assertNotNull( configuration.getDataStorageLocation() );
+        assertNotNull(configuration.getDataStorageLocation());
     }
 
     public void testGetDataBaseStorageLocation() throws Exception {
 
         ApplicationConfiguration configuration = new ApplicationConfiguration();
 
-        configuration.setTestingConfiguration( true );
+        configuration.setTestingConfiguration(true);
 
         configuration.configure();
 
-        assertNotNull( configuration.getDatabaseStorageLocation() );
+        assertNotNull(configuration.getDatabaseStorageLocation());
     }
 
     public void testGetIndexStorageLocation() throws Exception {
 
         ApplicationConfiguration configuration = new ApplicationConfiguration();
 
-        configuration.setTestingConfiguration( true );
+        configuration.setTestingConfiguration(true);
 
         configuration.configure();
 
-        assertNotNull( configuration.getIndexStorageLocation() );
+        assertNotNull(configuration.getIndexStorageLocation());
     }
 }

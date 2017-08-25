@@ -20,43 +20,43 @@ public class TestReferenceItem extends TestCase {
 
         ReferenceItem referenceItem = new SimpleReferenceItem();
 
-        assertNotNull( referenceItem );
+        assertNotNull(referenceItem);
     }
 
     public void testId() {
 
         ReferenceItem referenceItem = new SimpleReferenceItem();
 
-        referenceItem.setId( Long.valueOf( 10 ) );
+        referenceItem.setId(Long.valueOf(10));
 
-        assertEquals( referenceItem.getId(), Long.valueOf( 10 ) );
+        assertEquals(referenceItem.getId(), Long.valueOf(10));
     }
 
     public void testName() {
 
         ReferenceItem referenceItem = new SimpleReferenceItem();
 
-        referenceItem.setName( "Name" );
+        referenceItem.setName("Name");
 
-        assertEquals( referenceItem.getName(), "Name" );
+        assertEquals(referenceItem.getName(), "Name");
     }
 
     public void testDescription() {
 
         ReferenceItem referenceItem = new SimpleReferenceItem();
 
-        referenceItem.setDescription( "Description" );
+        referenceItem.setDescription("Description");
 
-        assertEquals( referenceItem.getDescription(), "Description" );
+        assertEquals(referenceItem.getDescription(), "Description");
     }
 
     public void testDescriptionTextStyle() {
 
         ReferenceItem referenceItem = new SimpleReferenceItem();
 
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
 
-        assertEquals( referenceItem.getDescriptionTextStyleType(), TextStyleType.PLAIN_TEXT );
+        assertEquals(referenceItem.getDescriptionTextStyleType(), TextStyleType.PLAIN_TEXT);
     }
 
     public void testDateCreated() {
@@ -64,9 +64,9 @@ public class TestReferenceItem extends TestCase {
         ReferenceItem referenceItem = new SimpleReferenceItem();
 
         Date now = new Date();
-        referenceItem.setCreatedDate( now );
+        referenceItem.setCreatedDate(now);
 
-        assertEquals( referenceItem.getCreatedDate(), now );
+        assertEquals(referenceItem.getCreatedDate(), now);
     }
 
     public void testDateLastModified() {
@@ -74,18 +74,18 @@ public class TestReferenceItem extends TestCase {
         ReferenceItem referenceItem = new SimpleReferenceItem();
 
         Date now = new Date();
-        referenceItem.setLastModifiedDate( now );
+        referenceItem.setLastModifiedDate(now);
 
-        assertEquals( referenceItem.getLastModifiedDate(), now );
+        assertEquals(referenceItem.getLastModifiedDate(), now);
     }
 
     public void testDeleted() {
 
         ReferenceItem referenceItem = new SimpleReferenceItem();
 
-        referenceItem.setDeleted( Boolean.valueOf( true ) );
+        referenceItem.setDeleted(Boolean.valueOf(true));
 
-        assertTrue( referenceItem.getDeleted().booleanValue() );
+        assertTrue(referenceItem.getDeleted().booleanValue());
     }
 
     public void testAddTag() {
@@ -94,9 +94,9 @@ public class TestReferenceItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.addTag( tag );
+        actionItem.addTag(tag);
 
-        assertTrue( actionItem.getTags().contains( tag ) );
+        assertTrue(actionItem.getTags().contains(tag));
     }
 
     public void testAddTagInverse() {
@@ -105,9 +105,9 @@ public class TestReferenceItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.addTag( tag );
+        actionItem.addTag(tag);
 
-        assertTrue( tag.getActionItems().contains( actionItem ) );
+        assertTrue(tag.getActionItems().contains(actionItem));
     }
 
     public void testRemoveTag() {
@@ -116,10 +116,10 @@ public class TestReferenceItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.addTag( tag );
-        actionItem.removeTag( tag );
+        actionItem.addTag(tag);
+        actionItem.removeTag(tag);
 
-        assertFalse( actionItem.getTags().contains( actionItem ) );
+        assertFalse(actionItem.getTags().contains(actionItem));
     }
 
     public void testRemoveTagInverse() {
@@ -128,10 +128,10 @@ public class TestReferenceItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.addTag( tag );
-        actionItem.removeTag( tag );
+        actionItem.addTag(tag);
+        actionItem.removeTag(tag);
 
-        assertTrue( !tag.getActionItems().contains( tag ) );
+        assertTrue(!tag.getActionItems().contains(tag));
     }
 
     public void testCategory() {
@@ -140,9 +140,9 @@ public class TestReferenceItem extends TestCase {
 
         ReferenceItem referenceItem = new SimpleReferenceItem();
 
-        referenceItem.setCategory( Category );
+        referenceItem.setCategory(Category);
 
-        assertEquals( referenceItem.getCategory(), Category );
+        assertEquals(referenceItem.getCategory(), Category);
     }
 
     /*public void testCategoryInverse() {
@@ -163,24 +163,24 @@ public class TestReferenceItem extends TestCase {
         Category category = new Category();
         Date now = new Date();
 
-        referenceItem.setCategory( category );
-        referenceItem.setCreatedDate( now );
-        referenceItem.setDescription( "Description" );
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        referenceItem.setId( Long.valueOf( 10 ) );
-        referenceItem.setLastModifiedDate( now );
-        referenceItem.setName( "Name" );
+        referenceItem.setCategory(category);
+        referenceItem.setCreatedDate(now);
+        referenceItem.setDescription("Description");
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        referenceItem.setId(Long.valueOf(10));
+        referenceItem.setLastModifiedDate(now);
+        referenceItem.setName("Name");
 
         ReferenceItem referenceItem2 = new SimpleReferenceItem();
-        referenceItem2.setCategory( category );
-        referenceItem2.setCreatedDate( now );
-        referenceItem2.setDescription( "Description" );
-        referenceItem2.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        referenceItem2.setId( Long.valueOf( 10 ) );
-        referenceItem2.setLastModifiedDate( now );
-        referenceItem2.setName( "Name" );
+        referenceItem2.setCategory(category);
+        referenceItem2.setCreatedDate(now);
+        referenceItem2.setDescription("Description");
+        referenceItem2.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        referenceItem2.setId(Long.valueOf(10));
+        referenceItem2.setLastModifiedDate(now);
+        referenceItem2.setName("Name");
 
-        assertEquals( referenceItem, referenceItem2 );
+        assertEquals(referenceItem, referenceItem2);
     }
 
     public void testNotEquals() {
@@ -191,24 +191,24 @@ public class TestReferenceItem extends TestCase {
         Date now = new Date();
         Date then = new Date();
 
-        referenceItem.setCategory( category );
-        referenceItem.setCreatedDate( now );
-        referenceItem.setDescription( "Description" );
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        referenceItem.setId( Long.valueOf( 10 ) );
-        referenceItem.setLastModifiedDate( now );
-        referenceItem.setName( "Name" );
+        referenceItem.setCategory(category);
+        referenceItem.setCreatedDate(now);
+        referenceItem.setDescription("Description");
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        referenceItem.setId(Long.valueOf(10));
+        referenceItem.setLastModifiedDate(now);
+        referenceItem.setName("Name");
 
         ReferenceItem referenceItem2 = new SimpleReferenceItem();
-        referenceItem2.setCategory( category );
-        referenceItem2.setCreatedDate( now );
-        referenceItem2.setDescription( "La La LA" );
-        referenceItem2.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        referenceItem2.setId( Long.valueOf( 15 ) );
-        referenceItem2.setLastModifiedDate( then );
-        referenceItem2.setName( "Yeeha!" );
+        referenceItem2.setCategory(category);
+        referenceItem2.setCreatedDate(now);
+        referenceItem2.setDescription("La La LA");
+        referenceItem2.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        referenceItem2.setId(Long.valueOf(15));
+        referenceItem2.setLastModifiedDate(then);
+        referenceItem2.setName("Yeeha!");
 
-        assertFalse( referenceItem.equals( referenceItem2 ) );
+        assertFalse(referenceItem.equals(referenceItem2));
     }
 
     public void testToString() {
@@ -218,24 +218,24 @@ public class TestReferenceItem extends TestCase {
         Category category = new Category();
         Date now = new Date();
 
-        referenceItem.setCategory( category );
-        referenceItem.setCreatedDate( now );
-        referenceItem.setDescription( "Description" );
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        referenceItem.setId( Long.valueOf( 10 ) );
-        referenceItem.setLastModifiedDate( now );
-        referenceItem.setName( "Name" );
+        referenceItem.setCategory(category);
+        referenceItem.setCreatedDate(now);
+        referenceItem.setDescription("Description");
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        referenceItem.setId(Long.valueOf(10));
+        referenceItem.setLastModifiedDate(now);
+        referenceItem.setName("Name");
 
         ReferenceItem referenceItem2 = new SimpleReferenceItem();
-        referenceItem2.setCategory( category );
-        referenceItem2.setCreatedDate( now );
-        referenceItem2.setDescription( "Description" );
-        referenceItem2.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        referenceItem2.setId( Long.valueOf( 10 ) );
-        referenceItem2.setLastModifiedDate( now );
-        referenceItem2.setName( "Name" );
+        referenceItem2.setCategory(category);
+        referenceItem2.setCreatedDate(now);
+        referenceItem2.setDescription("Description");
+        referenceItem2.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        referenceItem2.setId(Long.valueOf(10));
+        referenceItem2.setLastModifiedDate(now);
+        referenceItem2.setName("Name");
 
-        assertEquals( referenceItem.toString(), referenceItem2.toString() );
+        assertEquals(referenceItem.toString(), referenceItem2.toString());
     }
 
     public void testHashCode() {
@@ -245,23 +245,23 @@ public class TestReferenceItem extends TestCase {
         Category category = new Category();
         Date now = new Date();
 
-        referenceItem.setCategory( category );
-        referenceItem.setCreatedDate( now );
-        referenceItem.setDescription( "Description" );
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        referenceItem.setId( Long.valueOf( 10 ) );
-        referenceItem.setLastModifiedDate( now );
-        referenceItem.setName( "Name" );
+        referenceItem.setCategory(category);
+        referenceItem.setCreatedDate(now);
+        referenceItem.setDescription("Description");
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        referenceItem.setId(Long.valueOf(10));
+        referenceItem.setLastModifiedDate(now);
+        referenceItem.setName("Name");
 
         ReferenceItem referenceItem2 = new SimpleReferenceItem();
-        referenceItem2.setCategory( category );
-        referenceItem2.setCreatedDate( now );
-        referenceItem2.setDescription( "Description" );
-        referenceItem2.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        referenceItem2.setId( Long.valueOf( 10 ) );
-        referenceItem2.setLastModifiedDate( now );
-        referenceItem2.setName( "Name" );
+        referenceItem2.setCategory(category);
+        referenceItem2.setCreatedDate(now);
+        referenceItem2.setDescription("Description");
+        referenceItem2.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        referenceItem2.setId(Long.valueOf(10));
+        referenceItem2.setLastModifiedDate(now);
+        referenceItem2.setName("Name");
 
-        assertEquals( referenceItem.hashCode(), referenceItem2.hashCode() );
+        assertEquals(referenceItem.hashCode(), referenceItem2.hashCode());
     }
 }

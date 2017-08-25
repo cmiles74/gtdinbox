@@ -8,7 +8,9 @@ import java.io.PrintWriter;
  */
 public class GTDInboxException extends Exception {
 
-    /** The root exception. */
+    /**
+     * The root exception.
+     */
     protected Throwable throwableRoot;
 
     /**
@@ -16,10 +18,10 @@ public class GTDInboxException extends Exception {
      *
      * @param message A String with the text of the exception message
      */
-    public GTDInboxException( final String message ) {
+    public GTDInboxException(final String message) {
 
         // call the parent constructor
-        super( message );
+        super(message);
     }
 
     /**
@@ -27,10 +29,10 @@ public class GTDInboxException extends Exception {
      *
      * @param exception Root exception
      */
-    public GTDInboxException( final Exception exception ) {
+    public GTDInboxException(final Exception exception) {
 
         // call the parent constructor
-        super( exception );
+        super(exception);
     }
 
     /**
@@ -39,10 +41,10 @@ public class GTDInboxException extends Exception {
      * @param message   A String with the text of the exception message
      * @param throwable The root exception
      */
-    public GTDInboxException( final String message, final Throwable throwable ) {
+    public GTDInboxException(final String message, final Throwable throwable) {
 
         // call the parent constructor
-        super( message );
+        super(message);
 
         // save the root exception
         this.throwableRoot = throwable;
@@ -55,14 +57,14 @@ public class GTDInboxException extends Exception {
      */
     public final String getMessage() {
 
-        if( throwableRoot != null ) {
+        if (throwableRoot != null) {
 
             // return our message and the root exception's message
-            return ( super.getMessage() + ": " + throwableRoot.getMessage() );
+            return (super.getMessage() + ": " + throwableRoot.getMessage());
         } else {
 
             // return our message
-            return ( super.getMessage() );
+            return (super.getMessage());
         }
     }
 
@@ -74,10 +76,10 @@ public class GTDInboxException extends Exception {
         // print the parent's stack trace
         super.printStackTrace();
 
-        if( throwableRoot != null ) {
+        if (throwableRoot != null) {
 
             // print the root exception's stack trace
-            System.err.print( "Root exception: " );
+            System.err.print("Root exception: ");
             throwableRoot.printStackTrace();
         }
     }
@@ -87,16 +89,16 @@ public class GTDInboxException extends Exception {
      *
      * @param printstream The PrintStream to handle the stack trace output
      */
-    public final void printStackTrace( final PrintStream printstream ) {
+    public final void printStackTrace(final PrintStream printstream) {
 
         // print the parent's stack trace
-        super.printStackTrace( printstream );
+        super.printStackTrace(printstream);
 
-        if( throwableRoot != null ) {
+        if (throwableRoot != null) {
 
             // print the root exception's stack trace
-            printstream.print( "Root exception: " );
-            throwableRoot.printStackTrace( printstream );
+            printstream.print("Root exception: ");
+            throwableRoot.printStackTrace(printstream);
         }
     }
 
@@ -105,16 +107,16 @@ public class GTDInboxException extends Exception {
      *
      * @param printwriter The PrintWriter to handle the stack trace output
      */
-    public final void printStackTrace( final PrintWriter printwriter ) {
+    public final void printStackTrace(final PrintWriter printwriter) {
 
         // print the parent's stack trace
-        super.printStackTrace( printwriter );
+        super.printStackTrace(printwriter);
 
-        if( throwableRoot != null ) {
+        if (throwableRoot != null) {
 
             // print the root exception's stack trace
-            printwriter.print( "Root exception: " );
-            throwableRoot.printStackTrace( printwriter );
+            printwriter.print("Root exception: ");
+            throwableRoot.printStackTrace(printwriter);
         }
     }
 }

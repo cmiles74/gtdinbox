@@ -15,5 +15,5 @@ public interface GTDInboxExceptionHandler {
      *
      * @param exception Exception that occurred
      */
-    public void handleException( GTDInboxException exception );
+    public void handleException(GTDInboxException exception);
 }

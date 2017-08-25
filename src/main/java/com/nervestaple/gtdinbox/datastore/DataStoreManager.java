@@ -49,7 +49,7 @@ public class DataStoreManager {
 
     private DataStoreManager() {
 
-        projectQueryBuilder =  new QueryBuilder<>(Project.class);
+        projectQueryBuilder = new QueryBuilder<>(Project.class);
         actionItemQueryBuilder = new QueryBuilder<>(ActionItem.class);
         inboxContextQueryBuilder = new QueryBuilder<>(InboxContext.class);
         categoryQueryBuilder = new QueryBuilder<>(Category.class);

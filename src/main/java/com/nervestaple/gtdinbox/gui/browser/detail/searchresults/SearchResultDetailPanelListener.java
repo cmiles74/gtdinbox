@@ -14,13 +14,13 @@ import com.nervestaple.gtdinbox.model.reference.category.Category;
  */
 public interface SearchResultDetailPanelListener {
 
-    public void projectDoubleClicked( Project project );
+    public void projectDoubleClicked(Project project);
 
-    public void actionItemDoubleClicked( ActionItem actionItem );
+    public void actionItemDoubleClicked(ActionItem actionItem);
 
-    public void inboxContextDoubleClicked( InboxContext inboxContext );
+    public void inboxContextDoubleClicked(InboxContext inboxContext);
 
-    public void categoryDoubleClicked( Category category );
+    public void categoryDoubleClicked(Category category);
 
-    public void referenceItemDoubleClicked( ReferenceItem referenceItem );
+    public void referenceItemDoubleClicked(ReferenceItem referenceItem);
 }

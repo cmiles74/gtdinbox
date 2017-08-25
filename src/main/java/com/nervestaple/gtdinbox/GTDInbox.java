@@ -9,19 +9,21 @@ import org.apache.log4j.Logger;
  */
 public class GTDInbox {
 
-    /** Logger instance. */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    /**
+     * Logger instance.
+     */
+    private Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * Bootstraps the application.
      *
      * @param args Command line arguments
      */
-    public static void main( final String[] args ) {
+    public static void main(final String[] args) {
 
         try {
             new GTDInbox();
-        } catch( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

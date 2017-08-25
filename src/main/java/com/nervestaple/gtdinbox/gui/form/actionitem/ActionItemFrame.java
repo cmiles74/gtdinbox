@@ -47,10 +47,10 @@ public class ActionItemFrame extends JFrame {
 
         super();
 
-        ICON_APPLICATION_SMALL = new ImageIcon( getClass().getResource(
-                "/com/nervestaple/gtdinbox/gui/browser/images/action-16.png" ) );
+        ICON_APPLICATION_SMALL = new ImageIcon(getClass().getResource(
+                "/com/nervestaple/gtdinbox/gui/browser/images/action-16.png"));
 
-        setIconImage( ICON_APPLICATION_SMALL.getImage() );
+        setIconImage(ICON_APPLICATION_SMALL.getImage());
 
         panel = new ActionItemPanel();
 
@@ -58,7 +58,7 @@ public class ActionItemFrame extends JFrame {
 
         setupListeners();
 
-        setResizable( false );
+        setResizable(false);
     }
 
     /**
@@ -66,15 +66,15 @@ public class ActionItemFrame extends JFrame {
      *
      * @param args Command line arguments
      */
-    public static void main( final String[] args ) {
+    public static void main(final String[] args) {
 
         UtilitiesGui.configureSwingUI();
 
         ActionItemFrame frame = new ActionItemFrame();
 
-        GuiSwing.centerWindow( frame );
+        GuiSwing.centerWindow(frame);
 
-        frame.setVisible( true );
+        frame.setVisible(true);
     }
 
     /**
@@ -82,10 +82,10 @@ public class ActionItemFrame extends JFrame {
      *
      * @param project Project to be the parnent of the ActionItem
      */
-    public void addNewActionItem( Project project ) {
+    public void addNewActionItem(Project project) {
 
-        setTitle( "Add a New Action Item" );
-        panel.addNewActionItem( project );
+        setTitle("Add a New Action Item");
+        panel.addNewActionItem(project);
     }
 
     /**
@@ -93,15 +93,15 @@ public class ActionItemFrame extends JFrame {
      *
      * @param actionItem ActionItem to be updated
      */
-    public void updateActionItem( ActionItem actionItem ) {
+    public void updateActionItem(ActionItem actionItem) {
 
-        setTitle( "Edit an Action Item" );
+        setTitle("Edit an Action Item");
 
         try {
-            panel.updateActionItem( actionItem );
-        } catch( GTDInboxException e ) {
+            panel.updateActionItem(actionItem);
+        } catch (GTDInboxException e) {
 
-            handleErrorOccurred( e );
+            handleErrorOccurred(e);
         }
     }
 
@@ -110,11 +110,11 @@ public class ActionItemFrame extends JFrame {
      *
      * @param listener Listener to handle the events
      */
-    public void addActionItemFormListener( ActionItemFormListener listener ) {
+    public void addActionItemFormListener(ActionItemFormListener listener) {
 
-        if( !listeners.contains( listener ) ) {
+        if (!listeners.contains(listener)) {
 
-            listeners.add( listener );
+            listeners.add(listener);
         }
     }
 
@@ -123,21 +123,21 @@ public class ActionItemFrame extends JFrame {
      *
      * @param listener The listener to remove.
      */
-    public void removeActionItemListener( ActionItemFormListener listener ) {
+    public void removeActionItemListener(ActionItemFormListener listener) {
 
-        listeners.remove( listener );
+        listeners.remove(listener);
     }
 
     // accessor methods
 
-    public void setListContexts( EventList listContexts ) {
+    public void setListContexts(EventList listContexts) {
 
-        panel.setListContexts( listContexts );
+        panel.setListContexts(listContexts);
     }
 
-    public void setListProjects( EventList listProjects ) {
+    public void setListProjects(EventList listProjects) {
 
-        panel.setListProjects( listProjects );
+        panel.setListProjects(listProjects);
     }
 
     public ActionItemPanel getPanel() {
@@ -146,73 +146,73 @@ public class ActionItemFrame extends JFrame {
 
     // private methods
 
-    private void fireActionItemAdded( final ActionItem actionItem ) {
+    private void fireActionItemAdded(final ActionItem actionItem) {
 
         ActionItemFormListener[] listenersArray =
-                ( ActionItemFormListener[] ) listeners.toArray( new ActionItemFormListener[listeners.size()] );
+                (ActionItemFormListener[]) listeners.toArray(new ActionItemFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].actionItemAdded( actionItem );
+            listenersArray[index].actionItemAdded(actionItem);
         }
 
-        if( isVisible() ) {
+        if (isVisible()) {
 
-            setVisible( false );
+            setVisible(false);
         }
     }
 
-    private void fireActionItemUpdated( final ActionItem actionItem ) {
+    private void fireActionItemUpdated(final ActionItem actionItem) {
 
         ActionItemFormListener[] listenersArray =
-                ( ActionItemFormListener[] ) listeners.toArray( new ActionItemFormListener[listeners.size()] );
+                (ActionItemFormListener[]) listeners.toArray(new ActionItemFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].actionItemUpdated( actionItem );
+            listenersArray[index].actionItemUpdated(actionItem);
         }
 
-        if( isVisible() ) {
+        if (isVisible()) {
 
-            setVisible( false );
+            setVisible(false);
         }
     }
 
-    private void fireErrorOccurred( final GTDInboxException exception ) {
+    private void fireErrorOccurred(final GTDInboxException exception) {
 
         ActionItemFormListener[] listenersArray =
-                ( ActionItemFormListener[] ) listeners.toArray( new ActionItemFormListener[listeners.size()] );
+                (ActionItemFormListener[]) listeners.toArray(new ActionItemFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].exceptionOccurred( exception );
+            listenersArray[index].exceptionOccurred(exception);
         }
     }
 
-    private void handleErrorOccurred( GTDInboxException exception ) {
+    private void handleErrorOccurred(GTDInboxException exception) {
 
         JOptionPane pane = new JOptionPane(
-                "<html>" + System.getProperty( "OptionPane.css" ) +
+                "<html>" + System.getProperty("OptionPane.css") +
                         "<b>There was a problem that I wasn't expecting.</b><p>" +
                         exception.getMessage(),
                 JOptionPane.WARNING_MESSAGE
         );
-        Object[] options = { "Okay" };
-        pane.setOptions( options );
-        pane.setInitialValue( options[ 0 ] );
+        Object[] options = {"Okay"};
+        pane.setOptions(options);
+        pane.setInitialValue(options[0]);
         pane.putClientProperty(
-                "Quaqua.OptionPane.destructiveOption", new Integer( 0 )
+                "Quaqua.OptionPane.destructiveOption", new Integer(0)
         );
-        JSheet.showSheet( pane, this, new SheetListener() {
-            public void optionSelected( SheetEvent evt ) {
+        JSheet.showSheet(pane, this, new SheetListener() {
+            public void optionSelected(SheetEvent evt) {
                 evt.getValue();
             }
-        } );
+        });
     }
 
     private void setupListeners() {
 
-        panel.addActionItemFormListener( new ActionItemFormListener() {
+        panel.addActionItemFormListener(new ActionItemFormListener() {
 
 
             /**
@@ -220,9 +220,9 @@ public class ActionItemFrame extends JFrame {
              *
              * @param actionItem ActionItem that was added
              */
-            public void actionItemAdded( ActionItem actionItem ) {
+            public void actionItemAdded(ActionItem actionItem) {
 
-                fireActionItemAdded( actionItem );
+                fireActionItemAdded(actionItem);
             }
 
             /**
@@ -230,9 +230,9 @@ public class ActionItemFrame extends JFrame {
              *
              * @param actionItem ActionItem that was updated
              */
-            public void actionItemUpdated( ActionItem actionItem ) {
+            public void actionItemUpdated(ActionItem actionItem) {
 
-                fireActionItemUpdated( actionItem );
+                fireActionItemUpdated(actionItem);
             }
 
             /**
@@ -240,19 +240,19 @@ public class ActionItemFrame extends JFrame {
              *
              * @param exception The exception that occurred
              */
-            public void exceptionOccurred( GTDInboxException exception ) {
+            public void exceptionOccurred(GTDInboxException exception) {
 
-                fireErrorOccurred( exception );
+                fireErrorOccurred(exception);
             }
-        } );
+        });
 
-        panel.setActionListenerCancel( new ActionListener() {
+        panel.setActionListenerCancel(new ActionListener() {
 
-            public void actionPerformed( ActionEvent actionEvent ) {
+            public void actionPerformed(ActionEvent actionEvent) {
 
-                setVisible( false );
+                setVisible(false);
             }
-        } );
+        });
     }
 
     /**
@@ -260,8 +260,8 @@ public class ActionItemFrame extends JFrame {
      */
     private void initializeFrame() {
 
-        getContentPane().setLayout( new GridLayout( 1, 1 ) );
-        getContentPane().add( panel );
+        getContentPane().setLayout(new GridLayout(1, 1));
+        getContentPane().add(panel);
 
         pack();
 

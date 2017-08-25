@@ -28,7 +28,7 @@ public class ApplicationMenuBar extends JScreenMenuBar {
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * About frame.
@@ -88,132 +88,132 @@ public class ApplicationMenuBar extends JScreenMenuBar {
     /**
      * Creates a new ApplicationMenuBar instance.
      */
-    public ApplicationMenuBar( final ActionListener actionListener ) {
+    public ApplicationMenuBar(final ActionListener actionListener) {
 
         // File menu
-        menuFile = new JScreenMenu( "File" );
-        add( menuFile );
+        menuFile = new JScreenMenu("File");
+        add(menuFile);
 
         // About menu item
-        if( !AboutJMenuItem.isAutomaticallyPresent() ) {
+        if (!AboutJMenuItem.isAutomaticallyPresent()) {
 
-            JScreenMenuItem menuItemAbout = new JScreenMenuItem( "About GTD Inbox" );
-            menuItemAbout.addActionListener( actionListener );
-            menuFile.add( menuItemAbout );
+            JScreenMenuItem menuItemAbout = new JScreenMenuItem("About GTD Inbox");
+            menuItemAbout.addActionListener(actionListener);
+            menuFile.add(menuItemAbout);
         } else {
 
-            MRJAdapter.addAboutListener( new ActionListener() {
-                public void actionPerformed( ActionEvent actionEvent ) {
+            MRJAdapter.addAboutListener(new ActionListener() {
+                public void actionPerformed(ActionEvent actionEvent) {
 
-                    ActionEvent actionEventThis = new ActionEvent( actionEvent.getSource(), 0, "About GTD Inbox" );
-                    actionListener.actionPerformed( actionEventThis );
+                    ActionEvent actionEventThis = new ActionEvent(actionEvent.getSource(), 0, "About GTD Inbox");
+                    actionListener.actionPerformed(actionEventThis);
                 }
-            } );
+            });
         }
 
         // Preferences menu item
-        if( !PreferencesJMenuItem.isAutomaticallyPresent() ) {
+        if (!PreferencesJMenuItem.isAutomaticallyPresent()) {
 
-            JScreenMenuItem menuItemPreferences = new JScreenMenuItem( "Preferences..." );
-            menuItemPreferences.addActionListener( actionListener );
-            menuFile.add( menuItemPreferences );
+            JScreenMenuItem menuItemPreferences = new JScreenMenuItem("Preferences...");
+            menuItemPreferences.addActionListener(actionListener);
+            menuFile.add(menuItemPreferences);
         } else {
 
-            MRJAdapter.addPreferencesListener( new ActionListener() {
-                public void actionPerformed( ActionEvent actionEvent ) {
+            MRJAdapter.addPreferencesListener(new ActionListener() {
+                public void actionPerformed(ActionEvent actionEvent) {
 
-                    ActionEvent actionEventThis = new ActionEvent( actionEvent.getSource(), 0, "Preferences..." );
-                    actionListener.actionPerformed( actionEventThis );
+                    ActionEvent actionEventThis = new ActionEvent(actionEvent.getSource(), 0, "Preferences...");
+                    actionListener.actionPerformed(actionEventThis);
                 }
-            } );
+            });
         }
 
         // Print menu item
-        menuPrintDetail = new JScreenMenuItem( "Print..." );
-        menuPrintDetail.setAccelerator( KeyStroke.getKeyStroke( 'P', InputEvent.META_MASK ) );
-        menuPrintDetail.addActionListener( actionListener );
-        menuFile.add( menuPrintDetail );
+        menuPrintDetail = new JScreenMenuItem("Print...");
+        menuPrintDetail.setAccelerator(KeyStroke.getKeyStroke('P', InputEvent.META_MASK));
+        menuPrintDetail.addActionListener(actionListener);
+        menuFile.add(menuPrintDetail);
 
-        if( isMacintosh ) {
-            menuPrintDetail.setAccelerator( KeyStroke.getKeyStroke( 'P', InputEvent.META_MASK ) );
+        if (isMacintosh) {
+            menuPrintDetail.setAccelerator(KeyStroke.getKeyStroke('P', InputEvent.META_MASK));
         } else {
-            menuPrintDetail.setAccelerator( KeyStroke.getKeyStroke( 'P', InputEvent.CTRL_MASK ) );
+            menuPrintDetail.setAccelerator(KeyStroke.getKeyStroke('P', InputEvent.CTRL_MASK));
         }
 
         //  Quit menu item
-        if( !QuitJMenuItem.isAutomaticallyPresent() ) {
+        if (!QuitJMenuItem.isAutomaticallyPresent()) {
 
-            JScreenMenuItem menuItemQuit = new JScreenMenuItem( "Quit GTD Inbox" );
-            menuItemQuit.addActionListener( actionListener );
+            JScreenMenuItem menuItemQuit = new JScreenMenuItem("Quit GTD Inbox");
+            menuItemQuit.addActionListener(actionListener);
 
             // the shortcut isn't present on platforms other than Macintosh
-            menuPrintDetail.setAccelerator( KeyStroke.getKeyStroke( 'Q', InputEvent.CTRL_MASK ) );
+            menuPrintDetail.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_MASK));
 
-            menuFile.add( menuItemQuit );
+            menuFile.add(menuItemQuit);
         } else {
 
-            MRJAdapter.addQuitApplicationListener( new ActionListener() {
-                public void actionPerformed( final ActionEvent event ) {
+            MRJAdapter.addQuitApplicationListener(new ActionListener() {
+                public void actionPerformed(final ActionEvent event) {
 
                     actionListener.actionPerformed(
-                            new ActionEvent( this, event.getID(), "Quit GTD Inbox" ) );
+                            new ActionEvent(this, event.getID(), "Quit GTD Inbox"));
                 }
-            } );
+            });
         }
 
         // Edit menu
-        menuEdit = new JScreenMenu( "Edit" );
-        add( menuEdit );
+        menuEdit = new JScreenMenu("Edit");
+        add(menuEdit);
 
         // Cut menu item
-        menuItemCut = new JScreenMenuItem( "Cut" );
-        menuItemCut.addActionListener( actionListener );
-        menuEdit.add( menuItemCut );
+        menuItemCut = new JScreenMenuItem("Cut");
+        menuItemCut.addActionListener(actionListener);
+        menuEdit.add(menuItemCut);
 
-        if( isMacintosh ) {
-            menuItemCut.setAccelerator( KeyStroke.getKeyStroke( 'X', InputEvent.META_MASK ) );
+        if (isMacintosh) {
+            menuItemCut.setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.META_MASK));
         } else {
-            menuItemCut.setAccelerator( KeyStroke.getKeyStroke( 'X', InputEvent.CTRL_MASK ) );
+            menuItemCut.setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.CTRL_MASK));
         }
 
         // Copy menu item
-        menuItemCopy = new JScreenMenuItem( "Copy" );
-        menuItemCopy.addActionListener( actionListener );
-        menuEdit.add( menuItemCopy );
+        menuItemCopy = new JScreenMenuItem("Copy");
+        menuItemCopy.addActionListener(actionListener);
+        menuEdit.add(menuItemCopy);
 
-        if( isMacintosh ) {
-            menuItemCopy.setAccelerator( KeyStroke.getKeyStroke( 'C', InputEvent.META_MASK ) );
+        if (isMacintosh) {
+            menuItemCopy.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.META_MASK));
         } else {
-            menuItemCopy.setAccelerator( KeyStroke.getKeyStroke( 'C', InputEvent.CTRL_MASK ) );
+            menuItemCopy.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_MASK));
         }
 
         // Paste menu item
-        menuItemPaste = new JScreenMenuItem( "Paste" );
-        menuItemPaste.addActionListener( actionListener );
-        menuEdit.add( menuItemPaste );
+        menuItemPaste = new JScreenMenuItem("Paste");
+        menuItemPaste.addActionListener(actionListener);
+        menuEdit.add(menuItemPaste);
 
-        if( isMacintosh ) {
-            menuItemPaste.setAccelerator( KeyStroke.getKeyStroke( 'V', InputEvent.META_MASK ) );
+        if (isMacintosh) {
+            menuItemPaste.setAccelerator(KeyStroke.getKeyStroke('V', InputEvent.META_MASK));
         } else {
-            menuItemPaste.setAccelerator( KeyStroke.getKeyStroke( 'V', InputEvent.CTRL_MASK ) );
+            menuItemPaste.setAccelerator(KeyStroke.getKeyStroke('V', InputEvent.CTRL_MASK));
         }
 
         // Organize menu
-        menuOrganize = new JScreenMenu( "Organize" );
-        menuOrganize.addUserFrame( BrowserFrame.class );
-        add( menuOrganize );
+        menuOrganize = new JScreenMenu("Organize");
+        menuOrganize.addUserFrame(BrowserFrame.class);
+        add(menuOrganize);
 
         // New project item
-        menuItemAddProject = new JScreenMenuItem( "Add a Project..." );
-        menuItemAddProject.addActionListener( actionListener );
-        menuItemAddProject.addUserFrame( BrowserFrame.class );
-        menuOrganize.add( menuItemAddProject );
+        menuItemAddProject = new JScreenMenuItem("Add a Project...");
+        menuItemAddProject.addActionListener(actionListener);
+        menuItemAddProject.addUserFrame(BrowserFrame.class);
+        menuOrganize.add(menuItemAddProject);
 
         // New context item
-        menuItemAddContext = new JScreenMenuItem( "Add a Context..." );
-        menuItemAddContext.addActionListener( actionListener );
-        menuItemAddContext.addUserFrame( BrowserFrame.class );
-        menuOrganize.add( menuItemAddContext );
+        menuItemAddContext = new JScreenMenuItem("Add a Context...");
+        menuItemAddContext.addActionListener(actionListener);
+        menuItemAddContext.addUserFrame(BrowserFrame.class);
+        menuOrganize.add(menuItemAddContext);
 
         // New project item
         /*menuItemAddCategory = new JScreenMenuItem( "Add a Category..." );
@@ -224,16 +224,16 @@ public class ApplicationMenuBar extends JScreenMenuBar {
         menuOrganize.addSeparator();
 
         // Edit category item
-        menuItemEditProject = new JScreenMenuItem( "Edit Project..." );
-        menuItemEditProject.addActionListener( actionListener );
-        menuItemEditProject.addUserFrame( BrowserFrame.class );
-        menuOrganize.add( menuItemEditProject );
+        menuItemEditProject = new JScreenMenuItem("Edit Project...");
+        menuItemEditProject.addActionListener(actionListener);
+        menuItemEditProject.addUserFrame(BrowserFrame.class);
+        menuOrganize.add(menuItemEditProject);
 
         // Edit context item
-        menuItemEditContext = new JScreenMenuItem( "Edit Context..." );
-        menuItemEditContext.addActionListener( actionListener );
-        menuItemEditContext.addUserFrame( BrowserFrame.class );
-        menuOrganize.add( menuItemEditContext );
+        menuItemEditContext = new JScreenMenuItem("Edit Context...");
+        menuItemEditContext.addActionListener(actionListener);
+        menuItemEditContext.addUserFrame(BrowserFrame.class);
+        menuOrganize.add(menuItemEditContext);
 
         // Edit category item
         /*menuItemEditCategory = new JScreenMenuItem( "Edit Category..." );
@@ -244,16 +244,16 @@ public class ApplicationMenuBar extends JScreenMenuBar {
         menuOrganize.addSeparator();
 
         // Remove category item
-        menuItemRemoveProject = new JScreenMenuItem( "Remove Project..." );
-        menuItemRemoveProject.addActionListener( actionListener );
-        menuItemRemoveProject.addUserFrame( BrowserFrame.class );
-        menuOrganize.add( menuItemRemoveProject );
+        menuItemRemoveProject = new JScreenMenuItem("Remove Project...");
+        menuItemRemoveProject.addActionListener(actionListener);
+        menuItemRemoveProject.addUserFrame(BrowserFrame.class);
+        menuOrganize.add(menuItemRemoveProject);
 
         // Remove context item
-        menuItemRemoveContext = new JScreenMenuItem( "Remove Context..." );
-        menuItemRemoveContext.addActionListener( actionListener );
-        menuItemRemoveContext.addUserFrame( BrowserFrame.class );
-        menuOrganize.add( menuItemRemoveContext );
+        menuItemRemoveContext = new JScreenMenuItem("Remove Context...");
+        menuItemRemoveContext.addActionListener(actionListener);
+        menuItemRemoveContext.addUserFrame(BrowserFrame.class);
+        menuOrganize.add(menuItemRemoveContext);
 
         // Remove category item
         /*menuItemRemoveCategory = new JScreenMenuItem( "Remove Category..." );
@@ -262,15 +262,15 @@ public class ApplicationMenuBar extends JScreenMenuBar {
         menuOrganize.add( menuItemRemoveCategory );*/
 
         // Process menu
-        menuProcess = new JScreenMenu( "Process" );
-        menuProcess.addUserFrame( BrowserFrame.class );
-        add( menuProcess );
+        menuProcess = new JScreenMenu("Process");
+        menuProcess.addUserFrame(BrowserFrame.class);
+        add(menuProcess);
 
         // Add action
-        menuItemAddActionItem = new JScreenMenuItem( "Add an Action Item..." );
-        menuItemAddActionItem.addActionListener( actionListener );
-        menuItemAddActionItem.addUserFrame( BrowserFrame.class );
-        menuProcess.add( menuItemAddActionItem );
+        menuItemAddActionItem = new JScreenMenuItem("Add an Action Item...");
+        menuItemAddActionItem.addActionListener(actionListener);
+        menuItemAddActionItem.addUserFrame(BrowserFrame.class);
+        menuProcess.add(menuItemAddActionItem);
 
         // Add reference Item
         /*menuItemAddReferenceItem = new JScreenMenuItem( "Add an Reference Item..." );
@@ -281,10 +281,10 @@ public class ApplicationMenuBar extends JScreenMenuBar {
         //menuProcess.addSeparator();
 
         // Edit action
-        menuItemEditActionItem = new JScreenMenuItem( "Edit Action Item..." );
-        menuItemEditActionItem.addActionListener( actionListener );
-        menuItemEditActionItem.addUserFrame( BrowserFrame.class );
-        menuProcess.add( menuItemEditActionItem );
+        menuItemEditActionItem = new JScreenMenuItem("Edit Action Item...");
+        menuItemEditActionItem.addActionListener(actionListener);
+        menuItemEditActionItem.addUserFrame(BrowserFrame.class);
+        menuProcess.add(menuItemEditActionItem);
 
         // Edit reference Item
         /*menuItemEditReferenceItem = new JScreenMenuItem( "Edit Reference Item..." );
@@ -295,10 +295,10 @@ public class ApplicationMenuBar extends JScreenMenuBar {
         //menuProcess.addSeparator();
 
         // Remove action
-        menuItemRemoveActionItem = new JScreenMenuItem( "Remove Action Item..." );
-        menuItemRemoveActionItem.addActionListener( actionListener );
-        menuItemRemoveActionItem.addUserFrame( BrowserFrame.class );
-        menuProcess.add( menuItemRemoveActionItem );
+        menuItemRemoveActionItem = new JScreenMenuItem("Remove Action Item...");
+        menuItemRemoveActionItem.addActionListener(actionListener);
+        menuItemRemoveActionItem.addUserFrame(BrowserFrame.class);
+        menuProcess.add(menuItemRemoveActionItem);
 
         // Remove reference Item
         /*menuItemRemoveReferenceItem = new JScreenMenuItem( "Remove Reference Item..." );
@@ -307,23 +307,23 @@ public class ApplicationMenuBar extends JScreenMenuBar {
         menuProcess.add( menuItemRemoveReferenceItem );*/
 
         // Help menu
-        menuHelp = new JScreenMenu( "Help" );
-        add( menuHelp );
+        menuHelp = new JScreenMenu("Help");
+        add(menuHelp);
 
         // New project item
-        menuItemMarkdownCheatSheetItem = new JScreenMenuItem( "Markdown Cheat Sheet..." );
-        menuItemMarkdownCheatSheetItem.addActionListener( actionListener );
-        menuHelp.add( menuItemMarkdownCheatSheetItem );
+        menuItemMarkdownCheatSheetItem = new JScreenMenuItem("Markdown Cheat Sheet...");
+        menuItemMarkdownCheatSheetItem.addActionListener(actionListener);
+        menuHelp.add(menuItemMarkdownCheatSheetItem);
 
         // disable menu items that depend on something being selected
-        menuItemEditProject.setEnabled( false );
-        menuItemEditContext.setEnabled( false );
+        menuItemEditProject.setEnabled(false);
+        menuItemEditContext.setEnabled(false);
         //menuItemEditCategory.setEnabled( false );
-        menuItemRemoveProject.setEnabled( false );
-        menuItemRemoveContext.setEnabled( false );
+        menuItemRemoveProject.setEnabled(false);
+        menuItemRemoveContext.setEnabled(false);
         //menuItemRemoveCategory.setEnabled( false );
-        menuItemEditActionItem.setEnabled( false );
-        menuItemRemoveActionItem.setEnabled( false );
+        menuItemEditActionItem.setEnabled(false);
+        menuItemRemoveActionItem.setEnabled(false);
         //menuItemEditReferenceItem.setEnabled( false );
         //menuItemRemoveReferenceItem.setEnabled( false );
     }

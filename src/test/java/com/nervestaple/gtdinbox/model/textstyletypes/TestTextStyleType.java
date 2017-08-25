@@ -12,15 +12,15 @@ public class TestTextStyleType extends TestCase {
 
     public void testGetPlainTextType() {
 
-        assertNotNull( TextStyleType.PLAIN_TEXT );
+        assertNotNull(TextStyleType.PLAIN_TEXT);
     }
 
     public void testPlainTextTypeEquality() {
 
         TextStyleType plain = TextStyleType.PLAIN_TEXT;
 
-        TextStyleType plain2 = TextStyleType.valueOf( "PLAIN_TEXT" );
+        TextStyleType plain2 = TextStyleType.valueOf("PLAIN_TEXT");
 
-        assertTrue( plain == plain2 );
+        assertTrue(plain == plain2);
     }
 }

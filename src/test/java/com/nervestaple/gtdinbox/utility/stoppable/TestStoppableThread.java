@@ -11,32 +11,34 @@ import org.apache.log4j.Logger;
  */
 public class TestStoppableThread extends TestCase {
 
-    /** Logger instance. */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    /**
+     * Logger instance.
+     */
+    private Logger logger = Logger.getLogger(this.getClass());
 
     public void testStoppableThread() throws Exception {
 
-        StoppableThread thread = new StoppableThread( new StoppableRunnable() {
+        StoppableThread thread = new StoppableThread(new StoppableRunnable() {
             public void run() {
 
-                while( !stop ) {
+                while (!stop) {
 
                     try {
-                        Thread.sleep( 10 );
-                    } catch( InterruptedException e ) {
-                        logger.warn( e );
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        logger.warn(e);
                     }
                 }
             }
         });
         thread.start();
 
-        Thread.sleep( 100 );
+        Thread.sleep(100);
 
         thread.stopThread();
 
-        Thread.sleep( 100 );
+        Thread.sleep(100);
 
-        assertTrue( !thread.isAlive() && thread.isStop() );
+        assertTrue(!thread.isAlive() && thread.isStop());
     }
 }

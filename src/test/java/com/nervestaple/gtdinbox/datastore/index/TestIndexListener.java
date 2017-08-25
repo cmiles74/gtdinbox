@@ -24,22 +24,22 @@ public class TestIndexListener extends TestCase {
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     public void setUp() throws ConfigurationFactoryException {
 
         ConfigurationFactory configurationFactory = ConfigurationFactory.getInstance();
 
-        if( !configurationFactory.isTestingConfiguration() ) {
-            configurationFactory.setTestingConfiguration( true );
+        if (!configurationFactory.isTestingConfiguration()) {
+            configurationFactory.setTestingConfiguration(true);
         }
 
         try {
             configurationFactory.configure();
-        } catch( ConfigurationFactoryException e ) {
+        } catch (ConfigurationFactoryException e) {
 
             File file = configurationFactory.getApplicationConfiguration().createDefaultDataStorageLocation();
-            configurationFactory.getApplicationConfiguration().setDataStorageLocation( file );
+            configurationFactory.getApplicationConfiguration().setDataStorageLocation(file);
         }
 
         configurationFactory.configure();
@@ -49,8 +49,8 @@ public class TestIndexListener extends TestCase {
 
         try {
             dataBaseManager.createSchemaIfMissing();
-        } catch( DataBaseManagerException e ) {
-            logger.info( e );
+        } catch (DataBaseManagerException e) {
+            logger.info(e);
         }
     }
 
@@ -59,11 +59,11 @@ public class TestIndexListener extends TestCase {
         DataBaseManager dataBaseManager = DataBaseManager.getInstance();
 
         try {
-            if( dataBaseManager.schemaExists() ) {
+            if (dataBaseManager.schemaExists()) {
                 dataBaseManager.dropSchema();
             }
-        } catch( Exception e ) {
-            logger.info( e );
+        } catch (Exception e) {
+            logger.info(e);
         }
     }
 
@@ -71,72 +71,72 @@ public class TestIndexListener extends TestCase {
 
         // create a new project
         Project project = new Project();
-        project.setName( "Test Project" );
+        project.setName("Test Project");
 
         // perisist the project
         DataBaseManager databaseManager = DataBaseManager.getInstance();
         databaseManager.beginTransaction();
-        databaseManager.getEntityManager().persist( project );
+        databaseManager.getEntityManager().persist(project);
         databaseManager.commitTransaction();
 
         // create a new query to find our project
-        TermQuery queryId = new TermQuery( new Term( "id", project.getId().toString() ) );
-        TermQuery queryClass = new TermQuery( new Term( "class", project.getClass().getName().toLowerCase() ) );
+        TermQuery queryId = new TermQuery(new Term("id", project.getId().toString()));
+        TermQuery queryClass = new TermQuery(new Term("class", project.getClass().getName().toLowerCase()));
 
         BooleanQuery query = new BooleanQuery();
-        query.add( new BooleanClause( queryId, BooleanClause.Occur.MUST ) );
-        query.add( new BooleanClause( queryClass, BooleanClause.Occur.MUST ) );
+        query.add(new BooleanClause(queryId, BooleanClause.Occur.MUST));
+        query.add(new BooleanClause(queryClass, BooleanClause.Occur.MUST));
 
         // verify the project is in the database
         IndexManager indexManager = IndexManager.getInstance();
         IndexSearcher indexSearcher = indexManager.getIndexSearcher();
-        Hits hits = indexSearcher.search( query );
+        Hits hits = indexSearcher.search(query);
         int results = hits.length();
 
         // remove the project
         databaseManager.beginTransaction();
-        databaseManager.getEntityManager().remove( project );
+        databaseManager.getEntityManager().remove(project);
         databaseManager.commitTransaction();
 
-        logger.info( query );
-        logger.info( "Hits returned: " + results );
+        logger.info(query);
+        logger.info("Hits returned: " + results);
 
-        assertTrue( results > 0 );
+        assertTrue(results > 0);
     }
 
     public void testRemoveObject() throws Exception {
 
         // create a new project
         Project project = new Project();
-        project.setName( "Test Project" );
+        project.setName("Test Project");
 
         // perisist the project
         DataBaseManager databaseManager = DataBaseManager.getInstance();
         databaseManager.beginTransaction();
-        databaseManager.getEntityManager().persist( project );
+        databaseManager.getEntityManager().persist(project);
         databaseManager.commitTransaction();
 
         // create a new query to find our project
-        TermQuery queryId = new TermQuery( new Term( "id", project.getId().toString() ) );
-        TermQuery queryClass = new TermQuery( new Term( "class", project.getClass().getName().toLowerCase() ) );
+        TermQuery queryId = new TermQuery(new Term("id", project.getId().toString()));
+        TermQuery queryClass = new TermQuery(new Term("class", project.getClass().getName().toLowerCase()));
 
         BooleanQuery query = new BooleanQuery();
-        query.add( new BooleanClause( queryId, BooleanClause.Occur.MUST ) );
-        query.add( new BooleanClause( queryClass, BooleanClause.Occur.MUST ) );
+        query.add(new BooleanClause(queryId, BooleanClause.Occur.MUST));
+        query.add(new BooleanClause(queryClass, BooleanClause.Occur.MUST));
 
         // remove the project
         databaseManager.beginTransaction();
-        databaseManager.getEntityManager().remove( project );
+        databaseManager.getEntityManager().remove(project);
         databaseManager.commitTransaction();
 
         // verify the project has been removed
         IndexManager indexManager = IndexManager.getInstance();
         IndexSearcher indexSearcher = indexManager.getIndexSearcher();
-        Hits hits = indexSearcher.search( query );
+        Hits hits = indexSearcher.search(query);
         int results = hits.length();
-        logger.info( query );
-        logger.info( "Hits returned: " + results );
+        logger.info(query);
+        logger.info("Hits returned: " + results);
 
-        assertTrue( results == 0 );
+        assertTrue(results == 0);
     }
 }

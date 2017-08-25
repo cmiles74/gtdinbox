@@ -19,27 +19,27 @@ public class TopLevelContainer {
     /**
      * The Project container.
      */
-    public static final TopLevelContainer PROJECTS = new TopLevelContainer( "Projects" );
+    public static final TopLevelContainer PROJECTS = new TopLevelContainer("Projects");
 
     /**
      * The Contexts container.
      */
-    public static final TopLevelContainer CONTEXTS = new TopLevelContainer( "Contexts" );
+    public static final TopLevelContainer CONTEXTS = new TopLevelContainer("Contexts");
 
     /**
      * The Categories container.
      */
-    public static final TopLevelContainer CATEGORIES = new TopLevelContainer( "Categories" );
+    public static final TopLevelContainer CATEGORIES = new TopLevelContainer("Categories");
 
     /**
      * The Trash container.
      */
-    public static final TopLevelContainer TRASH = new TopLevelContainer( "Trash" );
+    public static final TopLevelContainer TRASH = new TopLevelContainer("Trash");
 
     /**
      * The Archive container.
      */
-    public static final TopLevelContainer ARCHIVE = new TopLevelContainer( "Archive" );
+    public static final TopLevelContainer ARCHIVE = new TopLevelContainer("Archive");
 
     /**
      * Map of containers.
@@ -48,11 +48,11 @@ public class TopLevelContainer {
 
     static {
 
-        INSTANCES.put( PROJECTS.toString(), PROJECTS );
-        INSTANCES.put( CONTEXTS.toString(), CONTEXTS );
-        INSTANCES.put( CATEGORIES.toString(), CATEGORIES );
-        INSTANCES.put( ARCHIVE.toString(), ARCHIVE );
-        INSTANCES.put( TRASH.toString(), TRASH );
+        INSTANCES.put(PROJECTS.toString(), PROJECTS);
+        INSTANCES.put(CONTEXTS.toString(), CONTEXTS);
+        INSTANCES.put(CATEGORIES.toString(), CATEGORIES);
+        INSTANCES.put(ARCHIVE.toString(), ARCHIVE);
+        INSTANCES.put(TRASH.toString(), TRASH);
     }
 
     /**
@@ -60,7 +60,7 @@ public class TopLevelContainer {
      *
      * @param name Name of the container
      */
-    private TopLevelContainer( String name ) {
+    private TopLevelContainer(String name) {
 
         this.name = name;
     }
@@ -80,9 +80,9 @@ public class TopLevelContainer {
      * @param name Name of the container
      * @return TopLevelContainer
      */
-    public static TopLevelContainer getInstance( String name ) {
+    public static TopLevelContainer getInstance(String name) {
 
-        return ( ( TopLevelContainer ) INSTANCES.get( name ) );
+        return ((TopLevelContainer) INSTANCES.get(name));
     }
 
     // other methods
@@ -94,6 +94,6 @@ public class TopLevelContainer {
      */
     public String toString() {
 
-        return ( name );
+        return (name);
     }
 }

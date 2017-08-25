@@ -21,18 +21,18 @@ public class MarkdownSheetFrame extends JFrame {
 
     public MarkdownSheetFrame() {
 
-        super( "Markdown Cheat Sheet" );
+        super("Markdown Cheat Sheet");
 
-        ICON_APPLICATION_SMALL = new ImageIcon( getClass().getResource(
-                "/com/nervestaple/gtdinbox/gui/images/help-16.png" ) );
+        ICON_APPLICATION_SMALL = new ImageIcon(getClass().getResource(
+                "/com/nervestaple/gtdinbox/gui/images/help-16.png"));
 
-        setIconImage( ICON_APPLICATION_SMALL.getImage() );
+        setIconImage(ICON_APPLICATION_SMALL.getImage());
 
         panelMain = new MarkdownSheetPanel();
 
-        getContentPane().setLayout( new GridLayout( 1, 1 ) );
-        getContentPane().add( panelMain );
+        getContentPane().setLayout(new GridLayout(1, 1));
+        getContentPane().add(panelMain);
 
-        setSize( 735, 530 );
+        setSize(735, 530);
     }
 }

@@ -30,7 +30,7 @@ public class DetailActionItemList extends JPanel {
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * List of action items.
@@ -72,13 +72,13 @@ public class DetailActionItemList extends JPanel {
      *
      * @param exceptionHandler Exception handler
      */
-    public DetailActionItemList( GTDInboxExceptionHandler exceptionHandler ) {
+    public DetailActionItemList(GTDInboxExceptionHandler exceptionHandler) {
 
         // save a reference to the exception handler
         this.exceptionHandler = exceptionHandler;
 
         // create a new sorted list for the items and pass in a comparator
-        listItems = new SortedList( new BasicEventList(), new ActionItemComparator() );
+        listItems = new SortedList(new BasicEventList(), new ActionItemComparator());
 
         // set the selected index to indicate no selection
         indexSelected = -1;
@@ -92,11 +92,11 @@ public class DetailActionItemList extends JPanel {
         listeners = new HashSet();
 
         // update the box of items
-        SwingUtilities.invokeLater( new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                updateBoxItems( listItems );
+                updateBoxItems(listItems);
             }
-        } );
+        });
     }
 
     /**
@@ -105,49 +105,49 @@ public class DetailActionItemList extends JPanel {
      * @param project     Project to display
      * @param showDeleted Display items tagged for deletion
      */
-    public void setProject( Project project, boolean showDeleted ) {
+    public void setProject(Project project, boolean showDeleted) {
 
         listItems.clear();
 
         // get archive days
         Integer days = ConfigurationFactory.getInstance().getApplicationConfiguration().getArchiveDays();
-        logger.debug( "Archive starts " + days + " ago" );
+        logger.debug("Archive starts " + days + " ago");
 
         // figure out the date we're looking for
-        calendar.setTime( new Date() );
-        calendar.add( Calendar.DAY_OF_YEAR, ( days * -1 ) );
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_YEAR, (days * -1));
         Date date = calendar.getTime();
 
         Iterator iterator = project.getActionItems().iterator();
-        while( iterator.hasNext() ) {
+        while (iterator.hasNext()) {
 
-            ActionItem actionItem = ( ActionItem ) iterator.next();
+            ActionItem actionItem = (ActionItem) iterator.next();
 
             boolean addItem = true;
 
-            if( !showDeleted && actionItem.getDeleted().booleanValue() ) {
+            if (!showDeleted && actionItem.getDeleted().booleanValue()) {
 
                 addItem = false;
             }
 
-            if( actionItem.getCompletedDate() != null
-                    && ( actionItem.getCompletedDate().before( date ) || actionItem.getCompletedDate().equals( date ) ) ) {
+            if (actionItem.getCompletedDate() != null
+                    && (actionItem.getCompletedDate().before(date) || actionItem.getCompletedDate().equals(date))) {
 
                 addItem = false;
             }
 
-            if( addItem ) {
+            if (addItem) {
 
-                listItems.add( actionItem );
+                listItems.add(actionItem);
             }
         }
 
         // update the box of items
-        SwingUtilities.invokeLater( new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                updateBoxItems( listItems );
+                updateBoxItems(listItems);
             }
-        } );
+        });
     }
 
     /**
@@ -156,30 +156,30 @@ public class DetailActionItemList extends JPanel {
      * @param listActionItems ActionItem objects to display
      * @param showDeleted     items tagged for deletion
      */
-    public void setActionItems( EventList listActionItems, boolean showDeleted ) {
+    public void setActionItems(EventList listActionItems, boolean showDeleted) {
 
         listItems.clear();
 
-        if( showDeleted ) {
-            listItems.addAll( listActionItems );
+        if (showDeleted) {
+            listItems.addAll(listActionItems);
         } else {
 
             Iterator iterator = listActionItems.iterator();
-            while( iterator.hasNext() ) {
+            while (iterator.hasNext()) {
 
-                ActionItem actionItem = ( ActionItem ) iterator.next();
-                if( actionItem.getDeleted() != null && !actionItem.getDeleted().booleanValue() ) {
-                    listItems.add( actionItem );
+                ActionItem actionItem = (ActionItem) iterator.next();
+                if (actionItem.getDeleted() != null && !actionItem.getDeleted().booleanValue()) {
+                    listItems.add(actionItem);
                 }
             }
         }
 
         // update the box of items
-        SwingUtilities.invokeLater( new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                updateBoxItems( listItems );
+                updateBoxItems(listItems);
             }
-        } );
+        });
     }
 
     /**
@@ -188,48 +188,48 @@ public class DetailActionItemList extends JPanel {
      * @param context     Context to display
      * @param showDeleted Display items tagged for deletion
      */
-    public void setContext( InboxContext context, boolean showDeleted ) {
+    public void setContext(InboxContext context, boolean showDeleted) {
 
         listItems.clear();
 
         // get archive days
         Integer days = ConfigurationFactory.getInstance().getApplicationConfiguration().getArchiveDays();
-        logger.debug( "Archive starts " + days + " ago" );
+        logger.debug("Archive starts " + days + " ago");
 
         // figure out the date we're looking for
-        calendar.setTime( new Date() );
-        calendar.add( Calendar.DAY_OF_YEAR, ( days * -1 ) );
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_YEAR, (days * -1));
         Date date = calendar.getTime();
 
         Iterator iterator = context.getActionItems().iterator();
-        while( iterator.hasNext() ) {
+        while (iterator.hasNext()) {
 
-            ActionItem actionItem = ( ActionItem ) iterator.next();
+            ActionItem actionItem = (ActionItem) iterator.next();
 
             boolean addItem = true;
 
-            if( !showDeleted && actionItem.getDeleted().booleanValue() ) {
+            if (!showDeleted && actionItem.getDeleted().booleanValue()) {
 
                 addItem = false;
-            } else if( actionItem.getCompletedDate() != null
-                    && ( actionItem.getCompletedDate().before( date )
-                    || actionItem.getCompletedDate().equals( date ) ) ) {
+            } else if (actionItem.getCompletedDate() != null
+                    && (actionItem.getCompletedDate().before(date)
+                    || actionItem.getCompletedDate().equals(date))) {
 
                 addItem = false;
             }
 
-            if( addItem ) {
+            if (addItem) {
 
-                listItems.add( actionItem );
+                listItems.add(actionItem);
             }
         }
 
         // update the box of items
-        SwingUtilities.invokeLater( new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                updateBoxItems( listItems );
+                updateBoxItems(listItems);
             }
-        } );
+        });
     }
 
     /**
@@ -242,11 +242,11 @@ public class DetailActionItemList extends JPanel {
         indexSelected = -1;
 
         // update the box of items
-        SwingUtilities.invokeLater( new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                updateBoxItems( listItems );
+                updateBoxItems(listItems);
             }
-        } );
+        });
     }
 
     /**
@@ -258,73 +258,73 @@ public class DetailActionItemList extends JPanel {
 
         ActionItem actionItem = null;
 
-        if( indexSelected > -1 ) {
+        if (indexSelected > -1) {
 
-            actionItem = ( ActionItem ) listItems.get( indexSelected );
+            actionItem = (ActionItem) listItems.get(indexSelected);
         }
 
-        return ( actionItem );
+        return (actionItem);
     }
 
-    public void addActionItem( ActionItem actionItem ) {
+    public void addActionItem(ActionItem actionItem) {
 
-        listItems.add( actionItem );
+        listItems.add(actionItem);
 
-        updateBoxItems( listItems );
+        updateBoxItems(listItems);
     }
 
-    public void removeActionItem( ActionItem actionItem ) {
+    public void removeActionItem(ActionItem actionItem) {
 
         Iterator iterator = listItems.listIterator();
-        while( iterator.hasNext() ) {
+        while (iterator.hasNext()) {
 
-            ActionItem actionItemThis = ( ActionItem ) iterator.next();
+            ActionItem actionItemThis = (ActionItem) iterator.next();
 
-            if( actionItemThis.getId().equals( actionItem.getId() ) ) {
+            if (actionItemThis.getId().equals(actionItem.getId())) {
 
                 iterator.remove();
                 break;
             }
         }
 
-        logger.debug( "List contains " + listItems.size() );
-        updateBoxItems( listItems );
+        logger.debug("List contains " + listItems.size());
+        updateBoxItems(listItems);
     }
 
-    public void updateActionItem( ActionItem actionItem ) {
+    public void updateActionItem(ActionItem actionItem) {
 
         Iterator iterator = listItems.listIterator();
-        while( iterator.hasNext() ) {
+        while (iterator.hasNext()) {
 
-            ActionItem actionItemThis = ( ActionItem ) iterator.next();
+            ActionItem actionItemThis = (ActionItem) iterator.next();
 
-            if( actionItemThis.getId().equals( actionItem.getId() ) ) {
+            if (actionItemThis.getId().equals(actionItem.getId())) {
 
-                int index = listItems.indexOf( actionItemThis );
+                int index = listItems.indexOf(actionItemThis);
                 iterator.remove();
-                listItems.add( index, actionItem );
+                listItems.add(index, actionItem);
                 break;
             }
         }
 
         Component[] componentsArray = boxItems.getComponents();
-        for( int index = 0; index < componentsArray.length; index++ ) {
+        for (int index = 0; index < componentsArray.length; index++) {
 
-            ActionItemCheckBox actionItemCheckBox = ( ActionItemCheckBox ) componentsArray[ index ];
+            ActionItemCheckBox actionItemCheckBox = (ActionItemCheckBox) componentsArray[index];
 
-            if( actionItemCheckBox.getActionItem().getId().equals( actionItem.getId() ) ) {
+            if (actionItemCheckBox.getActionItem().getId().equals(actionItem.getId())) {
 
                 try {
-                    actionItemCheckBox.setActionItem( actionItem );
-                } catch( DataBaseManagerException e ) {
-                    exceptionHandler.handleException( e );
+                    actionItemCheckBox.setActionItem(actionItem);
+                } catch (DataBaseManagerException e) {
+                    exceptionHandler.handleException(e);
                 }
 
                 break;
             }
         }
 
-        SwingUtilities.invokeLater( new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
 
@@ -333,7 +333,7 @@ public class DetailActionItemList extends JPanel {
 
                 fireComponentSizeChanged();
             }
-        } );
+        });
     }
 
     /**
@@ -341,11 +341,11 @@ public class DetailActionItemList extends JPanel {
      *
      * @param listener Listener
      */
-    public void addDetailActionItemListListener( DetailActionItemListListener listener ) {
+    public void addDetailActionItemListListener(DetailActionItemListListener listener) {
 
-        if( !listeners.contains( listener ) ) {
+        if (!listeners.contains(listener)) {
 
-            listeners.add( listener );
+            listeners.add(listener);
         }
     }
 
@@ -354,9 +354,9 @@ public class DetailActionItemList extends JPanel {
      *
      * @param listener Listener
      */
-    public void removeDetailActionItemListListener( DetailActionItemListListener listener ) {
+    public void removeDetailActionItemListListener(DetailActionItemListListener listener) {
 
-        listeners.remove( listener );
+        listeners.remove(listener);
     }
 
     public void clearSelection() {
@@ -373,28 +373,28 @@ public class DetailActionItemList extends JPanel {
         double height = 0;
         double width = 0;
         Component[] componentArray = getComponents();
-        for( int index = 0; index < componentArray.length; index++ ) {
+        for (int index = 0; index < componentArray.length; index++) {
 
-            height += componentArray[ index ].getPreferredSize().getHeight();
+            height += componentArray[index].getPreferredSize().getHeight();
 
-            if( componentArray[ index ].getMinimumSize().getWidth() > width ) {
-                width = componentArray[ index ].getMinimumSize().getWidth();
+            if (componentArray[index].getMinimumSize().getWidth() > width) {
+                width = componentArray[index].getMinimumSize().getWidth();
             }
         }
 
-        Dimension dimension = new Dimension( ( new Double( width ) ).intValue(), ( new Double( height ) ).intValue() );
+        Dimension dimension = new Dimension((new Double(width)).intValue(), (new Double(height)).intValue());
 
-        return ( dimension );
+        return (dimension);
     }
 
     public Dimension getMinimumSize() {
 
-        return ( getPreferredSize() );
+        return (getPreferredSize());
     }
 
     public Dimension getMaximumSize() {
 
-        return ( getPreferredSize() );
+        return (getPreferredSize());
     }
 
     // private methods
@@ -405,12 +405,12 @@ public class DetailActionItemList extends JPanel {
     private void fireSelectionChanged() {
 
         DetailActionItemListListener[] listenersArray =
-                ( DetailActionItemListListener[] ) listeners.toArray(
-                        new DetailActionItemListListener[listeners.size()] );
+                (DetailActionItemListListener[]) listeners.toArray(
+                        new DetailActionItemListListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].selectionChanged();
+            listenersArray[index].selectionChanged();
         }
     }
 
@@ -420,24 +420,24 @@ public class DetailActionItemList extends JPanel {
     private void fireSelectedItemDoubleClicked() {
 
         DetailActionItemListListener[] listenersArray =
-                ( DetailActionItemListListener[] ) listeners.toArray(
-                        new DetailActionItemListListener[listeners.size()] );
+                (DetailActionItemListListener[]) listeners.toArray(
+                        new DetailActionItemListListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].selectedItemDoubleClicked();
+            listenersArray[index].selectedItemDoubleClicked();
         }
     }
 
     private void fireComponentSizeChanged() {
 
         DetailActionItemListListener[] listenersArray =
-                ( DetailActionItemListListener[] ) listeners.toArray(
-                        new DetailActionItemListListener[listeners.size()] );
+                (DetailActionItemListListener[]) listeners.toArray(
+                        new DetailActionItemListListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].componentSizeChanged();
+            listenersArray[index].componentSizeChanged();
         }
     }
 
@@ -446,26 +446,26 @@ public class DetailActionItemList extends JPanel {
      *
      * @param listItems List of ActionItem objects
      */
-    private void updateBoxItems( EventList listItems ) {
+    private void updateBoxItems(EventList listItems) {
 
         // make sure we have a box to hold the items
-        if( boxItems == null ) {
+        if (boxItems == null) {
 
             boxItems = Box.createVerticalBox();
 
-            SwingUtilities.invokeLater( new Runnable() {
+            SwingUtilities.invokeLater(new Runnable() {
 
                 public void run() {
 
-                    setLayout( new GridLayout( 1, 1 ) );
-                    add( boxItems );
+                    setLayout(new GridLayout(1, 1));
+                    add(boxItems);
                 }
-            } );
+            });
         }
 
         clearBox();
 
-        if( listItems.size() < 1 ) {
+        if (listItems.size() < 1) {
 
             // there are no items
             return;
@@ -473,39 +473,39 @@ public class DetailActionItemList extends JPanel {
 
         // loop through the action items
         Iterator iterator = listItems.iterator();
-        while( iterator.hasNext() ) {
+        while (iterator.hasNext()) {
 
             // get the next action item
-            ActionItem actionItem = ( ActionItem ) iterator.next();
+            ActionItem actionItem = (ActionItem) iterator.next();
 
             try {
 
                 // create a gui form for the action item
-                final ActionItemCheckBox actionItemCheckBox = new ActionItemCheckBox( actionItem, exceptionHandler );
+                final ActionItemCheckBox actionItemCheckBox = new ActionItemCheckBox(actionItem, exceptionHandler);
 
                 // add our mouse listener
-                actionItemCheckBox.addMouseListener( mouseListenerItems );
+                actionItemCheckBox.addMouseListener(mouseListenerItems);
 
-                if( !iterator.hasNext() ) {
+                if (!iterator.hasNext()) {
 
                     // pad the bottom of the last action item
-                    actionItemCheckBox.getInsets().set( 3, 5, 8, 3 );
+                    actionItemCheckBox.getInsets().set(3, 5, 8, 3);
                 }
 
-                SwingUtilities.invokeLater( new Runnable() {
+                SwingUtilities.invokeLater(new Runnable() {
 
                     public void run() {
 
                         // add it to our box
-                        boxItems.add( actionItemCheckBox );
+                        boxItems.add(actionItemCheckBox);
                     }
-                } );
-            } catch( DataBaseManagerException e ) {
-                exceptionHandler.handleException( e );
+                });
+            } catch (DataBaseManagerException e) {
+                exceptionHandler.handleException(e);
             }
         }
 
-        SwingUtilities.invokeLater( new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
 
@@ -514,7 +514,7 @@ public class DetailActionItemList extends JPanel {
 
                 fireComponentSizeChanged();
             }
-        } );
+        });
     }
 
     /**
@@ -525,7 +525,7 @@ public class DetailActionItemList extends JPanel {
         // clear the box
         removeListenersFromItems();
 
-        SwingUtilities.invokeLater( new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
 
@@ -533,7 +533,7 @@ public class DetailActionItemList extends JPanel {
                 boxItems.invalidate();
                 revalidate();
             }
-        } );
+        });
     }
 
     /**
@@ -543,24 +543,24 @@ public class DetailActionItemList extends JPanel {
 
         mouseListenerItems = new MouseAdapter() {
 
-            public void mouseClicked( MouseEvent event ) {
+            public void mouseClicked(MouseEvent event) {
 
                 // clear selected index
                 indexSelected = -1;
 
                 // get the selected action tiem check box
-                ActionItemCheckBox actionItemCheckBox = ( ActionItemCheckBox ) event.getSource();
+                ActionItemCheckBox actionItemCheckBox = (ActionItemCheckBox) event.getSource();
 
                 // set selected index
-                indexSelected = listItems.indexOf( actionItemCheckBox.getActionItem() );
+                indexSelected = listItems.indexOf(actionItemCheckBox.getActionItem());
 
                 // set item as selected
-                setActionItemCheckBoxSelected( actionItemCheckBox );
+                setActionItemCheckBoxSelected(actionItemCheckBox);
 
                 // notifie listeners the the selection has changed
                 fireSelectionChanged();
 
-                if( event.getClickCount() == 2 ) {
+                if (event.getClickCount() == 2) {
 
                     // notify listeners that the item was double-clicked
                     fireSelectedItemDoubleClicked();
@@ -569,19 +569,19 @@ public class DetailActionItemList extends JPanel {
         };
     }
 
-    private void setActionItemCheckBoxSelected( ActionItemCheckBox actionItemCheckBox ) {
+    private void setActionItemCheckBoxSelected(ActionItemCheckBox actionItemCheckBox) {
 
         Component[] componentArray = boxItems.getComponents();
-        for( int index = 0; index < componentArray.length; index++ ) {
+        for (int index = 0; index < componentArray.length; index++) {
 
-            ActionItemCheckBox actionItemCheckBoxThis = ( ActionItemCheckBox ) componentArray[ index ];
+            ActionItemCheckBox actionItemCheckBoxThis = (ActionItemCheckBox) componentArray[index];
 
-            if( actionItemCheckBoxThis == actionItemCheckBox ) {
+            if (actionItemCheckBoxThis == actionItemCheckBox) {
 
-                actionItemCheckBoxThis.setSelected( true );
+                actionItemCheckBoxThis.setSelected(true);
             } else {
 
-                actionItemCheckBoxThis.setSelected( false );
+                actionItemCheckBoxThis.setSelected(false);
             }
         }
     }
@@ -589,20 +589,20 @@ public class DetailActionItemList extends JPanel {
     private void clearActionItemCheckBoxSelected() {
 
         Component[] componentArray = boxItems.getComponents();
-        for( int index = 0; index < componentArray.length; index++ ) {
+        for (int index = 0; index < componentArray.length; index++) {
 
-            ActionItemCheckBox actionItemCheckBoxThis = ( ActionItemCheckBox ) componentArray[ index ];
+            ActionItemCheckBox actionItemCheckBoxThis = (ActionItemCheckBox) componentArray[index];
 
-            actionItemCheckBoxThis.setSelected( false );
+            actionItemCheckBoxThis.setSelected(false);
         }
     }
 
     private void removeListenersFromItems() {
 
         Component[] componentArray = boxItems.getComponents();
-        for( int index = 0; index < componentArray.length; index++ ) {
+        for (int index = 0; index < componentArray.length; index++) {
 
-            componentArray[ index ].removeMouseListener( mouseListenerItems );
+            componentArray[index].removeMouseListener(mouseListenerItems);
         }
     }
 }

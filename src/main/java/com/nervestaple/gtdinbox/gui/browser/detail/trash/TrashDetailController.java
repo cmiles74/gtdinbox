@@ -33,7 +33,7 @@ public class TrashDetailController {
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * Form for this controller.
@@ -58,13 +58,13 @@ public class TrashDetailController {
     /**
      * Creates a new TrashDetailController.
      */
-    public TrashDetailController( GTDInboxExceptionHandler exceptionHandler ) {
+    public TrashDetailController(GTDInboxExceptionHandler exceptionHandler) {
 
         this.exceptionHandler = exceptionHandler;
 
         model = new TrashDetailModel();
 
-        form = new TrashDetailForm( model );
+        form = new TrashDetailForm(model);
 
         listeners = new HashSet();
 
@@ -80,10 +80,10 @@ public class TrashDetailController {
 
             Collection collection = DataStoreManager.getTrash();
             EventList list = new BasicEventList();
-            list.addAll( collection );
-            model.setListItems( list );
-        } catch( DataStoreException e ) {
-            exceptionHandler.handleException( e );
+            list.addAll(collection);
+            model.setListItems(list);
+        } catch (DataStoreException e) {
+            exceptionHandler.handleException(e);
         }
     }
 
@@ -92,11 +92,11 @@ public class TrashDetailController {
      *
      * @param listener Listener to be registered.
      */
-    public void addTrashDetailControllerListener( TrashDetailControllerListener listener ) {
+    public void addTrashDetailControllerListener(TrashDetailControllerListener listener) {
 
-        if( !listeners.contains( listener ) ) {
+        if (!listeners.contains(listener)) {
 
-            listeners.add( listener );
+            listeners.add(listener);
         }
     }
 
@@ -105,9 +105,9 @@ public class TrashDetailController {
      *
      * @param listener The listener to remove.
      */
-    public void removeTrashDetailControllerListener( TrashDetailControllerListener listener ) {
+    public void removeTrashDetailControllerListener(TrashDetailControllerListener listener) {
 
-        listeners.remove( listener );
+        listeners.remove(listener);
     }
 
     /**
@@ -115,7 +115,7 @@ public class TrashDetailController {
      */
     public void emptyTrash() {
 
-        Thread thread = new Thread( new Runnable() {
+        Thread thread = new Thread(new Runnable() {
 
             public void run() {
 
@@ -124,139 +124,139 @@ public class TrashDetailController {
                 List listCategories = new ArrayList();
 
                 Iterator iterator = model.getListItems().listIterator();
-                while( iterator.hasNext() ) {
+                while (iterator.hasNext()) {
 
-                    Trashable trashable = ( Trashable ) iterator.next();
-                    logger.debug( trashable.getClass() );
+                    Trashable trashable = (Trashable) iterator.next();
+                    logger.debug(trashable.getClass());
 
                     // if it's a container item, hold it out for last
                     boolean holdForLater = false;
-                    if( trashable instanceof Project ) {
-                        listProjects.add( trashable );
+                    if (trashable instanceof Project) {
+                        listProjects.add(trashable);
                         holdForLater = true;
-                    } else if( trashable instanceof InboxContext ) {
-                        listContexts.add( trashable );
+                    } else if (trashable instanceof InboxContext) {
+                        listContexts.add(trashable);
                         holdForLater = true;
-                    } else if( trashable instanceof Category ) {
-                        listCategories.add( trashable );
+                    } else if (trashable instanceof Category) {
+                        listCategories.add(trashable);
                         holdForLater = true;
                     }
 
-                    if( !holdForLater ) {
+                    if (!holdForLater) {
 
                         try {
                             EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
 
                             // make sure we have an up-to-date version
-                            entityManager.refresh( trashable );
+                            entityManager.refresh(trashable);
                             trashable.prepareForDeletion();
 
                             // start a new transaction and delete the item
                             DataBaseManager.getInstance().beginTransaction();
-                            logger.debug( "DELETING: " + trashable );
-                            entityManager.remove( trashable );
+                            logger.debug("DELETING: " + trashable);
+                            entityManager.remove(trashable);
 
                             // commit the transaction and close our session
                             DataBaseManager.getInstance().commitTransaction();
-                        } catch( DataBaseManagerException e ) {
-                            exceptionHandler.handleException( e );
+                        } catch (DataBaseManagerException e) {
+                            exceptionHandler.handleException(e);
                         }
                     }
                 }
 
-                if( listProjects.size() > 0 ) {
+                if (listProjects.size() > 0) {
 
                     iterator = listProjects.iterator();
-                    while( iterator.hasNext() ) {
+                    while (iterator.hasNext()) {
 
-                        Project project = ( Project ) iterator.next();
+                        Project project = (Project) iterator.next();
 
                         try {
 
                             EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
 
                             // make sure we have an up-to-date version
-                            entityManager.refresh( project );
+                            entityManager.refresh(project);
                             project.prepareForDeletion();
 
-                            if( project.getActionItems().size() < 1 ) {
+                            if (project.getActionItems().size() < 1) {
 
                                 // start a new transaction and delete the item
                                 DataBaseManager.getInstance().beginTransaction();
-                                entityManager.remove( project );
+                                entityManager.remove(project);
 
                                 // commit the transaction and close our session
                                 DataBaseManager.getInstance().commitTransaction();
                             }
-                        } catch( DataBaseManagerException e ) {
-                            exceptionHandler.handleException( e );
+                        } catch (DataBaseManagerException e) {
+                            exceptionHandler.handleException(e);
                         }
                     }
                 }
 
-                if( listContexts.size() > 0 ) {
+                if (listContexts.size() > 0) {
 
                     iterator = listContexts.iterator();
-                    while( iterator.hasNext() ) {
+                    while (iterator.hasNext()) {
 
-                        InboxContext context = ( InboxContext ) iterator.next();
+                        InboxContext context = (InboxContext) iterator.next();
 
                         try {
 
                             EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
 
                             // make sure we have an up-to-date version
-                            entityManager.refresh( context );
+                            entityManager.refresh(context);
                             context.prepareForDeletion();
 
-                            if( context.getActionItems().size() < 1 ) {
+                            if (context.getActionItems().size() < 1) {
 
                                 // start a new transaction and delete the item
                                 DataBaseManager.getInstance().beginTransaction();
-                                entityManager.remove( context );
+                                entityManager.remove(context);
 
                                 // commit the transaction and close our session
                                 DataBaseManager.getInstance().commitTransaction();
                             }
-                        } catch( DataBaseManagerException e ) {
-                            exceptionHandler.handleException( e );
+                        } catch (DataBaseManagerException e) {
+                            exceptionHandler.handleException(e);
                         }
                     }
                 }
 
-                if( listCategories.size() > 0 ) {
+                if (listCategories.size() > 0) {
 
                     iterator = listCategories.iterator();
-                    while( iterator.hasNext() ) {
+                    while (iterator.hasNext()) {
 
-                        Category category = ( Category ) iterator.next();
+                        Category category = (Category) iterator.next();
 
                         try {
 
                             EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
 
                             // make sure we have an up-to-date version
-                            entityManager.refresh( category );
+                            entityManager.refresh(category);
                             category.prepareForDeletion();
 
-                            if( category.getReferenceItems().size() < 1 ) {
+                            if (category.getReferenceItems().size() < 1) {
 
                                 // start a new transaction and delete the item
                                 DataBaseManager.getInstance().beginTransaction();
-                                entityManager.remove( category );
+                                entityManager.remove(category);
 
                                 // commit the transaction and close our session
                                 DataBaseManager.getInstance().commitTransaction();
                             }
-                        } catch( DataBaseManagerException e ) {
-                            exceptionHandler.handleException( e );
+                        } catch (DataBaseManagerException e) {
+                            exceptionHandler.handleException(e);
                         }
                     }
                 }
 
                 loadData();
             }
-        } );
+        });
         thread.start();
     }
 
@@ -272,122 +272,122 @@ public class TrashDetailController {
 
     // private methods
 
-    private void firePutAwayTrashable( Trashable trashable ) {
+    private void firePutAwayTrashable(Trashable trashable) {
 
-        TrashDetailControllerListener[] listenerArray = ( TrashDetailControllerListener[] ) listeners.toArray(
-                new TrashDetailControllerListener[listeners.size()] );
+        TrashDetailControllerListener[] listenerArray = (TrashDetailControllerListener[]) listeners.toArray(
+                new TrashDetailControllerListener[listeners.size()]);
 
-        for( int index = 0; index < listenerArray.length; index++ ) {
+        for (int index = 0; index < listenerArray.length; index++) {
 
-            listenerArray[ index ].putAwayTrashable( trashable );
+            listenerArray[index].putAwayTrashable(trashable);
         }
     }
 
-    private void fireConfirmEmptyTrash( String message ) {
+    private void fireConfirmEmptyTrash(String message) {
 
-        TrashDetailControllerListener[] listenerArray = ( TrashDetailControllerListener[] ) listeners.toArray(
-                new TrashDetailControllerListener[listeners.size()] );
+        TrashDetailControllerListener[] listenerArray = (TrashDetailControllerListener[]) listeners.toArray(
+                new TrashDetailControllerListener[listeners.size()]);
 
-        for( int index = 0; index < listenerArray.length; index++ ) {
+        for (int index = 0; index < listenerArray.length; index++) {
 
-            listenerArray[ index ].confirmEmptyTrash( message );
+            listenerArray[index].confirmEmptyTrash(message);
         }
     }
 
     private void addPutAwayListener() {
 
-        model.setActionListenerPutAway( new ActionListener() {
+        model.setActionListenerPutAway(new ActionListener() {
 
-            public void actionPerformed( ActionEvent actionEvent ) {
+            public void actionPerformed(ActionEvent actionEvent) {
 
                 final List listItems = model.getSelectedItems();
 
-                Thread thread = new Thread( new Runnable() {
+                Thread thread = new Thread(new Runnable() {
 
                     public void run() {
 
                         Iterator iterator = listItems.iterator();
-                        while( iterator.hasNext() ) {
+                        while (iterator.hasNext()) {
 
-                            Trashable trashable = ( Trashable ) iterator.next();
+                            Trashable trashable = (Trashable) iterator.next();
 
-                            trashable.setDeleted( new Boolean( false ) );
+                            trashable.setDeleted(new Boolean(false));
 
                             try {
                                 EntityManager entityManager = DataBaseManager.getInstance().getEntityManager();
 
                                 // start a new transaction and save the item
                                 DataBaseManager.getInstance().beginTransaction();
-                                entityManager.persist( trashable );
+                                entityManager.persist(trashable);
 
                                 // commit the transaction and close our session
                                 DataBaseManager.getInstance().commitTransaction();
 
                                 // notify listeners
-                                firePutAwayTrashable( trashable );
-                            } catch( DataBaseManagerException e ) {
-                                exceptionHandler.handleException( e );
+                                firePutAwayTrashable(trashable);
+                            } catch (DataBaseManagerException e) {
+                                exceptionHandler.handleException(e);
                             }
                         }
 
                         loadData();
                     }
-                } );
+                });
                 thread.start();
             }
-        } );
+        });
     }
 
     private void addEmptyTrashListener() {
 
-        model.setActionListenerEmptyTrash( new ActionListener() {
+        model.setActionListenerEmptyTrash(new ActionListener() {
 
-            public void actionPerformed( ActionEvent actionEvent ) {
+            public void actionPerformed(ActionEvent actionEvent) {
 
                 String message = "The trash contains " + model.getListItems().size() + " items.";
 
-                fireConfirmEmptyTrash( message );
+                fireConfirmEmptyTrash(message);
             }
-        } );
+        });
     }
 
     private void initializeModelListeners() {
 
-        model.addPropertyChangeListener( new PropertyChangeListener() {
+        model.addPropertyChangeListener(new PropertyChangeListener() {
 
-            public void propertyChange( PropertyChangeEvent event ) {
+            public void propertyChange(PropertyChangeEvent event) {
 
-                logger.debug( event.getPropertyName() + ": " + event.getOldValue() + " -> " + event.getNewValue() );
+                logger.debug(event.getPropertyName() + ": " + event.getOldValue() + " -> " + event.getNewValue());
             }
-        } );
+        });
 
-        model.addPropertyChangeListener( "listItems", new PropertyChangeListener() {
+        model.addPropertyChangeListener("listItems", new PropertyChangeListener() {
 
-            public void propertyChange( PropertyChangeEvent event ) {
+            public void propertyChange(PropertyChangeEvent event) {
 
-                if( model.getListItems().size() > 0 ) {
+                if (model.getListItems().size() > 0) {
 
-                    model.setDescription( "The trash contains " + model.getListItems().size() + " items." );
+                    model.setDescription("The trash contains " + model.getListItems().size() + " items.");
                     addEmptyTrashListener();
                 } else {
-                    model.setDescription( "The trash is empty." );
-                    model.setActionListenerEmptyTrash( null );
+                    model.setDescription("The trash is empty.");
+                    model.setActionListenerEmptyTrash(null);
                 }
             }
-        } );
+        });
 
-        model.addPropertyChangeListener( "selectedItems", new PropertyChangeListener() {
+        model.addPropertyChangeListener("selectedItems", new PropertyChangeListener() {
 
-            public void propertyChange( PropertyChangeEvent propertyChangeEvent ) {
+            public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
 
-                if( model.getSelectedItems().size() > 0 ) {
+                if (model.getSelectedItems().size() > 0) {
 
                     addPutAwayListener();
                 } else {
 
-                    model.setActionListenerPutAway( null );
+                    model.setActionListenerPutAway(null);
                 }
             }
-        } );
+        });
     }
 }

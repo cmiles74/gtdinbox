@@ -33,7 +33,7 @@ public class UtilitiesGui {
 
     static {
 
-        logger = Logger.getLogger( "com.nervestaple.gtdinbox.gui.utility.UtilitiesGui" );
+        logger = Logger.getLogger("com.nervestaple.gtdinbox.gui.utility.UtilitiesGui");
     }
 
     /**
@@ -42,39 +42,39 @@ public class UtilitiesGui {
     public static void configureSwingUI() {
 
         // make sure there's an option pane stylesheet
-        if ( UIManager.getString( "OptionPane.css" ) != null ) {
-            System.setProperty( "OptionPane.css", UIManager.getString( "OptionPane.css" ) );
+        if (UIManager.getString("OptionPane.css") != null) {
+            System.setProperty("OptionPane.css", UIManager.getString("OptionPane.css"));
         } else {
 
             // set OptionPane.css
-            System.setProperty( "OptionPane.css",
+            System.setProperty("OptionPane.css",
                     "<head> " +
                             "<style type=\"text/css\">" +
                             "b { font: 13pt \"Lucida Grande\" }" +
                             "p { font: 11pt \"Lucida Grande\"; margin-top: 8px }" +
                             "</style>" +
-                            "</head>" );
+                            "</head>");
         }
 
-        if ( Platform.checkMacintosh() ) {
+        if (Platform.checkMacintosh()) {
 
             // set system properties
-            System.setProperty( "apple.laf.useScreenMenuBar", "true" );
-            System.setProperty( "com.apple.mrj.application.live-resize",
-                    "true" );
-            System.setProperty( "apple.awt.showGrowBox", "true" );
-            System.setProperty( "apple.awt.brushMetalLook", "false" );
-            System.setProperty( "Quaqua.visualMargin", "1,1,1,1" );
-            System.setProperty( "Quaqua .selectionStyle", "dark" );
-            System.setProperty( "Quaqua.opaque", "true" );
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+            System.setProperty("com.apple.mrj.application.live-resize",
+                    "true");
+            System.setProperty("apple.awt.showGrowBox", "true");
+            System.setProperty("apple.awt.brushMetalLook", "false");
+            System.setProperty("Quaqua.visualMargin", "1,1,1,1");
+            System.setProperty("Quaqua .selectionStyle", "dark");
+            System.setProperty("Quaqua.opaque", "true");
 
             // use the quaqua look and feel
             try {
-                UIManager.setLookAndFeel( QuaquaManager.getLookAndFeelClassName() );
-                logger.debug( "MacOS X, Using Quaqua look and feel: "
-                        + QuaquaManager.getLookAndFeelClassName() );
-            } catch ( Exception e ) {
-                logger.warn( e );
+                UIManager.setLookAndFeel(QuaquaManager.getLookAndFeelClassName());
+                logger.debug("MacOS X, Using Quaqua look and feel: "
+                        + QuaquaManager.getLookAndFeelClassName());
+            } catch (Exception e) {
+                logger.warn(e);
             }
         } else {
 
@@ -100,17 +100,17 @@ public class UtilitiesGui {
 //                    logger.debug("GTK L&F is not available, using OS look and feel: "
 //                            + UIManager.getSystemLookAndFeelClassName());
 //                }
-            } catch ( Exception e ) {
+            } catch (Exception e) {
 
-                logger.debug( e );
+                logger.debug(e);
 
                 // yikes! Try using the icky cross-platform look and feel.
                 try {
-                    UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
-                    logger.debug( "Using fallback look and feel: "
+                    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+                    logger.debug("Using fallback look and feel: "
                             + UIManager.getCrossPlatformLookAndFeelClassName());
-                } catch ( Exception e1 ) {
-                    logger.debug( e1 );
+                } catch (Exception e1) {
+                    logger.debug(e1);
                 }
             }
         }
@@ -121,9 +121,9 @@ public class UtilitiesGui {
      *
      * @param frame Frame the listener will watch
      */
-    public static void addEnforceMinimumSizeComponentListener( final JFrame frame ) {
+    public static void addEnforceMinimumSizeComponentListener(final JFrame frame) {
 
-        frame.addComponentListener( getEnforceMinimumSizeComponentListener( frame ) );
+        frame.addComponentListener(getEnforceMinimumSizeComponentListener(frame));
     }
 
     /**
@@ -133,18 +133,18 @@ public class UtilitiesGui {
      */
     public static BrowserLauncher getBrowserLauncher() {
 
-        if ( browserLauncher == null ) {
+        if (browserLauncher == null) {
 
             try {
-                browserLauncher = new BrowserLauncher( null );
-            } catch ( BrowserLaunchingInitializingException e ) {
-                logger.warn( e );
-            } catch ( UnsupportedOperatingSystemException e ) {
-                logger.warn( e );
+                browserLauncher = new BrowserLauncher(null);
+            } catch (BrowserLaunchingInitializingException e) {
+                logger.warn(e);
+            } catch (UnsupportedOperatingSystemException e) {
+                logger.warn(e);
             }
         }
 
-        return ( browserLauncher );
+        return (browserLauncher);
     }
 
     /**
@@ -156,11 +156,11 @@ public class UtilitiesGui {
 
         HyperlinkListener listener = new HyperlinkListener() {
 
-            public void hyperlinkUpdate( HyperlinkEvent hyperlinkEvent ) {
+            public void hyperlinkUpdate(HyperlinkEvent hyperlinkEvent) {
 
-                if ( hyperlinkEvent.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
+                if (hyperlinkEvent.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 
-                    if ( hyperlinkEvent.getURL() != null ) {
+                    if (hyperlinkEvent.getURL() != null) {
 
                         try {
                             BrowserLauncher launcher = new BrowserLauncher();
@@ -179,7 +179,7 @@ public class UtilitiesGui {
             }
         };
 
-        return ( listener );
+        return (listener);
     }
 
     /**
@@ -187,9 +187,9 @@ public class UtilitiesGui {
      *
      * @param textPane TextPane with hyperlinks
      */
-    public static void addHyperLinkListener( JTextPane textPane ) {
+    public static void addHyperLinkListener(JTextPane textPane) {
 
-        textPane.addHyperlinkListener( getHyperLinkListener() );
+        textPane.addHyperlinkListener(getHyperLinkListener());
     }
 
     /**
@@ -198,13 +198,13 @@ public class UtilitiesGui {
      * @param frame Frame the listener will watch
      * @return ComponentListener that will enforce the minimum size
      */
-    public static ComponentListener getEnforceMinimumSizeComponentListener( final JFrame frame ) {
+    public static ComponentListener getEnforceMinimumSizeComponentListener(final JFrame frame) {
 
         /** Frame's minimum width. */
-        final int minimumWidth = ( new Double( frame.getMinimumSize().getWidth() ) ).intValue();
+        final int minimumWidth = (new Double(frame.getMinimumSize().getWidth())).intValue();
 
         /** Frame's minimum height. */
-        final int minimumHeight = ( new Double( frame.getMinimumSize().getHeight() ) ).intValue();
+        final int minimumHeight = (new Double(frame.getMinimumSize().getHeight())).intValue();
 
         ComponentListener componentListener = new ComponentListener() {
 
@@ -213,40 +213,40 @@ public class UtilitiesGui {
              *
              * @param event Resize event
              */
-            public void componentResized( ComponentEvent event ) {
+            public void componentResized(ComponentEvent event) {
 
                 Component component = event.getComponent();
 
                 int width = component.getSize().width;
-                if ( component.getSize().width < minimumWidth ) {
+                if (component.getSize().width < minimumWidth) {
                     width = minimumWidth;
                 }
 
                 int height = component.getSize().height;
-                if ( height < minimumHeight ) {
+                if (height < minimumHeight) {
                     height = minimumHeight;
                 }
 
-                frame.setSize( width, height );
+                frame.setSize(width, height);
             }
 
-            public void componentMoved( ComponentEvent componentEvent ) {
+            public void componentMoved(ComponentEvent componentEvent) {
 
                 // do nothing
             }
 
-            public void componentShown( ComponentEvent componentEvent ) {
+            public void componentShown(ComponentEvent componentEvent) {
 
                 // do nothing
             }
 
-            public void componentHidden( ComponentEvent componentEvent ) {
+            public void componentHidden(ComponentEvent componentEvent) {
 
                 // do nothing
             }
         };
 
-        return ( componentListener );
+        return (componentListener);
     }
 
     /**
@@ -254,12 +254,12 @@ public class UtilitiesGui {
      *
      * @param button Button with actionListeners
      */
-    public static void removeActionListeners( AbstractButton button ) {
+    public static void removeActionListeners(AbstractButton button) {
 
         ActionListener[] listenerArray = button.getActionListeners();
-        for ( int index = 0; index < listenerArray.length; index++ ) {
+        for (int index = 0; index < listenerArray.length; index++) {
 
-            button.removeActionListener( listenerArray[ index ] );
+            button.removeActionListener(listenerArray[index]);
         }
     }
 }

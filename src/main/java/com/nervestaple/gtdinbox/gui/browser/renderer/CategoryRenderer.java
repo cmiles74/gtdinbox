@@ -13,12 +13,14 @@ import java.awt.*;
  */
 public class CategoryRenderer {
 
-    /** Image icon for the categories. */
+    /**
+     * Image icon for the categories.
+     */
     private ImageIcon imageIconCategory;
 
     public CategoryRenderer() {
 
-        imageIconCategory = new ImageIcon( getClass().getResource( "images/category-18.png" ) );
+        imageIconCategory = new ImageIcon(getClass().getResource("images/category-18.png"));
     }
 
     /**
@@ -34,12 +36,12 @@ public class CategoryRenderer {
      * @param defaultComponent The default rendering of the component
      * @return The rendered component
      */
-    public JLabel getTreeCellRendererComponent( JTree jTree, Category category, boolean isSelected, boolean isExpanded,
-                                                boolean isLeaf, int row, boolean hasFocus, JLabel defaultComponent ) {
+    public JLabel getTreeCellRendererComponent(JTree jTree, Category category, boolean isSelected, boolean isExpanded,
+                                               boolean isLeaf, int row, boolean hasFocus, JLabel defaultComponent) {
 
-        defaultComponent.setText( category.getName() );
-        defaultComponent.setIcon( imageIconCategory );
+        defaultComponent.setText(category.getName());
+        defaultComponent.setIcon(imageIconCategory);
 
-        return ( defaultComponent );
+        return (defaultComponent);
     }
 }

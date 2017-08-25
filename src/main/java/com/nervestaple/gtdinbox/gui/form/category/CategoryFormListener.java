@@ -16,19 +16,19 @@ public interface CategoryFormListener {
      *
      * @param category Category that was added
      */
-    public void categoryAdded( Category category );
+    public void categoryAdded(Category category);
 
     /**
      * Called when a new Category is updated.
      *
      * @param category Category that was updated
      */
-    public void categoryUpdated( Category category );
+    public void categoryUpdated(Category category);
 
     /**
      * Called when an error occurs.
      *
      * @param exception The exception that occurred
      */
-    public void exceptionOccurred( GTDInboxException exception );
+    public void exceptionOccurred(GTDInboxException exception);
 }

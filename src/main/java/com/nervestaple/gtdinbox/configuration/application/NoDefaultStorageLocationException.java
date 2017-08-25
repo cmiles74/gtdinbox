@@ -2,9 +2,6 @@ package com.nervestaple.gtdinbox.configuration.application;
 
 /**
  * Provides an exception object for the ApplicationConfiguration.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class NoDefaultStorageLocationException extends ApplicationConfigurationException {
 
@@ -13,10 +10,10 @@ public class NoDefaultStorageLocationException extends ApplicationConfigurationE
      *
      * @param message A String with the text of the exception message
      */
-    public NoDefaultStorageLocationException( final String message ) {
+    public NoDefaultStorageLocationException(final String message) {
 
         // call the parent constructor
-        super( message );
+        super(message);
     }
 
     /**
@@ -24,10 +21,10 @@ public class NoDefaultStorageLocationException extends ApplicationConfigurationE
      *
      * @param exception Root exception
      */
-    public NoDefaultStorageLocationException( final Exception exception ) {
+    public NoDefaultStorageLocationException(final Exception exception) {
 
         // call the parent constructor
-        super( exception );
+        super(exception);
     }
 
     /**
@@ -37,10 +34,10 @@ public class NoDefaultStorageLocationException extends ApplicationConfigurationE
      * @param message   A String with the text of the exception message
      * @param throwable The root exception
      */
-    public NoDefaultStorageLocationException( final String message, final Throwable throwable ) {
+    public NoDefaultStorageLocationException(final String message, final Throwable throwable) {
 
         // call the parent constructor
-        super( message );
+        super(message);
 
         // save the root exception
         this.throwableRoot = throwable;

@@ -47,16 +47,16 @@ public class CategoryFrame extends JFrame {
 
         panel = new CategoryPanel();
 
-        ICON_APPLICATION_SMALL = new ImageIcon( getClass().getResource(
-                "/com/nervestaple/gtdinbox/gui/browser/images/category-16.png" ) );
+        ICON_APPLICATION_SMALL = new ImageIcon(getClass().getResource(
+                "/com/nervestaple/gtdinbox/gui/browser/images/category-16.png"));
 
-        setIconImage( ICON_APPLICATION_SMALL.getImage() );
+        setIconImage(ICON_APPLICATION_SMALL.getImage());
 
         initializeFrame();
 
         setupListeners();
 
-        setResizable( false );
+        setResizable(false);
     }
 
     /**
@@ -64,15 +64,15 @@ public class CategoryFrame extends JFrame {
      *
      * @param args Command line arguments
      */
-    public static void main( final String[] args ) {
+    public static void main(final String[] args) {
 
         UtilitiesGui.configureSwingUI();
 
         CategoryFrame frame = new CategoryFrame();
 
-        GuiSwing.centerWindow( frame );
+        GuiSwing.centerWindow(frame);
 
-        frame.setVisible( true );
+        frame.setVisible(true);
     }
 
     /**
@@ -80,7 +80,7 @@ public class CategoryFrame extends JFrame {
      */
     public void addNewCategory() {
 
-        setTitle( "Add a New Category" );
+        setTitle("Add a New Category");
         panel.addNewCategory();
     }
 
@@ -89,15 +89,15 @@ public class CategoryFrame extends JFrame {
      *
      * @param category Category to be updated
      */
-    public void updateCategory( Category category ) {
+    public void updateCategory(Category category) {
 
-        setTitle( "Edit a Category" );
+        setTitle("Edit a Category");
 
         try {
-            panel.updateCategory( category );
-        } catch( GTDInboxException e ) {
+            panel.updateCategory(category);
+        } catch (GTDInboxException e) {
 
-            handleErrorOccurred( e );
+            handleErrorOccurred(e);
         }
     }
 
@@ -106,11 +106,11 @@ public class CategoryFrame extends JFrame {
      *
      * @param listener Listener to handle the events
      */
-    public void addCategoryFormListener( CategoryFormListener listener ) {
+    public void addCategoryFormListener(CategoryFormListener listener) {
 
-        if( !listeners.contains( listener ) ) {
+        if (!listeners.contains(listener)) {
 
-            listeners.add( listener );
+            listeners.add(listener);
         }
     }
 
@@ -119,9 +119,9 @@ public class CategoryFrame extends JFrame {
      *
      * @param listener The listener to remove.
      */
-    public void removeCategoryListener( CategoryFormListener listener ) {
+    public void removeCategoryListener(CategoryFormListener listener) {
 
-        listeners.remove( listener );
+        listeners.remove(listener);
     }
 
     // accessor methods
@@ -132,73 +132,73 @@ public class CategoryFrame extends JFrame {
 
     // private methods
 
-    private void fireCategoryAdded( final Category category ) {
+    private void fireCategoryAdded(final Category category) {
 
         CategoryFormListener[] listenersArray =
-                ( CategoryFormListener[] ) listeners.toArray( new CategoryFormListener[listeners.size()] );
+                (CategoryFormListener[]) listeners.toArray(new CategoryFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].categoryAdded( category );
+            listenersArray[index].categoryAdded(category);
         }
 
-        if( isVisible() ) {
+        if (isVisible()) {
 
-            setVisible( false );
+            setVisible(false);
         }
     }
 
-    private void fireCategoryUpdated( final Category category ) {
+    private void fireCategoryUpdated(final Category category) {
 
         CategoryFormListener[] listenersArray =
-                ( CategoryFormListener[] ) listeners.toArray( new CategoryFormListener[listeners.size()] );
+                (CategoryFormListener[]) listeners.toArray(new CategoryFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].categoryUpdated( category );
+            listenersArray[index].categoryUpdated(category);
         }
 
-        if( isVisible() ) {
+        if (isVisible()) {
 
-            setVisible( false );
+            setVisible(false);
         }
     }
 
-    private void fireErrorOccurred( final GTDInboxException exception ) {
+    private void fireErrorOccurred(final GTDInboxException exception) {
 
         CategoryFormListener[] listenersArray =
-                ( CategoryFormListener[] ) listeners.toArray( new CategoryFormListener[listeners.size()] );
+                (CategoryFormListener[]) listeners.toArray(new CategoryFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].exceptionOccurred( exception );
+            listenersArray[index].exceptionOccurred(exception);
         }
     }
 
-    private void handleErrorOccurred( GTDInboxException exception ) {
+    private void handleErrorOccurred(GTDInboxException exception) {
 
         JOptionPane pane = new JOptionPane(
-                "<html>" + UIManager.getString( "OptionPane.css" ) +
+                "<html>" + UIManager.getString("OptionPane.css") +
                         "<b>There was a problem that I wasn't expecting.</b><p>" +
                         exception.getMessage(),
                 JOptionPane.WARNING_MESSAGE
         );
-        Object[] options = { "Okay" };
-        pane.setOptions( options );
-        pane.setInitialValue( options[ 0 ] );
+        Object[] options = {"Okay"};
+        pane.setOptions(options);
+        pane.setInitialValue(options[0]);
         pane.putClientProperty(
-                "Quaqua.OptionPane.destructiveOption", new Integer( 0 )
+                "Quaqua.OptionPane.destructiveOption", new Integer(0)
         );
-        JSheet.showSheet( pane, this, new SheetListener() {
-            public void optionSelected( SheetEvent evt ) {
+        JSheet.showSheet(pane, this, new SheetListener() {
+            public void optionSelected(SheetEvent evt) {
                 evt.getValue();
             }
-        } );
+        });
     }
 
     private void setupListeners() {
 
-        panel.addCategoryFormListener( new CategoryFormListener() {
+        panel.addCategoryFormListener(new CategoryFormListener() {
 
 
             /**
@@ -206,9 +206,9 @@ public class CategoryFrame extends JFrame {
              *
              * @param category Category that was added
              */
-            public void categoryAdded( Category category ) {
+            public void categoryAdded(Category category) {
 
-                fireCategoryAdded( category );
+                fireCategoryAdded(category);
             }
 
             /**
@@ -216,9 +216,9 @@ public class CategoryFrame extends JFrame {
              *
              * @param category Category that was updated
              */
-            public void categoryUpdated( Category category ) {
+            public void categoryUpdated(Category category) {
 
-                fireCategoryUpdated( category );
+                fireCategoryUpdated(category);
             }
 
             /**
@@ -226,19 +226,19 @@ public class CategoryFrame extends JFrame {
              *
              * @param exception The exception that occurred
              */
-            public void exceptionOccurred( GTDInboxException exception ) {
+            public void exceptionOccurred(GTDInboxException exception) {
 
-                fireErrorOccurred( exception );
+                fireErrorOccurred(exception);
             }
-        } );
+        });
 
-        panel.setActionListenerCancel( new ActionListener() {
+        panel.setActionListenerCancel(new ActionListener() {
 
-            public void actionPerformed( ActionEvent actionEvent ) {
+            public void actionPerformed(ActionEvent actionEvent) {
 
-                setVisible( false );
+                setVisible(false);
             }
-        } );
+        });
     }
 
     /**
@@ -246,8 +246,8 @@ public class CategoryFrame extends JFrame {
      */
     private void initializeFrame() {
 
-        getContentPane().setLayout( new GridLayout( 1, 1 ) );
-        getContentPane().add( panel );
+        getContentPane().setLayout(new GridLayout(1, 1));
+        getContentPane().add(panel);
 
         pack();
 

@@ -17,7 +17,9 @@ import java.awt.print.PrinterJob;
  */
 public class UtilitiesPrint implements Printable {
 
-    /** Component to be printed. */
+    /**
+     * Component to be printed.
+     */
     private Component componentToBePrinted;
 
     /**
@@ -25,8 +27,8 @@ public class UtilitiesPrint implements Printable {
      *
      * @param c Component to print.
      */
-    public static void printComponent( Component c ) {
-        new UtilitiesPrint( c ).print();
+    public static void printComponent(Component c) {
+        new UtilitiesPrint(c).print();
     }
 
     /**
@@ -34,22 +36,23 @@ public class UtilitiesPrint implements Printable {
      *
      * @param componentToBePrinted Component to print out.
      */
-    public UtilitiesPrint( Component componentToBePrinted ) {
+    public UtilitiesPrint(Component componentToBePrinted) {
         this.componentToBePrinted = componentToBePrinted;
     }
 
-    /** Starts the print process, prompts the user with the standard print dialog. */
+    /**
+     * Starts the print process, prompts the user with the standard print dialog.
+     */
     public void print() {
         PrinterJob printJob = PrinterJob.getPrinterJob();
-        printJob.setPrintable( this );
-        if( printJob.printDialog() ) {
+        printJob.setPrintable(this);
+        if (printJob.printDialog()) {
             try {
-                System.out.println( "Calling PrintJob.print()" );
+                System.out.println("Calling PrintJob.print()");
                 printJob.print();
-                System.out.println( "End PrintJob.print()" );
-            }
-            catch( PrinterException pe ) {
-                System.out.println( "Error printing: " + pe );
+                System.out.println("End PrintJob.print()");
+            } catch (PrinterException pe) {
+                System.out.println("Error printing: " + pe);
             }
         }
     }
@@ -62,13 +65,13 @@ public class UtilitiesPrint implements Printable {
      * @param pageIndex Page to print.
      * @return Code to indicate if the page exists or not (used by the printing framework).
      */
-    public int print( Graphics g, PageFormat pf, int pageIndex ) {
+    public int print(Graphics g, PageFormat pf, int pageIndex) {
         int response = NO_SUCH_PAGE;
 
-        Graphics2D g2 = ( Graphics2D ) g;
+        Graphics2D g2 = (Graphics2D) g;
 
         //  for faster printing, turn off double buffering
-        disableDoubleBuffering( componentToBePrinted );
+        disableDoubleBuffering(componentToBePrinted);
 
         Dimension d = componentToBePrinted.getSize(); //get size of document
         double panelWidth = d.width; //width in pixels
@@ -78,25 +81,25 @@ public class UtilitiesPrint implements Printable {
         double pageWidth = pf.getImageableWidth(); //width of printer page
 
         double scale = pageWidth / panelWidth;
-        int totalNumPages = ( int ) Math.ceil( scale * panelHeight / pageHeight );
+        int totalNumPages = (int) Math.ceil(scale * panelHeight / pageHeight);
 
         //  make sure not print empty pages
-        if( pageIndex >= totalNumPages ) {
+        if (pageIndex >= totalNumPages) {
             response = NO_SUCH_PAGE;
         } else {
 
             //  shift Graphic to line up with beginning of print-imageable region
-            g2.translate( pf.getImageableX(), pf.getImageableY() );
+            g2.translate(pf.getImageableX(), pf.getImageableY());
 
             //  shift Graphic to line up with beginning of next page to print
-            g2.translate( 0f, -pageIndex * pageHeight );
+            g2.translate(0f, -pageIndex * pageHeight);
 
             //  scale the page so the width fits...
-            g2.scale( scale, scale );
+            g2.scale(scale, scale);
 
-            componentToBePrinted.paint( g2 ); //repaint the page for printing
+            componentToBePrinted.paint(g2); //repaint the page for printing
 
-            enableDoubleBuffering( componentToBePrinted );
+            enableDoubleBuffering(componentToBePrinted);
             response = Printable.PAGE_EXISTS;
         }
         return response;
@@ -107,9 +110,9 @@ public class UtilitiesPrint implements Printable {
      *
      * @param c Component that will have double buffering disabled.
      */
-    public static void disableDoubleBuffering( Component c ) {
-        RepaintManager currentManager = RepaintManager.currentManager( c );
-        currentManager.setDoubleBufferingEnabled( false );
+    public static void disableDoubleBuffering(Component c) {
+        RepaintManager currentManager = RepaintManager.currentManager(c);
+        currentManager.setDoubleBufferingEnabled(false);
     }
 
     /**
@@ -117,8 +120,8 @@ public class UtilitiesPrint implements Printable {
      *
      * @param c Component that will have double buffering enabled.
      */
-    public static void enableDoubleBuffering( Component c ) {
-        RepaintManager currentManager = RepaintManager.currentManager( c );
-        currentManager.setDoubleBufferingEnabled( true );
+    public static void enableDoubleBuffering(Component c) {
+        RepaintManager currentManager = RepaintManager.currentManager(c);
+        currentManager.setDoubleBufferingEnabled(true);
     }
 }

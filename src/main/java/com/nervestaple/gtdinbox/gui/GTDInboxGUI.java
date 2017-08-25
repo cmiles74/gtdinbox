@@ -32,7 +32,7 @@ public class GTDInboxGUI {
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * Browser frame.
@@ -76,15 +76,15 @@ public class GTDInboxGUI {
 
         UtilitiesGui.configureSwingUI();
 
-        ICON_APPLICATION_CAUTION = new ImageIcon( getClass().getResource(
-                "/com/nervestaple/gtdinbox/gui/images/application-caution-64.png" ) );
+        ICON_APPLICATION_CAUTION = new ImageIcon(getClass().getResource(
+                "/com/nervestaple/gtdinbox/gui/images/application-caution-64.png"));
 
         SplashFrame splashFrame = new SplashFrame();
-        splashFrame.setVisible( true );
+        splashFrame.setVisible(true);
 
         startApplication();
 
-        splashFrame.setVisible( false );
+        splashFrame.setVisible(false);
         splashFrame.dispose();
     }
 
@@ -101,9 +101,9 @@ public class GTDInboxGUI {
 
             // configure the configuration
             configurationFactory.configure();
-        } catch( Throwable e ) {
+        } catch (Throwable e) {
 
-            handleException( e );
+            handleException(e);
         }
 
         preferencesFrame = new PreferencesFrame();
@@ -112,20 +112,20 @@ public class GTDInboxGUI {
 
         frame = BrowserFrame.getInstance();
 
-        frame.setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        frame.addWindowListener( new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() {
 
-            public void windowClosing( WindowEvent event ) {
+            public void windowClosing(WindowEvent event) {
 
                 //doQuitWithWarning();
                 doQuitApplication();
             }
-        } );
+        });
 
-        GuiSwing.centerWindow( frame );
+        GuiSwing.centerWindow(frame);
 
-        frame.setVisible( true );
+        frame.setVisible(true);
         frame.toFront();
     }
 
@@ -136,7 +136,7 @@ public class GTDInboxGUI {
      */
     public static GTDInboxGUI getInstance() {
 
-        return ( gtdInboxGUI );
+        return (gtdInboxGUI);
     }
 
     /**
@@ -144,21 +144,21 @@ public class GTDInboxGUI {
      *
      * @param actionEvent ActionEvent from the menu bar.
      */
-    public void handleMenuAction( ActionEvent actionEvent ) {
+    public void handleMenuAction(ActionEvent actionEvent) {
 
-        logger.info( actionEvent );
+        logger.info(actionEvent);
 
-        if( actionEvent.getActionCommand().equals( "Quit GTD Inbox" ) ) {
+        if (actionEvent.getActionCommand().equals("Quit GTD Inbox")) {
 
             //doQuitWithWarning();
             doQuitApplication();
-        } else if( actionEvent.getActionCommand().equals( "About GTD Inbox" ) ) {
+        } else if (actionEvent.getActionCommand().equals("About GTD Inbox")) {
 
             doShowAboutFrame();
-        } else if( actionEvent.getActionCommand().equals( "Preferences..." ) ) {
+        } else if (actionEvent.getActionCommand().equals("Preferences...")) {
 
             doShowPreferencesFrame();
-        } else if( actionEvent.getActionCommand().equals( "Markdown Cheat Sheet..." ) ) {
+        } else if (actionEvent.getActionCommand().equals("Markdown Cheat Sheet...")) {
 
             doShowMarkdownSheetFrame();
         }
@@ -170,39 +170,39 @@ public class GTDInboxGUI {
     public void doQuitWithWarning() {
 
         final JOptionPane pane = new JOptionPane(
-                "<html>" + System.getProperty( "OptionPane.css" ) +
+                "<html>" + System.getProperty("OptionPane.css") +
                         "<b>Are you sure that you want to quit?</b><p>" +
                         "All of your data will be saved when the program closes.",
                 JOptionPane.WARNING_MESSAGE
         );
-        final Object[] options = { "Quit", "Cancel" };
-        pane.setOptions( options );
-        pane.setInitialValue( options[ 1 ] );
-        pane.setIcon( ICON_APPLICATION_CAUTION );
+        final Object[] options = {"Quit", "Cancel"};
+        pane.setOptions(options);
+        pane.setInitialValue(options[1]);
+        pane.setIcon(ICON_APPLICATION_CAUTION);
         pane.putClientProperty(
-                "Quaqua.OptionPane.destructiveOption", new Integer( 1 )
+                "Quaqua.OptionPane.destructiveOption", new Integer(1)
         );
 
-        if( frame != null && frame.isVisible() ) {
+        if (frame != null && frame.isVisible()) {
 
             frame.toFront();
 
-            JSheet.showSheet( pane, frame, new SheetListener() {
-                public void optionSelected( SheetEvent evt ) {
+            JSheet.showSheet(pane, frame, new SheetListener() {
+                public void optionSelected(SheetEvent evt) {
 
-                    if( evt.getValue().toString().equals( options[ 0 ] ) ) {
+                    if (evt.getValue().toString().equals(options[0])) {
 
                         doQuitApplication();
                     }
                 }
-            } );
+            });
         } else {
 
-            JDialog dialog = pane.createDialog( null, "Quitting GTD Inbox" );
-            dialog.setVisible( true );
+            JDialog dialog = pane.createDialog(null, "Quitting GTD Inbox");
+            dialog.setVisible(true);
 
-            logger.debug( pane.getValue() );
-            if( pane.getValue().toString().equals( options[ 0 ] ) ) {
+            logger.debug(pane.getValue());
+            if (pane.getValue().toString().equals(options[0])) {
 
                 doQuitApplication();
             } else {
@@ -226,13 +226,13 @@ public class GTDInboxGUI {
             DataBaseManager.getInstance().closeEntityManager();
 
             // exit the VM
-            System.exit( 0 );
-        } catch( IndexManagerException e ) {
+            System.exit(0);
+        } catch (IndexManagerException e) {
 
-            frame.handleErrorOccurred( e );
-        } catch( DataBaseManagerException e ) {
+            frame.handleErrorOccurred(e);
+        } catch (DataBaseManagerException e) {
 
-            frame.handleErrorOccurred( e );
+            frame.handleErrorOccurred(e);
         } finally {
 
             System.exit(0);
@@ -244,14 +244,14 @@ public class GTDInboxGUI {
      */
     public void doShowAboutFrame() {
 
-        SwingUtilities.invokeLater( new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
 
-                aboutFrame.setVisible( true );
+                aboutFrame.setVisible(true);
                 aboutFrame.toFront();
             }
-        } );
+        });
     }
 
     /**
@@ -259,15 +259,15 @@ public class GTDInboxGUI {
      */
     public void doShowPreferencesFrame() {
 
-        SwingUtilities.invokeLater( new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
 
-                GuiSwing.centerWindow( preferencesFrame );
-                preferencesFrame.setVisible( true );
+                GuiSwing.centerWindow(preferencesFrame);
+                preferencesFrame.setVisible(true);
                 preferencesFrame.toFront();
             }
-        } );
+        });
     }
 
     /**
@@ -275,45 +275,45 @@ public class GTDInboxGUI {
      */
     public void doShowMarkdownSheetFrame() {
 
-        SwingUtilities.invokeLater( new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
 
-                GuiSwing.centerWindow( markdownSheetFrame );
-                markdownSheetFrame.setVisible( true );
+                GuiSwing.centerWindow(markdownSheetFrame);
+                markdownSheetFrame.setVisible(true);
                 markdownSheetFrame.toFront();
             }
-        } );
+        });
     }
 
     // private methods
 
-    private void handleException( Throwable exception ) {
+    private void handleException(Throwable exception) {
 
         logger.warn(exception.getMessage(), exception);
 
         String message = exception.getMessage();
 
-        if(message == null) {
+        if (message == null) {
             message = "An unknown application occured, I am very sorry!";
         }
 
         final JOptionPane pane = new JOptionPane(
-                "<html>" + System.getProperty( "OptionPane.css" ) +
+                "<html>" + System.getProperty("OptionPane.css") +
                         "<b>GTD Inbox cannot startup.</b><p>" +
                         message,
                 JOptionPane.ERROR_MESSAGE
         );
-        Object[] options = { "Quit" };
-        pane.setOptions( options );
-        pane.setInitialValue( options[ 0 ] );
-        pane.setIcon( ICON_APPLICATION_CAUTION );
+        Object[] options = {"Quit"};
+        pane.setOptions(options);
+        pane.setInitialValue(options[0]);
+        pane.setIcon(ICON_APPLICATION_CAUTION);
         pane.putClientProperty(
-                "Quaqua.OptionPane.destructiveOption", new Integer( 0 )
+                "Quaqua.OptionPane.destructiveOption", new Integer(0)
         );
 
-        JDialog dialog = pane.createDialog( null, "GTD Inbox Can't Startup" );
-        dialog.setVisible( true );
+        JDialog dialog = pane.createDialog(null, "GTD Inbox Can't Startup");
+        dialog.setVisible(true);
 
         doQuitApplication();
     }

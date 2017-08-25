@@ -13,16 +13,13 @@ import java.util.Map;
 
 /**
  * Provides an object for configuring Hibernate.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class HibernateConfiguration {
 
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * Application configuration.
@@ -41,9 +38,10 @@ public class HibernateConfiguration {
 
     /**
      * Creates a new HibernateConfiguration.
+     *
      * @param applicationConfiguration application configuration
      */
-    public HibernateConfiguration( ApplicationConfiguration applicationConfiguration ) {
+    public HibernateConfiguration(ApplicationConfiguration applicationConfiguration) {
 
         this.applicationConfiguration = applicationConfiguration;
     }
@@ -51,20 +49,20 @@ public class HibernateConfiguration {
     public Map<String, Object> getConfigurationProperties() {
 
         File databaseStorageLocation = applicationConfiguration.getDatabaseStorageLocation();
-        logger.debug( "DatabaseStorageLocation: " + databaseStorageLocation );
+        logger.debug("DatabaseStorageLocation: " + databaseStorageLocation);
 
         // setup out database connection
         Map<String, Object> properties = new HashMap<>();
 
-        if( databaseStorageLocation.exists() ) {
+        if (databaseStorageLocation.exists()) {
 
-            properties.put( "javax.persistence.jdbc.url", "jdbc:derby:" +
-                    databaseStorageLocation.getAbsolutePath() );
+            properties.put("javax.persistence.jdbc.url", "jdbc:derby:" +
+                    databaseStorageLocation.getAbsolutePath());
         } else {
 
-            properties.put( "javax.persistence.jdbc.url", "jdbc:derby:" +
+            properties.put("javax.persistence.jdbc.url", "jdbc:derby:" +
                     databaseStorageLocation.getAbsolutePath()
-                    + ";create=true" );
+                    + ";create=true");
         }
 
         return properties;
@@ -72,6 +70,7 @@ public class HibernateConfiguration {
 
     /**
      * Configures the Hibernate configuration.
+     *
      * @throws HibernateException on problems configuring Hibernate
      */
     public void configure() throws HibernateConfigurationException {
@@ -84,9 +83,9 @@ public class HibernateConfiguration {
             // create a new entity manager factory
             entityManagerFactory =
                     Persistence.createEntityManagerFactory("com.nervestaple.gtdinbox.jpa", properties);
-        } catch( HibernateException e ) {
+        } catch (HibernateException e) {
 
-            throw new HibernateConfigurationException( e );
+            throw new HibernateConfigurationException(e);
         }
     }
 
@@ -112,15 +111,14 @@ public class HibernateConfiguration {
      * Tell the factory if it should configure itself for running in test mode.
      *
      * @param testingConfiguration boolean
-     * @throws com.nervestaple.gtdinbox.configuration.application.ApplicationConfigurationException
-     *          if the instance has already been configured
+     * @throws ApplicationConfigurationException if the instance has already been configured
      */
-    public void setTestingConfiguration( final boolean testingConfiguration ) throws ApplicationConfigurationException {
+    public void setTestingConfiguration(final boolean testingConfiguration) throws ApplicationConfigurationException {
 
-        if( entityManagerFactory != null ) {
+        if (entityManagerFactory != null) {
 
             throw new ApplicationConfigurationException(
-                    "Cannot enter testing mode after configure() has been called" );
+                    "Cannot enter testing mode after configure() has been called");
         }
 
         this.testingConfiguration = testingConfiguration;

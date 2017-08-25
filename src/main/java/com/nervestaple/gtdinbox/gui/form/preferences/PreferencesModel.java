@@ -17,7 +17,7 @@ public class PreferencesModel {
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * Number of days before a completed item is moved to the archive.
@@ -44,27 +44,27 @@ public class PreferencesModel {
      */
     public PreferencesModel() {
 
-        propertychangesupport = new PropertyChangeSupport( this );
+        propertychangesupport = new PropertyChangeSupport(this);
     }
 
     // property change support methods
 
-    public void addPropertyChangeListener( PropertyChangeListener listener ) {
-        propertychangesupport.addPropertyChangeListener( listener );
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertychangesupport.addPropertyChangeListener(listener);
     }
 
-    public void removePropertyChangeListener( PropertyChangeListener listener ) {
-        propertychangesupport.removePropertyChangeListener( listener );
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertychangesupport.removePropertyChangeListener(listener);
     }
 
-    public void addPropertyChangeListener( String property,
-                                           PropertyChangeListener listener ) {
-        propertychangesupport.addPropertyChangeListener( property, listener );
+    public void addPropertyChangeListener(String property,
+                                          PropertyChangeListener listener) {
+        propertychangesupport.addPropertyChangeListener(property, listener);
     }
 
-    public void removePropertyChangeListener( String property,
-                                              PropertyChangeListener listener ) {
-        propertychangesupport.removePropertyChangeListener( property, listener );
+    public void removePropertyChangeListener(String property,
+                                             PropertyChangeListener listener) {
+        propertychangesupport.removePropertyChangeListener(property, listener);
     }
 
     // accessor and mutator methods
@@ -73,18 +73,18 @@ public class PreferencesModel {
         return archiveDays;
     }
 
-    public void setArchiveDays( Integer archiveDays ) {
+    public void setArchiveDays(Integer archiveDays) {
 
         Integer valueOld = this.archiveDays;
         this.archiveDays = archiveDays;
-        propertychangesupport.firePropertyChange( "archiveDays", valueOld, this.archiveDays );
+        propertychangesupport.firePropertyChange("archiveDays", valueOld, this.archiveDays);
     }
 
     public ActionListener getActionListenerSave() {
         return actionListenerSave;
     }
 
-    public void setActionListenerSave( ActionListener actionListenerSave ) {
+    public void setActionListenerSave(ActionListener actionListenerSave) {
         this.actionListenerSave = actionListenerSave;
     }
 
@@ -92,7 +92,7 @@ public class PreferencesModel {
         return actionListenerCancel;
     }
 
-    public void setActionListenerCancel( ActionListener actionListenerCancel ) {
+    public void setActionListenerCancel(ActionListener actionListenerCancel) {
         this.actionListenerCancel = actionListenerCancel;
     }
 }

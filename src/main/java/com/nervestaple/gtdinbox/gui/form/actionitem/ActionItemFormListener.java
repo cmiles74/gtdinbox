@@ -16,19 +16,19 @@ public interface ActionItemFormListener {
      *
      * @param actionItem ActionItem added
      */
-    public void actionItemAdded( ActionItem actionItem );
+    public void actionItemAdded(ActionItem actionItem);
 
     /**
      * Called when an ActionItem is updated.
      *
      * @param actionItem ActionItem updated
      */
-    public void actionItemUpdated( ActionItem actionItem );
+    public void actionItemUpdated(ActionItem actionItem);
 
     /**
      * Called when an error occurs.
      *
      * @param exception The exception that occurred
      */
-    public void exceptionOccurred( GTDInboxException exception );
+    public void exceptionOccurred(GTDInboxException exception);
 }

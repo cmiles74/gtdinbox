@@ -10,7 +10,7 @@ import org.apache.lucene.document.Document;
  */
 public interface IndexManagerListener {
 
-    public void documentAdded( Document document );
+    public void documentAdded(Document document);
 
-    public void documentRemoved( Document document );
+    public void documentRemoved(Document document);
 }

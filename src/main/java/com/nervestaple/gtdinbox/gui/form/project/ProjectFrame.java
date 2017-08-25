@@ -47,16 +47,16 @@ public class ProjectFrame extends JFrame {
 
         panel = new ProjectPanel();
 
-        ICON_APPLICATION_SMALL = new ImageIcon( getClass().getResource(
-                "/com/nervestaple/gtdinbox/gui/browser/images/project-16.png" ) );
+        ICON_APPLICATION_SMALL = new ImageIcon(getClass().getResource(
+                "/com/nervestaple/gtdinbox/gui/browser/images/project-16.png"));
 
-        setIconImage( ICON_APPLICATION_SMALL.getImage() );
+        setIconImage(ICON_APPLICATION_SMALL.getImage());
 
         initializeFrame();
 
         setupListeners();
 
-        setResizable( false );
+        setResizable(false);
     }
 
     /**
@@ -64,15 +64,15 @@ public class ProjectFrame extends JFrame {
      *
      * @param args Command line arguments
      */
-    public static void main( final String[] args ) {
+    public static void main(final String[] args) {
 
         UtilitiesGui.configureSwingUI();
 
         ProjectFrame frame = new ProjectFrame();
 
-        GuiSwing.centerWindow( frame );
+        GuiSwing.centerWindow(frame);
 
-        frame.setVisible( true );
+        frame.setVisible(true);
     }
 
     /**
@@ -80,7 +80,7 @@ public class ProjectFrame extends JFrame {
      */
     public void addNewProject() {
 
-        setTitle( "Add a New Project" );
+        setTitle("Add a New Project");
         panel.addNewProject();
     }
 
@@ -89,15 +89,15 @@ public class ProjectFrame extends JFrame {
      *
      * @param project Project to be updated
      */
-    public void updateProject( Project project ) {
+    public void updateProject(Project project) {
 
-        setTitle( "Edit a Project" );
+        setTitle("Edit a Project");
 
         try {
-            panel.updateProject( project );
-        } catch( GTDInboxException e ) {
+            panel.updateProject(project);
+        } catch (GTDInboxException e) {
 
-            handleErrorOccurred( e );
+            handleErrorOccurred(e);
         }
     }
 
@@ -106,11 +106,11 @@ public class ProjectFrame extends JFrame {
      *
      * @param listener Listener to handle the events
      */
-    public void addProjectFormListener( ProjectFormListener listener ) {
+    public void addProjectFormListener(ProjectFormListener listener) {
 
-        if( !listeners.contains( listener ) ) {
+        if (!listeners.contains(listener)) {
 
-            listeners.add( listener );
+            listeners.add(listener);
         }
     }
 
@@ -119,9 +119,9 @@ public class ProjectFrame extends JFrame {
      *
      * @param listener The listener to remove.
      */
-    public void removeProjectFormListener( ProjectFormListener listener ) {
+    public void removeProjectFormListener(ProjectFormListener listener) {
 
-        listeners.remove( listener );
+        listeners.remove(listener);
     }
 
     // accessor methods
@@ -132,82 +132,82 @@ public class ProjectFrame extends JFrame {
 
     // private methods
 
-    private void fireProjectAdded( final Project project ) {
+    private void fireProjectAdded(final Project project) {
 
         ProjectFormListener[] listenersArray =
-                ( ProjectFormListener[] ) listeners.toArray( new ProjectFormListener[listeners.size()] );
+                (ProjectFormListener[]) listeners.toArray(new ProjectFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].projectAdded( project );
+            listenersArray[index].projectAdded(project);
         }
 
-        if( isVisible() ) {
+        if (isVisible()) {
 
-            setVisible( false );
+            setVisible(false);
         }
     }
 
-    private void fireProjectUpdated( final Project project ) {
+    private void fireProjectUpdated(final Project project) {
 
         ProjectFormListener[] listenersArray =
-                ( ProjectFormListener[] ) listeners.toArray( new ProjectFormListener[listeners.size()] );
+                (ProjectFormListener[]) listeners.toArray(new ProjectFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].projectUpdated( project );
+            listenersArray[index].projectUpdated(project);
         }
 
-        if( isVisible() ) {
+        if (isVisible()) {
 
-            setVisible( false );
+            setVisible(false);
         }
     }
 
-    private void fireErrorOccurred( final GTDInboxException exception ) {
+    private void fireErrorOccurred(final GTDInboxException exception) {
 
         ProjectFormListener[] listenersArray =
-                ( ProjectFormListener[] ) listeners.toArray( new ProjectFormListener[listeners.size()] );
+                (ProjectFormListener[]) listeners.toArray(new ProjectFormListener[listeners.size()]);
 
-        for( int index = 0; index < listenersArray.length; index++ ) {
+        for (int index = 0; index < listenersArray.length; index++) {
 
-            listenersArray[ index ].exceptionOccurred( exception );
+            listenersArray[index].exceptionOccurred(exception);
         }
     }
 
-    private void handleErrorOccurred( GTDInboxException exception ) {
+    private void handleErrorOccurred(GTDInboxException exception) {
 
         JOptionPane pane = new JOptionPane(
-                "<html>" + System.getProperty( "OptionPane.css" ) +
+                "<html>" + System.getProperty("OptionPane.css") +
                         "<b>There was a problem that I wasn't expecting.</b><p>" +
                         exception.getMessage(),
                 JOptionPane.WARNING_MESSAGE
         );
-        Object[] options = { "Okay" };
-        pane.setOptions( options );
-        pane.setInitialValue( options[ 0 ] );
+        Object[] options = {"Okay"};
+        pane.setOptions(options);
+        pane.setInitialValue(options[0]);
         pane.putClientProperty(
-                "Quaqua.OptionPane.destructiveOption", new Integer( 0 )
+                "Quaqua.OptionPane.destructiveOption", new Integer(0)
         );
-        JSheet.showSheet( pane, this, new SheetListener() {
-            public void optionSelected( SheetEvent evt ) {
+        JSheet.showSheet(pane, this, new SheetListener() {
+            public void optionSelected(SheetEvent evt) {
                 evt.getValue();
             }
-        } );
+        });
     }
 
     private void setupListeners() {
 
-        panel.addProjectFormListener( new ProjectFormListener() {
+        panel.addProjectFormListener(new ProjectFormListener() {
 
             /**
              * Called when a new project is added.
              *
              * @param project Project that was added
              */
-            public void projectAdded( Project project ) {
+            public void projectAdded(Project project) {
 
-                fireProjectAdded( project );
+                fireProjectAdded(project);
             }
 
             /**
@@ -215,9 +215,9 @@ public class ProjectFrame extends JFrame {
              *
              * @param project Project that was updated
              */
-            public void projectUpdated( Project project ) {
+            public void projectUpdated(Project project) {
 
-                fireProjectUpdated( project );
+                fireProjectUpdated(project);
             }
 
             /**
@@ -225,19 +225,19 @@ public class ProjectFrame extends JFrame {
              *
              * @param exception The exception that occurred
              */
-            public void exceptionOccurred( GTDInboxException exception ) {
+            public void exceptionOccurred(GTDInboxException exception) {
 
-                handleErrorOccurred( exception );
+                handleErrorOccurred(exception);
             }
-        } );
+        });
 
-        panel.setActionListenerCancel( new ActionListener() {
+        panel.setActionListenerCancel(new ActionListener() {
 
-            public void actionPerformed( ActionEvent actionEvent ) {
+            public void actionPerformed(ActionEvent actionEvent) {
 
-                setVisible( false );
+                setVisible(false);
             }
-        } );
+        });
     }
 
     /**
@@ -245,8 +245,8 @@ public class ProjectFrame extends JFrame {
      */
     private void initializeFrame() {
 
-        getContentPane().setLayout( new GridLayout( 1, 1 ) );
-        getContentPane().add( panel );
+        getContentPane().setLayout(new GridLayout(1, 1));
+        getContentPane().add(panel);
 
         pack();
 

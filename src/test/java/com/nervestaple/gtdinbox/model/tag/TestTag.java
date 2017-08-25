@@ -17,34 +17,34 @@ public class TestTag extends TestCase {
 
         Tag tag = new Tag();
 
-        assertNotNull( tag );
+        assertNotNull(tag);
     }
 
     public void testId() {
 
         Tag tag = new Tag();
 
-        tag.setId( Long.valueOf( 10 ) );
+        tag.setId(Long.valueOf(10));
 
-        assertEquals( tag.getId(), Long.valueOf( 10 ) );
+        assertEquals(tag.getId(), Long.valueOf(10));
     }
 
     public void testName() {
 
         Tag tag = new Tag();
 
-        tag.setName( "Name" );
+        tag.setName("Name");
 
-        assertEquals( tag.getName(), "Name" );
+        assertEquals(tag.getName(), "Name");
     }
 
     public void testDelted() {
 
         Tag tag = new Tag();
 
-        tag.setDeleted( Boolean.valueOf( true ) );
+        tag.setDeleted(Boolean.valueOf(true));
 
-        assertTrue( tag.getDeleted().booleanValue() );
+        assertTrue(tag.getDeleted().booleanValue());
     }
 
     public void testAddReferenceItem() {
@@ -53,9 +53,9 @@ public class TestTag extends TestCase {
 
         Tag tag = new Tag();
 
-        tag.addReferenceItem( referenceItem );
+        tag.addReferenceItem(referenceItem);
 
-        assertTrue( tag.getReferenceItems().contains( referenceItem ) );
+        assertTrue(tag.getReferenceItems().contains(referenceItem));
     }
 
     public void testAddReferenceItemInverse() {
@@ -64,9 +64,9 @@ public class TestTag extends TestCase {
 
         Tag tag = new Tag();
 
-        tag.addReferenceItem( referenceItem );
+        tag.addReferenceItem(referenceItem);
 
-        assertTrue( referenceItem.getTags().contains( tag ) );
+        assertTrue(referenceItem.getTags().contains(tag));
     }
 
     public void testRemoveAddReferenceItem() {
@@ -75,10 +75,10 @@ public class TestTag extends TestCase {
 
         Tag tag = new Tag();
 
-        tag.addReferenceItem( referenceItem );
-        tag.removeReferenceItem( referenceItem );
+        tag.addReferenceItem(referenceItem);
+        tag.removeReferenceItem(referenceItem);
 
-        assertFalse( tag.getReferenceItems().contains( referenceItem ) );
+        assertFalse(tag.getReferenceItems().contains(referenceItem));
     }
 
     public void testRemoveReferenceItemInverse() {
@@ -87,10 +87,10 @@ public class TestTag extends TestCase {
 
         Tag tag = new Tag();
 
-        tag.addReferenceItem( referenceItem );
-        tag.removeReferenceItem( referenceItem );
+        tag.addReferenceItem(referenceItem);
+        tag.removeReferenceItem(referenceItem);
 
-        assertFalse( referenceItem.getTags().contains( tag ) );
+        assertFalse(referenceItem.getTags().contains(tag));
     }
 
     public void testAddActionItem() {
@@ -99,9 +99,9 @@ public class TestTag extends TestCase {
 
         Tag tag = new Tag();
 
-        tag.addActionItem( ActionItem );
+        tag.addActionItem(ActionItem);
 
-        assertTrue( tag.getActionItems().contains( ActionItem ) );
+        assertTrue(tag.getActionItems().contains(ActionItem));
     }
 
     public void testAddActionItemInverse() {
@@ -110,9 +110,9 @@ public class TestTag extends TestCase {
 
         Tag tag = new Tag();
 
-        tag.addActionItem( ActionItem );
+        tag.addActionItem(ActionItem);
 
-        assertTrue( ActionItem.getTags().contains( tag ) );
+        assertTrue(ActionItem.getTags().contains(tag));
     }
 
     public void testRemoveAddActionItem() {
@@ -121,10 +121,10 @@ public class TestTag extends TestCase {
 
         Tag tag = new Tag();
 
-        tag.addActionItem( ActionItem );
-        tag.removeActionItem( ActionItem );
+        tag.addActionItem(ActionItem);
+        tag.removeActionItem(ActionItem);
 
-        assertFalse( tag.getActionItems().contains( ActionItem ) );
+        assertFalse(tag.getActionItems().contains(ActionItem));
     }
 
     public void testRemoveActionItemInverse() {
@@ -133,61 +133,61 @@ public class TestTag extends TestCase {
 
         Tag tag = new Tag();
 
-        tag.addActionItem( ActionItem );
-        tag.removeActionItem( ActionItem );
+        tag.addActionItem(ActionItem);
+        tag.removeActionItem(ActionItem);
 
-        assertFalse( ActionItem.getTags().contains( tag ) );
+        assertFalse(ActionItem.getTags().contains(tag));
     }
 
     public void testEquals() {
 
         Tag tag = new Tag();
-        tag.setId( Long.valueOf( 10 ) );
-        tag.setName( "Name" );
+        tag.setId(Long.valueOf(10));
+        tag.setName("Name");
 
         Tag tag2 = new Tag();
-        tag2.setId( Long.valueOf( 10 ) );
-        tag2.setName( "Name" );
+        tag2.setId(Long.valueOf(10));
+        tag2.setName("Name");
 
-        assertEquals( tag, tag2 );
+        assertEquals(tag, tag2);
     }
 
     public void testNotEquals() {
 
         Tag tag = new Tag();
-        tag.setId( Long.valueOf( 10 ) );
-        tag.setName( "Name" );
+        tag.setId(Long.valueOf(10));
+        tag.setName("Name");
 
         Tag tag2 = new Tag();
-        tag2.setId( Long.valueOf( 15 ) );
-        tag2.setName( "Hokey" );
+        tag2.setId(Long.valueOf(15));
+        tag2.setName("Hokey");
 
-        assertFalse( tag.equals( tag2 ) );
+        assertFalse(tag.equals(tag2));
     }
 
     public void testToString() {
 
         Tag tag = new Tag();
-        tag.setId( Long.valueOf( 10 ) );
-        tag.setName( "Name" );
+        tag.setId(Long.valueOf(10));
+        tag.setName("Name");
 
         Tag tag2 = new Tag();
-        tag2.setId( Long.valueOf( 10 ) );
-        tag2.setName( "Name" );
+        tag2.setId(Long.valueOf(10));
+        tag2.setName("Name");
 
-        assertEquals( tag.toString(), tag2.toString() );
+        assertEquals(tag.toString(), tag2.toString());
     }
 
     public void testHashCode() {
 
         Tag tag = new Tag();
-        tag.setId( Long.valueOf( 10 ) );
-        tag.setName( "Name" );
+        tag.setId(Long.valueOf(10));
+        tag.setName("Name");
 
         Tag tag2 = new Tag();
-        tag2.setId( Long.valueOf( 10 ) );
-        tag2.setName( "Name" );
+        tag2.setId(Long.valueOf(10));
+        tag2.setName("Name");
 
-        assertEquals( tag.hashCode(), tag2.hashCode() );
+        assertEquals(tag.hashCode(), tag2.hashCode());
     }
 }

@@ -29,7 +29,7 @@ public class BrowserModel {
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger( this.getClass() );
+    private Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * List of projects.
@@ -71,7 +71,7 @@ public class BrowserModel {
      */
     public BrowserModel() {
 
-        initializeBrowserModel( false );
+        initializeBrowserModel(false);
     }
 
     /**
@@ -79,9 +79,9 @@ public class BrowserModel {
      *
      * @param generateTestData indicates if the model should fill itself with test data
      */
-    public BrowserModel( boolean generateTestData ) {
+    public BrowserModel(boolean generateTestData) {
 
-        initializeBrowserModel( generateTestData );
+        initializeBrowserModel(generateTestData);
     }
 
     /**
@@ -98,30 +98,30 @@ public class BrowserModel {
         trash.clear();
 
         // load in data
-        projects.addAll( DataStoreManager.getProjects() );
-        contexts.addAll( DataStoreManager.getContexts() );
-        categories.addAll( DataStoreManager.getCategories() );
-        trash.addAll( DataStoreManager.getTrash() );
+        projects.addAll(DataStoreManager.getProjects());
+        contexts.addAll(DataStoreManager.getContexts());
+        categories.addAll(DataStoreManager.getCategories());
+        trash.addAll(DataStoreManager.getTrash());
     }
 
     // property change support methods
 
-    public void addPropertyChangeListener( PropertyChangeListener listener ) {
-        propertychangesupport.addPropertyChangeListener( listener );
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertychangesupport.addPropertyChangeListener(listener);
     }
 
-    public void removePropertyChangeListener( PropertyChangeListener listener ) {
-        propertychangesupport.removePropertyChangeListener( listener );
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertychangesupport.removePropertyChangeListener(listener);
     }
 
-    public void addPropertyChangeListener( String property,
-                                           PropertyChangeListener listener ) {
-        propertychangesupport.addPropertyChangeListener( property, listener );
+    public void addPropertyChangeListener(String property,
+                                          PropertyChangeListener listener) {
+        propertychangesupport.addPropertyChangeListener(property, listener);
     }
 
-    public void removePropertyChangeListener( String property,
-                                              PropertyChangeListener listener ) {
-        propertychangesupport.removePropertyChangeListener( property, listener );
+    public void removePropertyChangeListener(String property,
+                                             PropertyChangeListener listener) {
+        propertychangesupport.removePropertyChangeListener(property, listener);
     }
 
     // accessor and mutator methods
@@ -146,27 +146,27 @@ public class BrowserModel {
         return selectedTreeNode;
     }
 
-    public void setSelectedTreeNode( GlazedTreeNode selectedTreeNode ) {
+    public void setSelectedTreeNode(GlazedTreeNode selectedTreeNode) {
         GlazedTreeNode valueOld = this.selectedTreeNode;
         this.selectedTreeNode = selectedTreeNode;
-        propertychangesupport.firePropertyChange( "selectedTreeNode", valueOld, this.selectedTreeNode );
+        propertychangesupport.firePropertyChange("selectedTreeNode", valueOld, this.selectedTreeNode);
     }
 
     public String getSearchText() {
         return searchText;
     }
 
-    public void setSearchText( String searchText ) {
+    public void setSearchText(String searchText) {
         String valueOld = searchText;
         this.searchText = searchText;
-        propertychangesupport.firePropertyChange( "searchText", valueOld, this.searchText );
+        propertychangesupport.firePropertyChange("searchText", valueOld, this.searchText);
     }
 
     // private methods
 
-    private void initializeBrowserModel( boolean generateTestData ) {
+    private void initializeBrowserModel(boolean generateTestData) {
 
-        propertychangesupport = new PropertyChangeSupport( this );
+        propertychangesupport = new PropertyChangeSupport(this);
 
         // create our lists
         projects = new BasicEventList();
@@ -174,7 +174,7 @@ public class BrowserModel {
         categories = new BasicEventList();
         trash = new BasicEventList();
 
-        if( generateTestData ) {
+        if (generateTestData) {
             generateTestData();
         }
     }
@@ -183,167 +183,167 @@ public class BrowserModel {
 
         // create some projects
         Project project = new Project();
-        project.setId( new Long( 1 ) );
-        project.setName( "Project 1" );
-        projects.add( project );
+        project.setId(new Long(1));
+        project.setName("Project 1");
+        projects.add(project);
 
         // create some action items
         ActionItem actionItem = new ActionItem();
-        actionItem.setId( new Long( 1 ) );
-        actionItem.setDescription( "Action Item 1.1" );
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        project.addActionItem( actionItem );
+        actionItem.setId(new Long(1));
+        actionItem.setDescription("Action Item 1.1");
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        project.addActionItem(actionItem);
 
         actionItem = new ActionItem();
-        actionItem.setId( new Long( 2 ) );
-        actionItem.setDescription( "Action Item 1.2" );
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        project.addActionItem( actionItem );
+        actionItem.setId(new Long(2));
+        actionItem.setDescription("Action Item 1.2");
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        project.addActionItem(actionItem);
 
         project = new Project();
-        project.setId( new Long( 2 ) );
-        project.setName( "Project 2" );
-        projects.add( project );
+        project.setId(new Long(2));
+        project.setName("Project 2");
+        projects.add(project);
 
         // create some action items
         actionItem = new ActionItem();
-        actionItem.setId( new Long( 3 ) );
-        actionItem.setDescription( "Action Item 2.1" );
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        project.addActionItem( actionItem );
+        actionItem.setId(new Long(3));
+        actionItem.setDescription("Action Item 2.1");
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        project.addActionItem(actionItem);
 
         actionItem = new ActionItem();
-        actionItem.setId( new Long( 4 ) );
-        actionItem.setDescription( "Action Item 2.2" );
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        project.addActionItem( actionItem );
+        actionItem.setId(new Long(4));
+        actionItem.setDescription("Action Item 2.2");
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        project.addActionItem(actionItem);
 
         project = new Project();
-        project.setId( new Long( 3 ) );
-        project.setName( "Project 3" );
-        projects.add( project );
+        project.setId(new Long(3));
+        project.setName("Project 3");
+        projects.add(project);
 
         actionItem = new ActionItem();
-        actionItem.setId( new Long( 5 ) );
-        actionItem.setDescription( "Action Item 3.1" );
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        project.addActionItem( actionItem );
+        actionItem.setId(new Long(5));
+        actionItem.setDescription("Action Item 3.1");
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        project.addActionItem(actionItem);
 
         actionItem = new ActionItem();
-        actionItem.setId( new Long( 6 ) );
-        actionItem.setDescription( "Action Item 3.2" );
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        project.addActionItem( actionItem );
+        actionItem.setId(new Long(6));
+        actionItem.setDescription("Action Item 3.2");
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        project.addActionItem(actionItem);
 
         // create some contexts
         InboxContext context = new InboxContext();
-        context.setId( new Long( 1 ) );
-        context.setName( "Context 1" );
-        contexts.add( context );
+        context.setId(new Long(1));
+        context.setName("Context 1");
+        contexts.add(context);
 
         context = new InboxContext();
-        context.setId( new Long( 2 ) );
-        context.setName( "Context 2" );
-        contexts.add( context );
+        context.setId(new Long(2));
+        context.setName("Context 2");
+        contexts.add(context);
 
         context = new InboxContext();
-        context.setId( new Long( 3 ) );
-        context.setName( "Context 3" );
-        contexts.add( context );
+        context.setId(new Long(3));
+        context.setName("Context 3");
+        contexts.add(context);
 
         // create some categories
         Category category = new Category();
-        category.setId( new Long( 1 ) );
-        category.setName( "Category 1" );
-        categories.add( category );
+        category.setId(new Long(1));
+        category.setName("Category 1");
+        categories.add(category);
 
         // create some reference items
         ReferenceItem referenceItem = new SimpleReferenceItem();
-        referenceItem.setId( new Long( 1 ) );
-        referenceItem.setDescription( "Reference Item 1.1" );
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        category.addReferenceItem( referenceItem );
+        referenceItem.setId(new Long(1));
+        referenceItem.setDescription("Reference Item 1.1");
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        category.addReferenceItem(referenceItem);
 
         referenceItem = new SimpleReferenceItem();
-        referenceItem.setId( new Long( 2 ) );
-        referenceItem.setDescription( "Reference Item 1.2" );
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        category.addReferenceItem( referenceItem );
+        referenceItem.setId(new Long(2));
+        referenceItem.setDescription("Reference Item 1.2");
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        category.addReferenceItem(referenceItem);
 
         referenceItem = new SimpleReferenceItem();
-        referenceItem.setId( new Long( 3 ) );
-        referenceItem.setDescription( "Reference Item 1.3" );
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        category.addReferenceItem( referenceItem );
+        referenceItem.setId(new Long(3));
+        referenceItem.setDescription("Reference Item 1.3");
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        category.addReferenceItem(referenceItem);
 
         category = new Category();
-        category.setId( new Long( 2 ) );
-        category.setName( "Category 2" );
-        categories.add( category );
+        category.setId(new Long(2));
+        category.setName("Category 2");
+        categories.add(category);
 
         // create some reference items
         referenceItem = new SimpleReferenceItem();
-        referenceItem.setId( new Long( 4 ) );
-        referenceItem.setDescription( "Reference Item 2.1" );
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        category.addReferenceItem( referenceItem );
+        referenceItem.setId(new Long(4));
+        referenceItem.setDescription("Reference Item 2.1");
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        category.addReferenceItem(referenceItem);
 
         referenceItem = new SimpleReferenceItem();
-        referenceItem.setId( new Long( 5 ) );
-        referenceItem.setDescription( "Reference Item 2.2" );
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        category.addReferenceItem( referenceItem );
+        referenceItem.setId(new Long(5));
+        referenceItem.setDescription("Reference Item 2.2");
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        category.addReferenceItem(referenceItem);
 
         referenceItem = new SimpleReferenceItem();
-        referenceItem.setId( new Long( 6 ) );
-        referenceItem.setDescription( "Reference Item 2.3" );
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        category.addReferenceItem( referenceItem );
+        referenceItem.setId(new Long(6));
+        referenceItem.setDescription("Reference Item 2.3");
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        category.addReferenceItem(referenceItem);
 
         category = new Category();
-        category.setId( new Long( 3 ) );
-        category.setName( "Category 3" );
-        categories.add( category );
+        category.setId(new Long(3));
+        category.setName("Category 3");
+        categories.add(category);
 
         referenceItem = new SimpleReferenceItem();
-        referenceItem.setId( new Long( 7 ) );
-        referenceItem.setDescription( "Reference Item Trash 1" );
-        referenceItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        trash.add( referenceItem );
+        referenceItem.setId(new Long(7));
+        referenceItem.setDescription("Reference Item Trash 1");
+        referenceItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        trash.add(referenceItem);
 
         actionItem = new ActionItem();
-        actionItem.setId( new Long( 7 ) );
-        actionItem.setDescription( "Action Item Trash 1" );
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        trash.add( actionItem );
+        actionItem.setId(new Long(7));
+        actionItem.setDescription("Action Item Trash 1");
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        trash.add(actionItem);
 
-        Thread thread = new Thread( new Runnable() {
+        Thread thread = new Thread(new Runnable() {
 
             public void run() {
 
                 try {
-                    Thread.sleep( 10000 );
-                } catch( InterruptedException e ) {
-                    logger.warn( e );
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    logger.warn(e);
                 }
 
                 Project projectNew = new Project();
-                projectNew.setId( new Long( 10 ) );
-                projectNew.setName( "New Project!" );
+                projectNew.setId(new Long(10));
+                projectNew.setName("New Project!");
 
-                logger.debug( "Adding a new project..." );
-                projects.add( projectNew );
+                logger.debug("Adding a new project...");
+                projects.add(projectNew);
 
                 try {
-                    Thread.sleep( 10000 );
-                } catch( InterruptedException e ) {
-                    logger.warn( e );
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    logger.warn(e);
                 }
 
-                logger.debug( "Removing the new project..." );
-                projects.remove( projectNew );
+                logger.debug("Removing the new project...");
+                projects.remove(projectNew);
             }
-        } );
+        });
         thread.start();
     }
 }

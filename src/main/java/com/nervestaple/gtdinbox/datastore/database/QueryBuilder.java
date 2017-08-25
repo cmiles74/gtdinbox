@@ -19,6 +19,7 @@ public class QueryBuilder<T> {
 
     /**
      * Creates a new instance.
+     *
      * @param clazz The class for which we'll be querying
      */
     public QueryBuilder(Class clazz) {

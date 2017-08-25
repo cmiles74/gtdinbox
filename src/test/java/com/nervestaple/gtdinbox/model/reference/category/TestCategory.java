@@ -20,99 +20,99 @@ public class TestCategory extends TestCase {
 
         Category category = new Category();
 
-        assertNotNull( category );
+        assertNotNull(category);
     }
 
     public void testId() {
 
         Category category = new Category();
 
-        category.setId( Long.valueOf( 10 ) );
+        category.setId(Long.valueOf(10));
 
-        assertEquals( category.getId(), Long.valueOf( 10 ) );
+        assertEquals(category.getId(), Long.valueOf(10));
     }
 
     public void testName() {
 
         Category category = new Category();
 
-        category.setName( "Name" );
+        category.setName("Name");
 
-        assertEquals( category.getName(), "Name" );
+        assertEquals(category.getName(), "Name");
     }
 
     public void setDescription() {
 
         Category category = new Category();
 
-        category.setDescription( "Description" );
+        category.setDescription("Description");
 
-        assertEquals( category.getDescription(), "Description" );
+        assertEquals(category.getDescription(), "Description");
     }
 
     public void setDescriptionTextStyleType() {
 
         Category category = new Category();
 
-        category.setTextStyleType( TextStyleType.PLAIN_TEXT );
+        category.setTextStyleType(TextStyleType.PLAIN_TEXT);
 
-        assertEquals( category.getTextStyleType(), TextStyleType.PLAIN_TEXT );
+        assertEquals(category.getTextStyleType(), TextStyleType.PLAIN_TEXT);
     }
 
     public void setRed() {
 
         Category category = new Category();
 
-        category.setRed( Integer.valueOf( 255 ) );
+        category.setRed(Integer.valueOf(255));
 
-        assertEquals( category.getRed(), Integer.valueOf( 255 ) );
+        assertEquals(category.getRed(), Integer.valueOf(255));
     }
 
     public void setGreen() {
 
         Category category = new Category();
 
-        category.setGreen( Integer.valueOf( 255 ) );
+        category.setGreen(Integer.valueOf(255));
 
-        assertEquals( category.getGreen(), Integer.valueOf( 255 ) );
+        assertEquals(category.getGreen(), Integer.valueOf(255));
     }
 
     public void setBlue() {
 
         Category category = new Category();
 
-        category.setBlue( Integer.valueOf( 255 ) );
+        category.setBlue(Integer.valueOf(255));
 
-        assertEquals( category.getBlue(), Integer.valueOf( 255 ) );
+        assertEquals(category.getBlue(), Integer.valueOf(255));
     }
 
     public void setColor() {
 
         Category category = new Category();
 
-        category.setColor( Color.WHITE );
+        category.setColor(Color.WHITE);
 
-        assertEquals( category.getColor(), Color.WHITE );
+        assertEquals(category.getColor(), Color.WHITE);
     }
 
     public void setColorComponents() {
 
         Category category = new Category();
 
-        category.setColor( Color.WHITE );
+        category.setColor(Color.WHITE);
 
-        assertTrue( category.getRed().equals( Integer.valueOf( 255 ) )
-                && category.getGreen().equals( Integer.valueOf( 255 ) )
-                && category.getBlue().equals( Integer.valueOf( 255 ) ) );
+        assertTrue(category.getRed().equals(Integer.valueOf(255))
+                && category.getGreen().equals(Integer.valueOf(255))
+                && category.getBlue().equals(Integer.valueOf(255)));
     }
 
     public void testDeleted() {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.setDeleted( Boolean.valueOf( true ) );
+        actionItem.setDeleted(Boolean.valueOf(true));
 
-        assertTrue( actionItem.getDeleted().booleanValue() );
+        assertTrue(actionItem.getDeleted().booleanValue());
     }
 
     public void testAddReferenceItem() {
@@ -121,9 +121,9 @@ public class TestCategory extends TestCase {
 
         ReferenceItem ReferenceItem = new SimpleReferenceItem();
 
-        Category.addReferenceItem( ReferenceItem );
+        Category.addReferenceItem(ReferenceItem);
 
-        assertTrue( Category.getReferenceItems().contains( ReferenceItem ) );
+        assertTrue(Category.getReferenceItems().contains(ReferenceItem));
     }
 
     public void testAddReferenceItemInverse() {
@@ -132,9 +132,9 @@ public class TestCategory extends TestCase {
 
         ReferenceItem ReferenceItem = new SimpleReferenceItem();
 
-        Category.addReferenceItem( ReferenceItem );
+        Category.addReferenceItem(ReferenceItem);
 
-        assertTrue( ReferenceItem.getCategory().equals( Category ) );
+        assertTrue(ReferenceItem.getCategory().equals(Category));
     }
 
     public void testRemoveReferenceItem() {
@@ -143,11 +143,11 @@ public class TestCategory extends TestCase {
 
         ReferenceItem ReferenceItem = new SimpleReferenceItem();
 
-        Category.addReferenceItem( ReferenceItem );
+        Category.addReferenceItem(ReferenceItem);
 
-        Category.removeReferenceItem( ReferenceItem );
+        Category.removeReferenceItem(ReferenceItem);
 
-        assertFalse( Category.getReferenceItems().contains( ReferenceItem ) );
+        assertFalse(Category.getReferenceItems().contains(ReferenceItem));
     }
 
     public void testRemoveReferenceItemInverse() {
@@ -156,70 +156,70 @@ public class TestCategory extends TestCase {
 
         ReferenceItem ReferenceItem = new SimpleReferenceItem();
 
-        Category.addReferenceItem( ReferenceItem );
+        Category.addReferenceItem(ReferenceItem);
 
-        Category.removeReferenceItem( ReferenceItem );
+        Category.removeReferenceItem(ReferenceItem);
 
-        assertTrue( ReferenceItem.getCategory() == null );
+        assertTrue(ReferenceItem.getCategory() == null);
     }
 
     public void testEquals() {
 
         Category category1 = new Category();
-        category1.setId( Long.valueOf( 10 ) );
-        category1.setName( "Name" );
-        category1.setColor( Color.WHITE );
+        category1.setId(Long.valueOf(10));
+        category1.setName("Name");
+        category1.setColor(Color.WHITE);
 
         Category category2 = new Category();
-        category2.setId( Long.valueOf( 10 ) );
-        category2.setName( "Name" );
-        category2.setColor( Color.WHITE );
+        category2.setId(Long.valueOf(10));
+        category2.setName("Name");
+        category2.setColor(Color.WHITE);
 
-        assertEquals( category1, category2 );
+        assertEquals(category1, category2);
     }
 
     public void testNotEquals() {
 
         Category category1 = new Category();
-        category1.setId( Long.valueOf( 10 ) );
-        category1.setName( "Name" );
-        category1.setColor( Color.WHITE );
+        category1.setId(Long.valueOf(10));
+        category1.setName("Name");
+        category1.setColor(Color.WHITE);
 
         Category category2 = new Category();
-        category2.setId( Long.valueOf( 15 ) );
-        category2.setName( "Name" );
-        category2.setColor( Color.BLUE );
+        category2.setId(Long.valueOf(15));
+        category2.setName("Name");
+        category2.setColor(Color.BLUE);
 
-        assertFalse( category1.equals( category2 ) );
+        assertFalse(category1.equals(category2));
     }
 
     public void testToString() {
 
         Category category1 = new Category();
-        category1.setId( Long.valueOf( 10 ) );
-        category1.setName( "Name" );
-        category1.setColor( Color.WHITE );
+        category1.setId(Long.valueOf(10));
+        category1.setName("Name");
+        category1.setColor(Color.WHITE);
 
         Category category2 = new Category();
-        category2.setId( Long.valueOf( 10 ) );
-        category2.setName( "Name" );
-        category2.setColor( Color.WHITE );
+        category2.setId(Long.valueOf(10));
+        category2.setName("Name");
+        category2.setColor(Color.WHITE);
 
-        assertEquals( category1.toString(), category2.toString() );
+        assertEquals(category1.toString(), category2.toString());
     }
 
     public void testHashCode() {
 
         Category category1 = new Category();
-        category1.setId( Long.valueOf( 10 ) );
-        category1.setName( "Name" );
-        category1.setColor( Color.WHITE );
+        category1.setId(Long.valueOf(10));
+        category1.setName("Name");
+        category1.setColor(Color.WHITE);
 
         Category category2 = new Category();
-        category2.setId( Long.valueOf( 10 ) );
-        category2.setName( "Name" );
-        category2.setColor( Color.WHITE );
+        category2.setId(Long.valueOf(10));
+        category2.setName("Name");
+        category2.setColor(Color.WHITE);
 
-        assertEquals( category1.hashCode(), category2.hashCode() );
+        assertEquals(category1.hashCode(), category2.hashCode());
     }
 }

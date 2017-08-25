@@ -16,10 +16,10 @@ public class DataBaseManagerException extends DataStoreException {
      *
      * @param message A String with the text of the exception message
      */
-    public DataBaseManagerException( final String message ) {
+    public DataBaseManagerException(final String message) {
 
         // call the parent constructor
-        super( message );
+        super(message);
     }
 
     /**
@@ -27,10 +27,10 @@ public class DataBaseManagerException extends DataStoreException {
      *
      * @param exception Root exception
      */
-    public DataBaseManagerException( final Exception exception ) {
+    public DataBaseManagerException(final Exception exception) {
 
         // call the parent constructor
-        super( exception );
+        super(exception);
     }
 
     /**
@@ -40,9 +40,9 @@ public class DataBaseManagerException extends DataStoreException {
      * @param message   A String with the text of the exception message
      * @param throwable The root exception
      */
-    public DataBaseManagerException( final String message, final Throwable throwable ) {
+    public DataBaseManagerException(final String message, final Throwable throwable) {
 
         // call the parent constructor
-        super( message );
+        super(message);
     }
 }

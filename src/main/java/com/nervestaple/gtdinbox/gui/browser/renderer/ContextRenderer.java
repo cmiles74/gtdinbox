@@ -13,12 +13,14 @@ import java.awt.*;
  */
 public class ContextRenderer {
 
-    /** Image icon for the contexts. */
+    /**
+     * Image icon for the contexts.
+     */
     private ImageIcon imageIconContext;
 
     public ContextRenderer() {
 
-        imageIconContext = new ImageIcon( getClass().getResource( "images/context-18.png" ) );
+        imageIconContext = new ImageIcon(getClass().getResource("images/context-18.png"));
     }
 
     /**
@@ -34,12 +36,12 @@ public class ContextRenderer {
      * @param defaultComponent The default rendering of the component
      * @return The rendered component
      */
-    public JLabel getTreeCellRendererComponent( JTree jTree, InboxContext context, boolean isSelected, boolean isExpanded,
-                                                boolean isLeaf, int row, boolean hasFocus, JLabel defaultComponent ) {
+    public JLabel getTreeCellRendererComponent(JTree jTree, InboxContext context, boolean isSelected, boolean isExpanded,
+                                               boolean isLeaf, int row, boolean hasFocus, JLabel defaultComponent) {
 
-        defaultComponent.setText( context.getName() );
-        defaultComponent.setIcon( imageIconContext );
+        defaultComponent.setText(context.getName());
+        defaultComponent.setIcon(imageIconContext);
 
-        return ( defaultComponent );
+        return (defaultComponent);
     }
 }

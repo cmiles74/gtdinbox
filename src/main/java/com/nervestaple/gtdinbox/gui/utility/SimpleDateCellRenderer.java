@@ -24,26 +24,26 @@ public class SimpleDateCellRenderer extends DefaultTableCellRenderer {
      *
      * @param dateFormat format for the date cells
      */
-    public SimpleDateCellRenderer( DateFormat dateFormat ) {
+    public SimpleDateCellRenderer(DateFormat dateFormat) {
 
         super();
 
         this.dateFormat = dateFormat;
     }
 
-    public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus,
-                                                    int rowIndex, int vColIndex ) {
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+                                                   int rowIndex, int vColIndex) {
 
-        super.getTableCellRendererComponent( table, value, isSelected, hasFocus, rowIndex, vColIndex );
+        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, rowIndex, vColIndex);
 
-        if( value instanceof Date ) {
+        if (value instanceof Date) {
 
-            Date date = ( Date ) value;
+            Date date = (Date) value;
 
-            if( date.getTime() != 0 ) {
-                setText( dateFormat.format( ( Date ) value ) );
+            if (date.getTime() != 0) {
+                setText(dateFormat.format((Date) value));
             } else {
-                setText( "" );
+                setText("");
             }
         }
 

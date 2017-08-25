@@ -15,10 +15,10 @@ public class IndexManagerException extends DataStoreException {
      *
      * @param message A String with the text of the exception message
      */
-    public IndexManagerException( final String message ) {
+    public IndexManagerException(final String message) {
 
         // call the parent constructor
-        super( message );
+        super(message);
     }
 
     /**
@@ -26,10 +26,10 @@ public class IndexManagerException extends DataStoreException {
      *
      * @param exception Root exception
      */
-    public IndexManagerException( final Exception exception ) {
+    public IndexManagerException(final Exception exception) {
 
         // call the parent constructor
-        super( exception );
+        super(exception);
     }
 
     /**
@@ -39,9 +39,9 @@ public class IndexManagerException extends DataStoreException {
      * @param message   A String with the text of the exception message
      * @param throwable The root exception
      */
-    public IndexManagerException( final String message, final Throwable throwable ) {
+    public IndexManagerException(final String message, final Throwable throwable) {
 
         // call the parent constructor
-        super( message );
+        super(message);
     }
 }

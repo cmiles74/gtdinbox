@@ -20,34 +20,34 @@ public class TestActionItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        assertNotNull( actionItem );
+        assertNotNull(actionItem);
     }
 
     public void testId() {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.setId( Long.valueOf( 10 ) );
+        actionItem.setId(Long.valueOf(10));
 
-        assertEquals( actionItem.getId(), Long.valueOf( 10 ) );
+        assertEquals(actionItem.getId(), Long.valueOf(10));
     }
 
     public void testDescription() {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.setDescription( "Description" );
+        actionItem.setDescription("Description");
 
-        assertEquals( actionItem.getDescription(), "Description" );
+        assertEquals(actionItem.getDescription(), "Description");
     }
 
     public void testDescriptionTextStyleType() {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
 
-        assertEquals( actionItem.getDescriptionTextStyleType(), TextStyleType.PLAIN_TEXT );
+        assertEquals(actionItem.getDescriptionTextStyleType(), TextStyleType.PLAIN_TEXT);
     }
 
     public void testCreatedDate() {
@@ -56,9 +56,9 @@ public class TestActionItem extends TestCase {
 
         Date now = new Date();
 
-        actionItem.setCreatedDate( now );
+        actionItem.setCreatedDate(now);
 
-        assertEquals( actionItem.getCreatedDate(), now );
+        assertEquals(actionItem.getCreatedDate(), now);
     }
 
     public void testLastModifiedDate() {
@@ -67,9 +67,9 @@ public class TestActionItem extends TestCase {
 
         Date now = new Date();
 
-        actionItem.setLastModifiedDate( now );
+        actionItem.setLastModifiedDate(now);
 
-        assertEquals( actionItem.getLastModifiedDate(), now );
+        assertEquals(actionItem.getLastModifiedDate(), now);
     }
 
     public void testProject() {
@@ -78,9 +78,9 @@ public class TestActionItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.setProject( project );
+        actionItem.setProject(project);
 
-        assertEquals( actionItem.getProject(), project );
+        assertEquals(actionItem.getProject(), project);
     }
 
     /*public void testProjectInverse() {
@@ -100,9 +100,9 @@ public class TestActionItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.setInboxContext( inboxContext );
+        actionItem.setInboxContext(inboxContext);
 
-        assertEquals( actionItem.getInboxContext(), inboxContext );
+        assertEquals(actionItem.getInboxContext(), inboxContext);
     }
 
     /*public void testInboxContextInverse() {
@@ -122,18 +122,18 @@ public class TestActionItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.setCompletedDate( now );
+        actionItem.setCompletedDate(now);
 
-        assertEquals( actionItem.getCompletedDate(), now );
+        assertEquals(actionItem.getCompletedDate(), now);
     }
 
     public void testDeleted() {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.setDeleted( Boolean.valueOf( true ) );
+        actionItem.setDeleted(Boolean.valueOf(true));
 
-        assertTrue( actionItem.getDeleted().booleanValue() );
+        assertTrue(actionItem.getDeleted().booleanValue());
     }
 
     public void testAddTag() {
@@ -142,9 +142,9 @@ public class TestActionItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.addTag( tag );
+        actionItem.addTag(tag);
 
-        assertTrue( actionItem.getTags().contains( tag ) );
+        assertTrue(actionItem.getTags().contains(tag));
     }
 
     public void testAddTagInverse() {
@@ -153,9 +153,9 @@ public class TestActionItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.addTag( tag );
+        actionItem.addTag(tag);
 
-        assertTrue( tag.getActionItems().contains( actionItem ) );
+        assertTrue(tag.getActionItems().contains(actionItem));
     }
 
     public void testRemoveTag() {
@@ -164,10 +164,10 @@ public class TestActionItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.addTag( tag );
-        actionItem.removeTag( tag );
+        actionItem.addTag(tag);
+        actionItem.removeTag(tag);
 
-        assertFalse( actionItem.getTags().contains( actionItem ) );
+        assertFalse(actionItem.getTags().contains(actionItem));
     }
 
     public void testRemoveTagInverse() {
@@ -176,10 +176,10 @@ public class TestActionItem extends TestCase {
 
         ActionItem actionItem = new ActionItem();
 
-        actionItem.addTag( tag );
-        actionItem.removeTag( tag );
+        actionItem.addTag(tag);
+        actionItem.removeTag(tag);
 
-        assertTrue( !tag.getActionItems().contains( tag ) );
+        assertTrue(!tag.getActionItems().contains(tag));
     }
 
     public void testEquals() {
@@ -190,28 +190,28 @@ public class TestActionItem extends TestCase {
         Tag tag = new Tag();
 
         ActionItem actionItem = new ActionItem();
-        actionItem.setCompletedDate( now );
-        actionItem.setCreatedDate( now );
-        actionItem.setDescription( "description" );
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        actionItem.setId( Long.valueOf( 10 ) );
-        actionItem.setInboxContext( inboxContext );
-        actionItem.setProject( project );
-        actionItem.getTags().add( tag );
-        actionItem.setLastModifiedDate( now );
+        actionItem.setCompletedDate(now);
+        actionItem.setCreatedDate(now);
+        actionItem.setDescription("description");
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        actionItem.setId(Long.valueOf(10));
+        actionItem.setInboxContext(inboxContext);
+        actionItem.setProject(project);
+        actionItem.getTags().add(tag);
+        actionItem.setLastModifiedDate(now);
 
         ActionItem actionItem2 = new ActionItem();
-        actionItem2.setCompletedDate( now );
-        actionItem2.setCreatedDate( now );
-        actionItem2.setDescription( "description" );
-        actionItem2.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        actionItem2.setId( Long.valueOf( 10 ) );
-        actionItem2.setInboxContext( inboxContext );
-        actionItem2.setProject( project );
-        actionItem2.getTags().add( tag );
-        actionItem2.setLastModifiedDate( now );
+        actionItem2.setCompletedDate(now);
+        actionItem2.setCreatedDate(now);
+        actionItem2.setDescription("description");
+        actionItem2.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        actionItem2.setId(Long.valueOf(10));
+        actionItem2.setInboxContext(inboxContext);
+        actionItem2.setProject(project);
+        actionItem2.getTags().add(tag);
+        actionItem2.setLastModifiedDate(now);
 
-        assertEquals( actionItem, actionItem2 );
+        assertEquals(actionItem, actionItem2);
     }
 
     public void testNotEquals() {
@@ -222,26 +222,26 @@ public class TestActionItem extends TestCase {
         Tag tag = new Tag();
 
         ActionItem actionItem = new ActionItem();
-        actionItem.setCompletedDate( now );
-        actionItem.setCreatedDate( now );
-        actionItem.setDescription( "description" );
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        actionItem.setId( Long.valueOf( 10 ) );
-        actionItem.setInboxContext( inboxContext );
-        actionItem.setProject( project );
-        actionItem.getTags().add( tag );
+        actionItem.setCompletedDate(now);
+        actionItem.setCreatedDate(now);
+        actionItem.setDescription("description");
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        actionItem.setId(Long.valueOf(10));
+        actionItem.setInboxContext(inboxContext);
+        actionItem.setProject(project);
+        actionItem.getTags().add(tag);
 
         ActionItem actionItem2 = new ActionItem();
-        actionItem2.setCompletedDate( now );
-        actionItem2.setCreatedDate( now );
-        actionItem2.setDescription( "helluva" );
-        actionItem2.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        actionItem2.setId( Long.valueOf( 12 ) );
-        actionItem2.setInboxContext( inboxContext );
-        actionItem2.setProject( project );
-        actionItem2.getTags().add( tag );
+        actionItem2.setCompletedDate(now);
+        actionItem2.setCreatedDate(now);
+        actionItem2.setDescription("helluva");
+        actionItem2.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        actionItem2.setId(Long.valueOf(12));
+        actionItem2.setInboxContext(inboxContext);
+        actionItem2.setProject(project);
+        actionItem2.getTags().add(tag);
 
-        assertNotSame( actionItem, actionItem2 );
+        assertNotSame(actionItem, actionItem2);
     }
 
     public void testToString() {
@@ -252,26 +252,26 @@ public class TestActionItem extends TestCase {
         Tag tag = new Tag();
 
         ActionItem actionItem = new ActionItem();
-        actionItem.setCompletedDate( now );
-        actionItem.setCreatedDate( now );
-        actionItem.setDescription( "description" );
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        actionItem.setId( Long.valueOf( 10 ) );
-        actionItem.setInboxContext( inboxContext );
-        actionItem.setProject( project );
-        actionItem.getTags().add( tag );
+        actionItem.setCompletedDate(now);
+        actionItem.setCreatedDate(now);
+        actionItem.setDescription("description");
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        actionItem.setId(Long.valueOf(10));
+        actionItem.setInboxContext(inboxContext);
+        actionItem.setProject(project);
+        actionItem.getTags().add(tag);
 
         ActionItem actionItem2 = new ActionItem();
-        actionItem2.setCompletedDate( now );
-        actionItem2.setCreatedDate( now );
-        actionItem2.setDescription( "description" );
-        actionItem2.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        actionItem2.setId( Long.valueOf( 10 ) );
-        actionItem2.setInboxContext( inboxContext );
-        actionItem2.setProject( project );
-        actionItem2.getTags().add( tag );
+        actionItem2.setCompletedDate(now);
+        actionItem2.setCreatedDate(now);
+        actionItem2.setDescription("description");
+        actionItem2.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        actionItem2.setId(Long.valueOf(10));
+        actionItem2.setInboxContext(inboxContext);
+        actionItem2.setProject(project);
+        actionItem2.getTags().add(tag);
 
-        assertEquals( actionItem.toString(), actionItem2.toString() );
+        assertEquals(actionItem.toString(), actionItem2.toString());
     }
 
     public void testHashCode() {
@@ -282,25 +282,25 @@ public class TestActionItem extends TestCase {
         Tag tag = new Tag();
 
         ActionItem actionItem = new ActionItem();
-        actionItem.setCompletedDate( now );
-        actionItem.setCreatedDate( now );
-        actionItem.setDescription( "description" );
-        actionItem.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        actionItem.setId( Long.valueOf( 10 ) );
-        actionItem.setInboxContext( inboxContext );
-        actionItem.setProject( project );
-        actionItem.getTags().add( tag );
+        actionItem.setCompletedDate(now);
+        actionItem.setCreatedDate(now);
+        actionItem.setDescription("description");
+        actionItem.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        actionItem.setId(Long.valueOf(10));
+        actionItem.setInboxContext(inboxContext);
+        actionItem.setProject(project);
+        actionItem.getTags().add(tag);
 
         ActionItem actionItem2 = new ActionItem();
-        actionItem2.setCompletedDate( now );
-        actionItem2.setCreatedDate( now );
-        actionItem2.setDescription( "description" );
-        actionItem2.setDescriptionTextStyleType( TextStyleType.PLAIN_TEXT );
-        actionItem2.setId( Long.valueOf( 10 ) );
-        actionItem2.setInboxContext( inboxContext );
-        actionItem2.setProject( project );
-        actionItem2.getTags().add( tag );
+        actionItem2.setCompletedDate(now);
+        actionItem2.setCreatedDate(now);
+        actionItem2.setDescription("description");
+        actionItem2.setDescriptionTextStyleType(TextStyleType.PLAIN_TEXT);
+        actionItem2.setId(Long.valueOf(10));
+        actionItem2.setInboxContext(inboxContext);
+        actionItem2.setProject(project);
+        actionItem2.getTags().add(tag);
 
-        assertEquals( actionItem.hashCode(), actionItem2.hashCode() );
+        assertEquals(actionItem.hashCode(), actionItem2.hashCode());
     }
 }

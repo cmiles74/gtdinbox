@@ -18,70 +18,74 @@ import java.util.Hashtable;
  */
 public class TableFormatTrashable implements TableFormat {
 
-    /** Number of columns. */
+    /**
+     * Number of columns.
+     */
     public final int COLUMN_COUNT = 3;
 
-    /** Table of column names. */
+    /**
+     * Table of column names.
+     */
     private final static Hashtable COLUMN_NAMES;
 
     static {
 
         COLUMN_NAMES = new Hashtable();
 
-        COLUMN_NAMES.put( new Integer( 0 ), "Type" );
-        COLUMN_NAMES.put( new Integer( 1 ), "Filed Under" );
-        COLUMN_NAMES.put( new Integer( 2 ), "Description" );
+        COLUMN_NAMES.put(new Integer(0), "Type");
+        COLUMN_NAMES.put(new Integer(1), "Filed Under");
+        COLUMN_NAMES.put(new Integer(2), "Description");
     }
 
     public int getColumnCount() {
 
-        return ( COLUMN_COUNT );
+        return (COLUMN_COUNT);
     }
 
-    public String getColumnName( int i ) {
+    public String getColumnName(int i) {
 
-        if( i > -1 && i < COLUMN_COUNT ) {
+        if (i > -1 && i < COLUMN_COUNT) {
 
-            return ( ( String ) COLUMN_NAMES.get( new Integer( i ) ) );
+            return ((String) COLUMN_NAMES.get(new Integer(i)));
         }
 
         throw new IllegalStateException();
     }
 
-    public Object getColumnValue( Object object, int i ) {
+    public Object getColumnValue(Object object, int i) {
 
-        Trashable trashable = ( Trashable ) object;
+        Trashable trashable = (Trashable) object;
 
-        if( i == 0 ) {
+        if (i == 0) {
 
-            if( trashable instanceof Project ) {
-                return ( "Project" );
-            } else if( trashable instanceof Category ) {
-                return ( "Category" );
-            } else if( trashable instanceof InboxContext ) {
-                return ( "Context" );
-            } else if( trashable instanceof ActionItem ) {
-                return ( "Action" );
-            } else if( trashable instanceof ReferenceItem ) {
-                return ( "Reference" );
+            if (trashable instanceof Project) {
+                return ("Project");
+            } else if (trashable instanceof Category) {
+                return ("Category");
+            } else if (trashable instanceof InboxContext) {
+                return ("Context");
+            } else if (trashable instanceof ActionItem) {
+                return ("Action");
+            } else if (trashable instanceof ReferenceItem) {
+                return ("Reference");
             }
-        } else if( i == 1 ) {
+        } else if (i == 1) {
 
             Object parent = trashable.getParent();
 
-            if( parent == null ) {
+            if (parent == null) {
 
-                return ( "Unfiled" );
-            } else if( parent instanceof Project ) {
+                return ("Unfiled");
+            } else if (parent instanceof Project) {
 
-                return ( ( ( Project ) parent ).getName() );
-            } else if( parent instanceof Category ) {
+                return (((Project) parent).getName());
+            } else if (parent instanceof Category) {
 
-                return ( ( ( Category ) parent ).getName() );
+                return (((Category) parent).getName());
             }
-        } else if( i == 2 ) {
+        } else if (i == 2) {
 
-            return ( trashable.getName() );
+            return (trashable.getName());
         }
 
         throw new IllegalStateException();
