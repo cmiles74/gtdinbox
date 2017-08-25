@@ -8,11 +8,31 @@ import java.util.Date;
  */
 public interface Item {
 
+    /**
+     * The unique identifier of the Item.
+     *
+     * @return unique identifier of the Item
+     */
     public Long getId();
 
+    /**
+     * The name of the Item.
+     *
+     * @return name of the Item
+     */
     public String getName();
 
+    /**
+     * The parent of this Item.
+     *
+     * @return parent of the Item
+     */
     public Object getParent();
 
+    /**
+     * Date when the Item was created
+     *
+     * @return creation date of the Item
+     */
     public Date getCreatedDate();
 }

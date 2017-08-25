@@ -27,7 +27,7 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
      */
     @Id
     @SequenceGenerator(name = "ReferenceItemSequence")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "ReferenceItemSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ReferenceItemSequence")
     private Long id;
 
     /**
@@ -69,31 +69,31 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
     /**
      * This reference item's tags.
      */
-    @OneToMany(targetEntity = Tag.class)
+    @OneToMany
     @JoinTable
-    private Set tags;
+    private Set<Tag> tags;
 
     /**
      * Creates a new reference item.
      */
     public ReferenceItem() {
 
-        tags = new HashSet();
+        tags = new HashSet<>();
         createdDate = new Date();
-        deleted = Boolean.valueOf( false );
+        deleted = false;
     }
 
     // item methods
 
     public Category getParent() {
 
-        return ( category );
+        return (category);
     }
 
     public void prepareForDeletion() {
 
-        if( category != null ) {
-            category.removeReferenceItem( this );
+        if (category != null) {
+            category.removeReferenceItem(this);
         }
     }
 
@@ -103,7 +103,7 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         return id;
     }
 
-    public void setId( final Long id ) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -111,7 +111,7 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         return name;
     }
 
-    public void setName( final String name ) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -119,7 +119,7 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         return description;
     }
 
-    public void setDescription( final String description ) {
+    public void setDescription(final String description) {
         this.description = description;
         lastModifiedDate = new Date();
     }
@@ -128,7 +128,7 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         return DescriptionTextStyleType;
     }
 
-    public void setDescriptionTextStyleType( final TextStyleType descriptionTextStyleType ) {
+    public void setDescriptionTextStyleType(final TextStyleType descriptionTextStyleType) {
         this.DescriptionTextStyleType = descriptionTextStyleType;
     }
 
@@ -136,7 +136,7 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         return createdDate;
     }
 
-    public void setCreatedDate( final Date createdDate ) {
+    public void setCreatedDate(final Date createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -144,7 +144,7 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate( final Date lastModifiedDate ) {
+    public void setLastModifiedDate(final Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
@@ -152,7 +152,7 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         return deleted;
     }
 
-    public void setDeleted( final Boolean deleted ) {
+    public void setDeleted(final Boolean deleted) {
         this.deleted = deleted;
     }
 
@@ -160,9 +160,9 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
         return category;
     }
 
-    public void setCategory( final Category category ) {
+    public void setCategory(final Category category) {
 
-        if( category != null && this.category != null && category.equals( this.category ) ) {
+        if (category != null && this.category != null && category.equals(this.category)) {
 
             return;
         }
@@ -175,73 +175,73 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
             category.addReferenceItem( this );
         }*/
 
-        if( categoryOld != null ) {
+        if (categoryOld != null) {
 
-            categoryOld.removeReferenceItem( this );
+            categoryOld.removeReferenceItem(this);
         }
     }
 
-    public Set getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags( final Set tags ) {
+    public void setTags(final Set<Tag> tags) {
         this.tags = tags;
     }
 
     // collection manipulation methods
 
-    public void addTag( final Tag tag ) {
+    public void addTag(final Tag tag) {
 
-        if( !tags.contains( tag ) ) {
+        if (!tags.contains(tag)) {
 
-            tags.add( tag );
-            tag.addReferenceItem( this );
+            tags.add(tag);
+            tag.addReferenceItem(this);
         }
     }
 
-    public void removeTag( final Tag tag ) {
+    public void removeTag(final Tag tag) {
 
-        tags.remove( tag );
-        tag.removeReferenceItem( this );
+        tags.remove(tag);
+        tag.removeReferenceItem(this);
     }
 
     // other required methods
 
-    public boolean equals( final Object o ) {
-        if( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        ReferenceItem that = ( ReferenceItem ) o;
+        ReferenceItem that = (ReferenceItem) o;
 
-        if( DescriptionTextStyleType != null ? !DescriptionTextStyleType.equals( that.DescriptionTextStyleType )
-                : that.DescriptionTextStyleType != null ) {
+        if (DescriptionTextStyleType != null ? !DescriptionTextStyleType.equals(that.DescriptionTextStyleType)
+                : that.DescriptionTextStyleType != null) {
             return false;
         }
-        if( category != null ? !category.equals( that.category ) : that.category != null ) {
+        if (category != null ? !category.equals(that.category) : that.category != null) {
             return false;
         }
-        if( createdDate != null ? !createdDate.equals( that.createdDate ) : that.createdDate != null ) {
+        if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) {
             return false;
         }
-        if( deleted != null ? !deleted.equals( that.deleted ) : that.deleted != null ) {
+        if (deleted != null ? !deleted.equals(that.deleted) : that.deleted != null) {
             return false;
         }
-        if( description != null ? !description.equals( that.description ) : that.description != null ) {
+        if (description != null ? !description.equals(that.description) : that.description != null) {
             return false;
         }
-        if( id != null ? !id.equals( that.id ) : that.id != null ) {
+        if (id != null ? !id.equals(that.id) : that.id != null) {
             return false;
         }
-        if( lastModifiedDate != null ? !lastModifiedDate.equals( that.lastModifiedDate )
-                : that.lastModifiedDate != null ) {
+        if (lastModifiedDate != null ? !lastModifiedDate.equals(that.lastModifiedDate)
+                : that.lastModifiedDate != null) {
             return false;
         }
-        if( name != null ? !name.equals( that.name ) : that.name != null ) {
+        if (name != null ? !name.equals(that.name) : that.name != null) {
             return false;
         }
 
@@ -250,14 +250,14 @@ public abstract class ReferenceItem implements Serializable, Indexable, Trashabl
 
     public int hashCode() {
         int result;
-        result = ( id != null ? id.hashCode() : 0 );
-        result = 31 * result + ( name != null ? name.hashCode() : 0 );
-        result = 31 * result + ( description != null ? description.hashCode() : 0 );
-        result = 31 * result + ( DescriptionTextStyleType != null ? DescriptionTextStyleType.hashCode() : 0 );
-        result = 31 * result + ( createdDate != null ? createdDate.hashCode() : 0 );
-        result = 31 * result + ( lastModifiedDate != null ? lastModifiedDate.hashCode() : 0 );
-        result = 31 * result + ( deleted != null ? deleted.hashCode() : 0 );
-        result = 31 * result + ( category != null ? category.hashCode() : 0 );
+        result = (id != null ? id.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (DescriptionTextStyleType != null ? DescriptionTextStyleType.hashCode() : 0);
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        result = 31 * result + (lastModifiedDate != null ? lastModifiedDate.hashCode() : 0);
+        result = 31 * result + (deleted != null ? deleted.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
         return result;
     }
 

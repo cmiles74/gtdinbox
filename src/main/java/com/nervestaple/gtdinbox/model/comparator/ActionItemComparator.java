@@ -1,5 +1,6 @@
 package com.nervestaple.gtdinbox.model.comparator;
 
+import com.nervestaple.gtdinbox.model.item.Item;
 import com.nervestaple.gtdinbox.model.item.actionitem.ActionItem;
 import org.apache.log4j.Logger;
 
@@ -7,34 +8,31 @@ import java.util.Comparator;
 import java.util.Date;
 
 /**
- * Provides a comparator for ActionItems.
+ * Provides a comparator for Item instances.
  */
-public class ActionItemComparator implements Comparator {
-
-    /** Logger instance. */
-    private Logger logger = Logger.getLogger( this.getClass() );
+public class ActionItemComparator implements Comparator<Item> {
 
     /**
-     * We want to sort ActionItem instances by their creation date.
+     * We want to sort Item instances by their creation date.
      *
-     * @param a ActionItem
-     * @param b ActionItem
-     * @return Comparison result
+     * @param a First Item
+     * @param b Second Item
+     * @return comparator result
      */
-    public int compare( Object a, Object b ) {
+    public int compare(Item a, Item b) {
 
-        if( a != null && a instanceof ActionItem && b != null && b instanceof ActionItem ) {
+        if (a != null && b != null) {
 
-            ActionItem actionItemA = ( ActionItem ) a;
-            ActionItem actionItemB = ( ActionItem ) b;
+            ActionItem actionItemA = (ActionItem) a;
+            ActionItem actionItemB = (ActionItem) b;
 
             // get the dates for the two action times
             Date dateA = actionItemA.getCreatedDate();
             Date dateB = actionItemB.getCreatedDate();
 
-            return ( ( new Long( dateB.getTime() ) ).compareTo( new Long( dateA.getTime() ) ) );
+            return ((new Long(dateB.getTime())).compareTo(new Long(dateA.getTime())));
         }
 
-        return ( 0 );
+        return (0);
     }
 }

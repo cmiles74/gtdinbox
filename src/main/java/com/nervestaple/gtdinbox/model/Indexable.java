@@ -6,8 +6,9 @@ package com.nervestaple.gtdinbox.model;
 public interface Indexable {
 
     /**
-     * Returns the object's unique id.
-     * @return Object
+     * Returns the Indexble's unique id.
+     *
+     * @return unique identifier of the Indexable
      */
     public Object getId();
 }

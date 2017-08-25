@@ -26,7 +26,7 @@ public class InboxContext implements Serializable, Indexable, Trashable {
      */
     @Id
     @SequenceGenerator(name = "InboxContextSequence")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "InboxContextSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "InboxContextSequence")
     private Long id;
 
     /**
@@ -52,23 +52,25 @@ public class InboxContext implements Serializable, Indexable, Trashable {
     /**
      * Action items associated with this context.
      */
-    @OneToMany(targetEntity = ActionItem.class, mappedBy = "inboxContext")
-    private Set actionItems = new HashSet();
+    @OneToMany(mappedBy = "inboxContext")
+    private Set<ActionItem> actionItems;
 
     /**
      * Creates a new InboxContext.
      */
     public InboxContext() {
 
-        actionItems = new HashSet();
+        actionItems = new HashSet<>();
         textStyleType = TextStyleType.MARKDOWN_TEXT;
-        deleted = Boolean.valueOf( false );
+        deleted = false;
     }
 
     // Item methods
 
     public Object getParent() {
-        return ( null );
+
+        // contexts do not have parents
+        return (null);
     }
 
     // Trashable methods
@@ -82,7 +84,7 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         return id;
     }
 
-    public void setId( final Long id ) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -90,7 +92,7 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         return name;
     }
 
-    public void setName( final String name ) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -98,7 +100,7 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         return description;
     }
 
-    public void setDescription( final String description ) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -106,7 +108,7 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         return textStyleType;
     }
 
-    public void setTextStyleType( final TextStyleType textStyleType ) {
+    public void setTextStyleType(final TextStyleType textStyleType) {
         this.textStyleType = textStyleType;
     }
 
@@ -114,67 +116,67 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         return deleted;
     }
 
-    public void setDeleted( final Boolean deleted ) {
+    public void setDeleted(final Boolean deleted) {
         this.deleted = deleted;
     }
 
-    public Set getActionItems() {
+    public Set<ActionItem> getActionItems() {
         return actionItems;
     }
 
-    public void setActionItems( final Set actionItems ) {
+    public void setActionItems(final Set actionItems) {
         this.actionItems = actionItems;
     }
 
     // collection methods
 
-    public void addActionItem( ActionItem actionItem ) {
+    public void addActionItem(ActionItem actionItem) {
 
-        Validate.notNull( actionItem );
+        Validate.notNull(actionItem);
 
-        actionItem.setInboxContext( this );
-        actionItems.add( actionItem );
+        actionItem.setInboxContext(this);
+        actionItems.add(actionItem);
     }
 
-    public void removeActionItem( ActionItem actionItem ) {
+    public void removeActionItem(ActionItem actionItem) {
 
-        Validate.notNull( actionItem );
+        Validate.notNull(actionItem);
 
-        if( actionItems.contains( actionItem ) ) {
+        if (actionItems.contains(actionItem)) {
 
-            actionItems.remove( actionItem );
+            actionItems.remove(actionItem);
 
-            if( actionItem.getInboxContext() != null && actionItem.getInboxContext().equals( this ) ) {
-                actionItem.setInboxContext( null );
+            if (actionItem.getInboxContext() != null && actionItem.getInboxContext().equals(this)) {
+                actionItem.setInboxContext(null);
             }
         }
     }
 
     // other required methods
 
-    public boolean equals( final Object o ) {
-        if( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        InboxContext that = ( InboxContext ) o;
+        InboxContext that = (InboxContext) o;
 
-        if( deleted != null ? !deleted.equals( that.deleted ) : that.deleted != null ) {
+        if (deleted != null ? !deleted.equals(that.deleted) : that.deleted != null) {
             return false;
         }
-        if( description != null ? !description.equals( that.description ) : that.description != null ) {
+        if (description != null ? !description.equals(that.description) : that.description != null) {
             return false;
         }
-        if( id != null ? !id.equals( that.id ) : that.id != null ) {
+        if (id != null ? !id.equals(that.id) : that.id != null) {
             return false;
         }
-        if( name != null ? !name.equals( that.name ) : that.name != null ) {
+        if (name != null ? !name.equals(that.name) : that.name != null) {
             return false;
         }
-        if( textStyleType != null ? !textStyleType.equals( that.textStyleType ) : that.textStyleType != null ) {
+        if (textStyleType != null ? !textStyleType.equals(that.textStyleType) : that.textStyleType != null) {
             return false;
         }
 
@@ -183,15 +185,15 @@ public class InboxContext implements Serializable, Indexable, Trashable {
 
     public int hashCode() {
         int result;
-        result = ( id != null ? id.hashCode() : 0 );
-        result = 31 * result + ( name != null ? name.hashCode() : 0 );
-        result = 31 * result + ( description != null ? description.hashCode() : 0 );
-        result = 31 * result + ( textStyleType != null ? textStyleType.hashCode() : 0 );
-        result = 31 * result + ( deleted != null ? deleted.hashCode() : 0 );
+        result = (id != null ? id.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (textStyleType != null ? textStyleType.hashCode() : 0);
+        result = 31 * result + (deleted != null ? deleted.hashCode() : 0);
         return result;
     }
 
     public String toString() {
-        return ( name );
+        return (name);
     }
 }

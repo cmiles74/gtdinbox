@@ -29,7 +29,7 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
      */
     @Id
     @SequenceGenerator(name = "ActionItemSequence")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "ActionItemSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ActionItemSequence")
     private Long id;
 
     /**
@@ -78,41 +78,41 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
     /**
      * The action item's tags.
      */
-    @OneToMany(targetEntity = Tag.class)
+    @OneToMany
     @JoinTable
-    private Set tags;
+    private Set<Tag> tags;
 
     /**
      * Creates a new action item.
      */
     public ActionItem() {
 
-        tags = new HashSet();
+        tags = new HashSet<>();
         createdDate = new Date();
         descriptionTextStyleType = TextStyleType.MARKDOWN_TEXT;
-        deleted = Boolean.valueOf( false );
+        deleted = false;
     }
 
     // item methods
 
     public String getName() {
 
-        return ( description );
+        return (description);
     }
 
     public Project getParent() {
 
-        return ( project );
+        return (project);
     }
 
     public void prepareForDeletion() {
 
-        if( project != null ) {
-            project.removeActionItem( this );
+        if (project != null) {
+            project.removeActionItem(this);
         }
 
-        if( inboxContext != null ) {
-            inboxContext.removeActionItem( this );
+        if (inboxContext != null) {
+            inboxContext.removeActionItem(this);
         }
     }
 
@@ -122,7 +122,7 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         return id;
     }
 
-    public void setId( final Long id ) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -130,7 +130,7 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         return description;
     }
 
-    public void setDescription( final String description ) {
+    public void setDescription(final String description) {
         this.description = description;
         lastModifiedDate = new Date();
     }
@@ -139,7 +139,7 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         return descriptionTextStyleType;
     }
 
-    public void setDescriptionTextStyleType( final TextStyleType descriptionTextStyleType ) {
+    public void setDescriptionTextStyleType(final TextStyleType descriptionTextStyleType) {
         this.descriptionTextStyleType = descriptionTextStyleType;
     }
 
@@ -147,7 +147,7 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         return createdDate;
     }
 
-    public void setCreatedDate( final Date createdDate ) {
+    public void setCreatedDate(final Date createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -155,7 +155,7 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate( final Date lastModifiedDate ) {
+    public void setLastModifiedDate(final Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
@@ -163,7 +163,7 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         return deleted;
     }
 
-    public void setDeleted( final Boolean deleted ) {
+    public void setDeleted(final Boolean deleted) {
         this.deleted = deleted;
     }
 
@@ -171,9 +171,9 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         return project;
     }
 
-    public void setProject( final Project project ) {
+    public void setProject(final Project project) {
 
-        if( project != null && this.project != null && project.equals( this.project ) ) {
+        if (project != null && this.project != null && project.equals(this.project)) {
 
             return;
         }
@@ -186,9 +186,9 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
             project.addActionItem( this );
         }*/
 
-        if( projectOld != null ) {
+        if (projectOld != null) {
 
-            projectOld.removeActionItem( this );
+            projectOld.removeActionItem(this);
         }
     }
 
@@ -196,9 +196,9 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         return inboxContext;
     }
 
-    public void setInboxContext( final InboxContext inboxContext ) {
+    public void setInboxContext(final InboxContext inboxContext) {
 
-        if( inboxContext != null && this.inboxContext != null && inboxContext.equals( this.getInboxContext() ) ) {
+        if (inboxContext != null && this.inboxContext != null && inboxContext.equals(this.getInboxContext())) {
 
             return;
         }
@@ -211,9 +211,9 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
             inboxContext.addActionItem( this );
         }*/
 
-        if( inboxContextOld != null ) {
+        if (inboxContextOld != null) {
 
-            inboxContextOld.removeActionItem( this );
+            inboxContextOld.removeActionItem(this);
         }
     }
 
@@ -221,74 +221,74 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
         return completedDate;
     }
 
-    public void setCompletedDate( final Date completedDate ) {
+    public void setCompletedDate(final Date completedDate) {
         this.completedDate = completedDate;
     }
 
-    public Set getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags( final Set tags ) {
+    public void setTags(final Set<Tag> tags) {
         this.tags = tags;
     }
 
     // collection manipulation methods
 
-    public void addTag( final Tag tag ) {
+    public void addTag(final Tag tag) {
 
-        if( !tags.contains( tag ) ) {
+        if (!tags.contains(tag)) {
 
-            tags.add( tag );
-            tag.addActionItem( this );
+            tags.add(tag);
+            tag.addActionItem(this);
         }
     }
 
-    public void removeTag( final Tag tag ) {
+    public void removeTag(final Tag tag) {
 
-        tags.remove( tag );
-        tag.removeActionItem( this );
+        tags.remove(tag);
+        tag.removeActionItem(this);
     }
 
     // other required methods
 
-    public boolean equals( final Object o ) {
-        if( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        ActionItem that = ( ActionItem ) o;
+        ActionItem that = (ActionItem) o;
 
-        if( descriptionTextStyleType != null ? !descriptionTextStyleType.equals( that.descriptionTextStyleType )
-                : that.descriptionTextStyleType != null ) {
+        if (descriptionTextStyleType != null ? !descriptionTextStyleType.equals(that.descriptionTextStyleType)
+                : that.descriptionTextStyleType != null) {
             return false;
         }
-        if( completedDate != null ? !completedDate.equals( that.completedDate ) : that.completedDate != null ) {
+        if (completedDate != null ? !completedDate.equals(that.completedDate) : that.completedDate != null) {
             return false;
         }
-        if( createdDate != null ? !createdDate.equals( that.createdDate ) : that.createdDate != null ) {
+        if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) {
             return false;
         }
-        if( deleted != null ? !deleted.equals( that.deleted ) : that.deleted != null ) {
+        if (deleted != null ? !deleted.equals(that.deleted) : that.deleted != null) {
             return false;
         }
-        if( description != null ? !description.equals( that.description ) : that.description != null ) {
+        if (description != null ? !description.equals(that.description) : that.description != null) {
             return false;
         }
-        if( id != null ? !id.equals( that.id ) : that.id != null ) {
+        if (id != null ? !id.equals(that.id) : that.id != null) {
             return false;
         }
-        if( inboxContext != null ? !inboxContext.equals( that.inboxContext ) : that.inboxContext != null ) {
+        if (inboxContext != null ? !inboxContext.equals(that.inboxContext) : that.inboxContext != null) {
             return false;
         }
-        if( lastModifiedDate != null ? !lastModifiedDate.equals( that.lastModifiedDate )
-                : that.lastModifiedDate != null ) {
+        if (lastModifiedDate != null ? !lastModifiedDate.equals(that.lastModifiedDate)
+                : that.lastModifiedDate != null) {
             return false;
         }
-        if( project != null ? !project.equals( that.project ) : that.project != null ) {
+        if (project != null ? !project.equals(that.project) : that.project != null) {
             return false;
         }
 
@@ -297,15 +297,15 @@ public class ActionItem implements Serializable, Indexable, Trashable, Item {
 
     public int hashCode() {
         int result;
-        result = ( id != null ? id.hashCode() : 0 );
-        result = 31 * result + ( description != null ? description.hashCode() : 0 );
-        result = 31 * result + ( descriptionTextStyleType != null ? descriptionTextStyleType.hashCode() : 0 );
-        result = 31 * result + ( createdDate != null ? createdDate.hashCode() : 0 );
-        result = 31 * result + ( lastModifiedDate != null ? lastModifiedDate.hashCode() : 0 );
-        result = 31 * result + ( completedDate != null ? completedDate.hashCode() : 0 );
-        result = 31 * result + ( deleted != null ? deleted.hashCode() : 0 );
-        result = 31 * result + ( project != null ? project.hashCode() : 0 );
-        result = 31 * result + ( inboxContext != null ? inboxContext.hashCode() : 0 );
+        result = (id != null ? id.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (descriptionTextStyleType != null ? descriptionTextStyleType.hashCode() : 0);
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        result = 31 * result + (lastModifiedDate != null ? lastModifiedDate.hashCode() : 0);
+        result = 31 * result + (completedDate != null ? completedDate.hashCode() : 0);
+        result = 31 * result + (deleted != null ? deleted.hashCode() : 0);
+        result = 31 * result + (project != null ? project.hashCode() : 0);
+        result = 31 * result + (inboxContext != null ? inboxContext.hashCode() : 0);
         return result;
     }
 

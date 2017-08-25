@@ -6,15 +6,43 @@ package com.nervestaple.gtdinbox.model;
  */
 public interface Trashable {
 
+    /**
+     * The unique identifier of the Item.
+     *
+     * @return unique identifier of the Item
+     */
     public Long getId();
 
+    /**
+     * The name of the Item.
+     *
+     * @return name of the Item
+     */
     public String getName();
 
+    /**
+     * The parent of this Item.
+     *
+     * @return parent of the Item
+     */
     public Object getParent();
 
-    public void setDeleted( Boolean deleted );
+    /**
+     * Flag indiciating that the Trashable has been deleted.
+     *
+     * @param deleted flag
+     */
+    public void setDeleted(Boolean deleted);
 
+    /**
+     * Returns the deleted flag for the Trashable.
+     *
+     * @return deleted flag
+     */
     public Boolean getDeleted();
 
+    /**
+     * Called before a Trashable is deleted.
+     */
     public void prepareForDeletion();
 }

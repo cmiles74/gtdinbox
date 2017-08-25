@@ -9,6 +9,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
 import javax.persistence.*;
+import javax.swing.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -27,7 +28,7 @@ public class Project implements Serializable, Indexable, Trashable {
      */
     @Id
     @SequenceGenerator(name = "ProjectItemSequence")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "ProjectItemSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ProjectItemSequence")
     private Long id;
 
     /**
@@ -58,16 +59,16 @@ public class Project implements Serializable, Indexable, Trashable {
     /**
      * Action items associates with this project.
      */
-    @OneToMany(targetEntity = ActionItem.class, mappedBy = "project")
-    private Set actionItems = new HashSet();
+    @OneToMany(mappedBy = "project")
+    private Set<ActionItem> actionItems;
 
     /**
      * Creates a new project.
      */
     public Project() {
 
-        actionItems = new HashSet();
-        deleted = Boolean.valueOf( false );
+        actionItems = new HashSet<>();
+        deleted = false;
         createdDate = new Date();
         textStyleType = TextStyleType.MARKDOWN_TEXT;
     }
@@ -76,7 +77,8 @@ public class Project implements Serializable, Indexable, Trashable {
 
     public Object getParent() {
 
-        return ( null );
+        // projects do not have parents
+        return (null);
     }
 
     // trashable methods
@@ -92,7 +94,7 @@ public class Project implements Serializable, Indexable, Trashable {
         return id;
     }
 
-    public void setId( final Long id ) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -100,7 +102,7 @@ public class Project implements Serializable, Indexable, Trashable {
         return name;
     }
 
-    public void setName( final String name ) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -108,7 +110,7 @@ public class Project implements Serializable, Indexable, Trashable {
         return description;
     }
 
-    public void setDescription( final String description ) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -116,7 +118,7 @@ public class Project implements Serializable, Indexable, Trashable {
         return textStyleType;
     }
 
-    public void setTextStyleType( final TextStyleType textStyleType ) {
+    public void setTextStyleType(final TextStyleType textStyleType) {
         this.textStyleType = textStyleType;
     }
 
@@ -124,7 +126,7 @@ public class Project implements Serializable, Indexable, Trashable {
         return createdDate;
     }
 
-    public void setCreatedDate( final Date createdDate ) {
+    public void setCreatedDate(final Date createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -132,70 +134,70 @@ public class Project implements Serializable, Indexable, Trashable {
         return deleted;
     }
 
-    public void setDeleted( final Boolean deleted ) {
+    public void setDeleted(final Boolean deleted) {
         this.deleted = deleted;
     }
 
-    public Set getActionItems() {
+    public Set<ActionItem> getActionItems() {
         return actionItems;
     }
 
-    public void setActionItems( final Set actionItems ) {
+    public void setActionItems(final Set<ActionItem> actionItems) {
         this.actionItems = actionItems;
     }
 
     // collection methods
 
-    public void addActionItem( ActionItem actionItem ) {
+    public void addActionItem(ActionItem actionItem) {
 
-        Validate.notNull( actionItem );
+        Validate.notNull(actionItem);
 
-        actionItem.setProject( this );
-        actionItems.add( actionItem );
+        actionItem.setProject(this);
+        actionItems.add(actionItem);
     }
 
-    public void removeActionItem( ActionItem actionItem ) {
+    public void removeActionItem(ActionItem actionItem) {
 
-        Validate.notNull( actionItem );
+        Validate.notNull(actionItem);
 
-        if( actionItems.contains( actionItem ) ) {
+        if (actionItems.contains(actionItem)) {
 
-            actionItems.remove( actionItem );
+            actionItems.remove(actionItem);
 
-            if( actionItem.getProject() != null && actionItem.getProject().equals( this ) ) {
-                actionItem.setProject( null );
+            if (actionItem.getProject() != null && actionItem.getProject().equals(this)) {
+                actionItem.setProject(null);
             }
         }
     }
 
     // other required methods
 
-    public boolean equals( final Object o ) {
-        if( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        Project project = ( Project ) o;
+        Project project = (Project) o;
 
-        if( createdDate != null ? !createdDate.equals( project.createdDate ) : project.createdDate != null ) {
+        if (createdDate != null ? !createdDate.equals(project.createdDate) : project.createdDate != null) {
             return false;
         }
-        if( deleted != null ? !deleted.equals( project.deleted ) : project.deleted != null ) {
+        if (deleted != null ? !deleted.equals(project.deleted) : project.deleted != null) {
             return false;
         }
-        if( description != null ? !description.equals( project.description ) : project.description != null ) {
+        if (description != null ? !description.equals(project.description) : project.description != null) {
             return false;
         }
-        if( id != null ? !id.equals( project.id ) : project.id != null ) {
+        if (id != null ? !id.equals(project.id) : project.id != null) {
             return false;
         }
-        if( name != null ? !name.equals( project.name ) : project.name != null ) {
+        if (name != null ? !name.equals(project.name) : project.name != null) {
             return false;
         }
-        if( textStyleType != null ? !textStyleType.equals( project.textStyleType ) : project.textStyleType != null ) {
+        if (textStyleType != null ? !textStyleType.equals(project.textStyleType) : project.textStyleType != null) {
             return false;
         }
 
@@ -204,16 +206,16 @@ public class Project implements Serializable, Indexable, Trashable {
 
     public int hashCode() {
         int result;
-        result = ( id != null ? id.hashCode() : 0 );
-        result = 31 * result + ( name != null ? name.hashCode() : 0 );
-        result = 31 * result + ( description != null ? description.hashCode() : 0 );
-        result = 31 * result + ( textStyleType != null ? textStyleType.hashCode() : 0 );
-        result = 31 * result + ( createdDate != null ? createdDate.hashCode() : 0 );
-        result = 31 * result + ( deleted != null ? deleted.hashCode() : 0 );
+        result = (id != null ? id.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (textStyleType != null ? textStyleType.hashCode() : 0);
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        result = 31 * result + (deleted != null ? deleted.hashCode() : 0);
         return result;
     }
 
     public String toString() {
-        return ( name );
+        return (name);
     }
 }

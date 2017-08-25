@@ -6,6 +6,7 @@ import com.nervestaple.gtdinbox.model.Trashable;
 import com.nervestaple.gtdinbox.model.item.actionitem.ActionItem;
 import com.nervestaple.gtdinbox.model.item.referenceitem.ReferenceItem;
 import org.apache.commons.lang.Validate;
+import org.hibernate.tool.schema.Action;
 import org.hibernate.tool.schema.TargetType;
 
 import javax.persistence.*;
@@ -26,7 +27,7 @@ public class Tag implements Serializable, Indexable, Trashable {
      */
     @Id
     @SequenceGenerator(name = "TagItemSequence")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "TagItemSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TagItemSequence")
     private Long id;
 
     /**
@@ -42,31 +43,33 @@ public class Tag implements Serializable, Indexable, Trashable {
     /**
      * Reference items associated with this tag
      */
-    @OneToMany(targetEntity = ReferenceItem.class)
+    @OneToMany
     @JoinTable
-    private Set referenceItems = new HashSet();
+    private Set<ReferenceItem> referenceItems;
 
     /**
      * Action items associated with this tag
      */
-    @OneToMany(targetEntity = ActionItem.class)
+    @OneToMany
     @JoinTable
-    private Set actionItems = new HashSet();
+    private Set<ActionItem> actionItems;
 
     /**
      * Creates a new tag.
      */
     public Tag() {
 
-        referenceItems = new HashSet();
-        actionItems = new HashSet();
-        deleted = Boolean.valueOf( false );
+        referenceItems = new HashSet<>();
+        actionItems = new HashSet<>();
+        deleted = false;
     }
 
     // item methods
 
     public Object getParent() {
-        return ( null );
+
+        // tags do not have parents
+        return (null);
     }
 
     public void prepareForDeletion() {
@@ -80,7 +83,7 @@ public class Tag implements Serializable, Indexable, Trashable {
         return id;
     }
 
-    public void setId( final Long id ) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -88,7 +91,7 @@ public class Tag implements Serializable, Indexable, Trashable {
         return name;
     }
 
-    public void setName( final String name ) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -96,92 +99,92 @@ public class Tag implements Serializable, Indexable, Trashable {
         return deleted;
     }
 
-    public void setDeleted( final Boolean deleted ) {
+    public void setDeleted(final Boolean deleted) {
         this.deleted = deleted;
     }
 
-    public Set getReferenceItems() {
+    public Set<ReferenceItem> getReferenceItems() {
         return referenceItems;
     }
 
-    public void setReferenceItems( final Set referenceItems ) {
+    public void setReferenceItems(final Set<ReferenceItem> referenceItems) {
         this.referenceItems = referenceItems;
     }
 
-    public Set getActionItems() {
+    public Set<ActionItem> getActionItems() {
         return actionItems;
     }
 
-    public void setActionItems( final Set actionItems ) {
+    public void setActionItems(final Set<ActionItem> actionItems) {
         this.actionItems = actionItems;
     }
 
     // collection methods
 
-    public void addReferenceItem( ReferenceItem referenceItem ) {
+    public void addReferenceItem(ReferenceItem referenceItem) {
 
-        Validate.notNull( referenceItem );
+        Validate.notNull(referenceItem);
 
-        if( !referenceItems.contains( referenceItem ) ) {
+        if (!referenceItems.contains(referenceItem)) {
 
-            referenceItems.add( referenceItem );
+            referenceItems.add(referenceItem);
 
-            referenceItem.getTags().add( this );
+            referenceItem.getTags().add(this);
         }
     }
 
-    public void removeReferenceItem( ReferenceItem referenceItem ) {
+    public void removeReferenceItem(ReferenceItem referenceItem) {
 
-        Validate.notNull( referenceItem );
+        Validate.notNull(referenceItem);
 
-        if( referenceItems.contains( referenceItem ) ) {
+        if (referenceItems.contains(referenceItem)) {
 
-            referenceItems.remove( referenceItem );
-            referenceItem.removeTag( this );
+            referenceItems.remove(referenceItem);
+            referenceItem.removeTag(this);
         }
     }
 
-    public void addActionItem( ActionItem actionItem ) {
+    public void addActionItem(ActionItem actionItem) {
 
-        Validate.notNull( actionItem );
+        Validate.notNull(actionItem);
 
-        if( !actionItems.contains( actionItem ) ) {
+        if (!actionItems.contains(actionItem)) {
 
-            actionItems.add( actionItem );
-            actionItem.getTags().add( this );
+            actionItems.add(actionItem);
+            actionItem.getTags().add(this);
         }
     }
 
-    public void removeActionItem( ActionItem actionItem ) {
+    public void removeActionItem(ActionItem actionItem) {
 
-        Validate.notNull( actionItem );
+        Validate.notNull(actionItem);
 
-        if( actionItems.contains( actionItem ) ) {
+        if (actionItems.contains(actionItem)) {
 
-            actionItems.remove( actionItem );
-            actionItem.removeTag( this );
+            actionItems.remove(actionItem);
+            actionItem.removeTag(this);
         }
     }
 
     // other required methods
 
-    public boolean equals( final Object o ) {
-        if( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        Tag tag = ( Tag ) o;
+        Tag tag = (Tag) o;
 
-        if( deleted != null ? !deleted.equals( tag.deleted ) : tag.deleted != null ) {
+        if (deleted != null ? !deleted.equals(tag.deleted) : tag.deleted != null) {
             return false;
         }
-        if( id != null ? !id.equals( tag.id ) : tag.id != null ) {
+        if (id != null ? !id.equals(tag.id) : tag.id != null) {
             return false;
         }
-        if( name != null ? !name.equals( tag.name ) : tag.name != null ) {
+        if (name != null ? !name.equals(tag.name) : tag.name != null) {
             return false;
         }
 
@@ -190,9 +193,9 @@ public class Tag implements Serializable, Indexable, Trashable {
 
     public int hashCode() {
         int result;
-        result = ( id != null ? id.hashCode() : 0 );
-        result = 31 * result + ( name != null ? name.hashCode() : 0 );
-        result = 31 * result + ( deleted != null ? deleted.hashCode() : 0 );
+        result = (id != null ? id.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (deleted != null ? deleted.hashCode() : 0);
         ;
         return result;
     }
