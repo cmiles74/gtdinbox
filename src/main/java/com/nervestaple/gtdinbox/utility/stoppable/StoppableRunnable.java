@@ -5,7 +5,9 @@ package com.nervestaple.gtdinbox.utility.stoppable;
  */
 public abstract class StoppableRunnable implements Runnable {
 
-    /** Flag to indicate the thread must stop. */
+    /**
+     * Flag to indicate the thread must stop.
+     */
     protected boolean stop = false;
 
     public abstract void run();

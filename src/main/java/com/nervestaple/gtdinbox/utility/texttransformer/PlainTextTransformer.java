@@ -1,38 +1,40 @@
 package com.nervestaple.gtdinbox.utility.texttransformer;
 
 /**
- * Provides an object for transforming plain text into a format for display.
+ * Provides an object for transforming plain text into HTML for display.
  */
 public class PlainTextTransformer implements TextTransformer {
 
-    /** Creates a new PlainTextTranformer. */
+    /**
+     * Creates a new PlainTextTransformer.
+     */
     public PlainTextTransformer() {
 
     }
 
     /**
-     * Returns plain text ready for display, probably just more plain text.
+     * Returns HTML text ready for display.
      *
      * @param textPlain Text to be transformed
-     * @return TransformedText
+     * @return transformed HTML
      */
-    public String transformTextForDisplay( String textPlain, OutputType outputType ) {
+    public String transformTextForDisplay(String textPlain, OutputType outputType) {
 
         // @todo: convert newlines to HTML line breaks
 
         StringBuffer buffer = new StringBuffer();
 
         // add a span tag for the output type.
-        if( outputType != null ) {
-            buffer.append( "<div class=\"" + outputType.getType() + "\">" );
+        if (outputType != null) {
+            buffer.append("<div class=\"" + outputType.getType() + "\">");
         }
 
-        buffer.append( textPlain );
+        buffer.append(textPlain);
 
-        if( outputType != null ) {
-            buffer.append( "</div>" );
+        if (outputType != null) {
+            buffer.append("</div>");
         }
 
-        return ( buffer.toString() );
+        return (buffer.toString());
     }
 }

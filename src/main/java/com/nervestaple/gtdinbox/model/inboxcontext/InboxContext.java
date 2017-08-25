@@ -124,7 +124,7 @@ public class InboxContext implements Serializable, Indexable, Trashable {
         return actionItems;
     }
 
-    public void setActionItems(final Set actionItems) {
+    public void setActionItems(final Set<ActionItem> actionItems) {
         this.actionItems = actionItems;
     }
 

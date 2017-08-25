@@ -53,22 +53,22 @@ public class UtilityTextTransformer {
      * @param textStyleType The text's type
      * @return Transformed text
      */
-    public static String transformTextForDisplay( String text, TextStyleType textStyleType, OutputType outputType ) {
+    public static String transformTextForDisplay(String text, TextStyleType textStyleType, OutputType outputType) {
 
         String textOut = null;
-        if( textStyleType == TextStyleType.PLAIN_TEXT ) {
+        if (textStyleType == TextStyleType.PLAIN_TEXT) {
 
-            textOut = PLAIN_TEXT_TRANSFORMER.transformTextForDisplay( text, outputType );
-        } else if( textStyleType == TextStyleType.MARKDOWN_TEXT ) {
+            textOut = PLAIN_TEXT_TRANSFORMER.transformTextForDisplay(text, outputType);
+        } else if (textStyleType == TextStyleType.MARKDOWN_TEXT) {
 
-            textOut = MARKDOWN_TEXT_TRANSFORMER.transformTextForDisplay( text, outputType );
+            textOut = MARKDOWN_TEXT_TRANSFORMER.transformTextForDisplay(text, outputType);
         } else {
 
             // fallback to plain text
-            textOut = MARKDOWN_TEXT_TRANSFORMER.transformTextForDisplay( text, outputType );
+            textOut = MARKDOWN_TEXT_TRANSFORMER.transformTextForDisplay(text, outputType);
         }
 
         // return the text, it's all we have
-        return ( textOut );
+        return (textOut);
     }
 }

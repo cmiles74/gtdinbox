@@ -6,10 +6,10 @@ package com.nervestaple.gtdinbox.utility.texttransformer;
 public interface TextTransformer {
 
     /**
-     * Returns plain text ready for display, probably just more plain text.
+     * Returns HTML text ready for display.
      *
      * @param textPlain Text to be transformed
-     * @return TransformedText
+     * @return transformed HTML
      */
-    String transformTextForDisplay( String textPlain, OutputType outputType );
+    String transformTextForDisplay(String textPlain, OutputType outputType);
 }

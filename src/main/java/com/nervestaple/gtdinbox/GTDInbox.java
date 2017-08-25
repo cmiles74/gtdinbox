@@ -6,9 +6,6 @@ import org.apache.log4j.Logger;
 /**
  * Provides the entry class for the GTDInbox application. This class is responsible for bootstrapping the rest of the
  * application.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class GTDInbox {
 

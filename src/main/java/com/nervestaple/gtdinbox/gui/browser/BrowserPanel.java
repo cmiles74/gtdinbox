@@ -74,9 +74,6 @@ import java.util.Set;
 
 /**
  * Provides a form for the BrowserPanel.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
 
@@ -148,7 +145,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
     /**
      * Set of listeners.
      */
-    private Set listeners;
+    private Set<BrowserPanelListener> listeners;
 
     /**
      * Detail panel being displayed.
@@ -186,7 +183,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
     private Timer timerSearch;
 
     /**
-     * Delay for the search timer.
+     * Delay for the search timer (in milliseconds).
      */
     private final static int SEARCH_TIMER_DELAY = 300;
 
@@ -761,8 +758,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      */
     private void fireDetailPanelChanged() {
 
-        BrowserPanelListener[] listenerArray =
-                (BrowserPanelListener[]) listeners.toArray(new BrowserPanelListener[listeners.size()]);
+        BrowserPanelListener[] listenerArray = listeners.toArray(new BrowserPanelListener[listeners.size()]);
 
         for (int index = 0; index < listenerArray.length; index++) {
 
@@ -775,8 +771,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      */
     private void fireSelectedDetailItemChanged() {
 
-        BrowserPanelListener[] listenerArray =
-                (BrowserPanelListener[]) listeners.toArray(new BrowserPanelListener[listeners.size()]);
+        BrowserPanelListener[] listenerArray = listeners.toArray(new BrowserPanelListener[listeners.size()]);
 
         for (int index = 0; index < listenerArray.length; index++) {
 
@@ -789,8 +784,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      */
     private void fireConfirmEmptyTrash(String message) {
 
-        BrowserPanelListener[] listenerArray = (BrowserPanelListener[]) listeners.toArray(
-                new BrowserPanelListener[listeners.size()]);
+        BrowserPanelListener[] listenerArray = listeners.toArray(new BrowserPanelListener[listeners.size()]);
 
         for (int index = 0; index < listenerArray.length; index++) {
 

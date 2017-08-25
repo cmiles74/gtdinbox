@@ -2,6 +2,7 @@ package com.nervestaple.gtdinbox.gui.browser.detail.searchresults;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
+import org.apache.lucene.document.Document;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -10,9 +11,6 @@ import java.util.List;
 
 /**
  * Provides a data model for the search result detail form.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class SearchResultDetailModel {
 
@@ -34,12 +32,12 @@ public class SearchResultDetailModel {
     /**
      * List of items in the result view.
      */
-    private EventList listItems;
+    private EventList<Document> listItems;
 
     /**
      * Selected items.
      */
-    private List selectedItems;
+    private List<Document> selectedItems;
 
     /**
      * Property change support object.
@@ -51,29 +49,29 @@ public class SearchResultDetailModel {
      */
     public SearchResultDetailModel() {
 
-        propertychangesupport = new PropertyChangeSupport( this );
+        propertychangesupport = new PropertyChangeSupport(this);
 
         initializeValues();
     }
 
     // property change support methods
 
-    public void addPropertyChangeListener( PropertyChangeListener listener ) {
-        propertychangesupport.addPropertyChangeListener( listener );
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertychangesupport.addPropertyChangeListener(listener);
     }
 
-    public void removePropertyChangeListener( PropertyChangeListener listener ) {
-        propertychangesupport.removePropertyChangeListener( listener );
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertychangesupport.removePropertyChangeListener(listener);
     }
 
-    public void addPropertyChangeListener( String property,
-                                           PropertyChangeListener listener ) {
-        propertychangesupport.addPropertyChangeListener( property, listener );
+    public void addPropertyChangeListener(String property,
+                                          PropertyChangeListener listener) {
+        propertychangesupport.addPropertyChangeListener(property, listener);
     }
 
-    public void removePropertyChangeListener( String property,
-                                              PropertyChangeListener listener ) {
-        propertychangesupport.removePropertyChangeListener( property, listener );
+    public void removePropertyChangeListener(String property,
+                                             PropertyChangeListener listener) {
+        propertychangesupport.removePropertyChangeListener(property, listener);
     }
 
     // accessor and mutator methods
@@ -82,40 +80,40 @@ public class SearchResultDetailModel {
         return name;
     }
 
-    public void setName( String name ) {
+    public void setName(String name) {
         String valueOld = this.name;
         this.name = name;
-        propertychangesupport.firePropertyChange( "name", valueOld, this.name );
+        propertychangesupport.firePropertyChange("name", valueOld, this.name);
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription( String description ) {
+    public void setDescription(String description) {
         String valueOld = this.description;
         this.description = description;
-        propertychangesupport.firePropertyChange( "description", valueOld, this.description );
+        propertychangesupport.firePropertyChange("description", valueOld, this.description);
     }
 
     public EventList getListItems() {
         return listItems;
     }
 
-    public void setListItems( EventList listItems ) {
+    public void setListItems(EventList<Document> listItems) {
         EventList valueOld = this.listItems;
         this.listItems = listItems;
-        propertychangesupport.firePropertyChange( "listItems", valueOld, this.listItems );
+        propertychangesupport.firePropertyChange("listItems", valueOld, this.listItems);
     }
 
     public List getSelectedItems() {
         return selectedItems;
     }
 
-    public void setSelectedItems( List selectedItems ) {
+    public void setSelectedItems(List<Document> selectedItems) {
         List valueOld = this.selectedItems;
         this.selectedItems = selectedItems;
-        propertychangesupport.firePropertyChange( "selectedItems", valueOld, this.selectedItems );
+        propertychangesupport.firePropertyChange("selectedItems", valueOld, this.selectedItems);
     }
 
     // private methods
@@ -124,8 +122,8 @@ public class SearchResultDetailModel {
 
         this.name = HEADER_NAME;
 
-        listItems = new BasicEventList();
+        listItems = new BasicEventList<>();
 
-        selectedItems = new ArrayList();
+        selectedItems = new ArrayList<>();
     }
 }

@@ -5,6 +5,7 @@ import ca.odell.glazedlists.EventList;
 import com.nervestaple.gtdinbox.datastore.DataStoreException;
 import com.nervestaple.gtdinbox.datastore.DataStoreManager;
 import com.nervestaple.gtdinbox.gui.utility.glazedtreemodel.GlazedTreeNode;
+import com.nervestaple.gtdinbox.model.Trashable;
 import com.nervestaple.gtdinbox.model.inboxcontext.InboxContext;
 import com.nervestaple.gtdinbox.model.item.actionitem.ActionItem;
 import com.nervestaple.gtdinbox.model.item.referenceitem.ReferenceItem;
@@ -33,22 +34,22 @@ public class BrowserModel {
     /**
      * List of projects.
      */
-    private EventList projects;
+    private EventList<Project> projects;
 
     /**
      * List of contexts.
      */
-    private EventList contexts;
+    private EventList<InboxContext> contexts;
 
     /**
      * List of categories.
      */
-    private EventList categories;
+    private EventList<Category> categories;
 
     /**
      * List of trash.
      */
-    private EventList trash;
+    private EventList<Trashable> trash;
 
     /**
      * Selected tree node.

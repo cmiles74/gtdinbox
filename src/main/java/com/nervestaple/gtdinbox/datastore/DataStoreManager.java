@@ -39,7 +39,7 @@ public class DataStoreManager {
      * @return A list of Project objects
      * @throws DataStoreException On problems reading from the data store
      */
-    public static Collection getProjects() throws DataStoreException {
+    public static Collection<Project> getProjects() throws DataStoreException {
 
         try {
 
@@ -64,7 +64,7 @@ public class DataStoreManager {
      * @return A list of InboxContext objects
      * @throws DataStoreException On problems reading from the data store
      */
-    public static Collection getContexts() throws DataStoreException {
+    public static Collection<InboxContext> getContexts() throws DataStoreException {
 
         try {
 
@@ -89,7 +89,7 @@ public class DataStoreManager {
      * @return A list of Category objects
      * @throws DataStoreException On problems reading from the data store
      */
-    public static Collection getCategories() throws DataStoreException {
+    public static Collection<Category> getCategories() throws DataStoreException {
 
         try {
 
@@ -130,7 +130,7 @@ public class DataStoreManager {
      * @return A list of objects tagged for deletion.
      * @throws DataStoreException On problems reading from the data store
      */
-    public static Collection getTrash() throws DataStoreException {
+    public static Collection<Trashable> getTrash() throws DataStoreException {
 
         try {
 
@@ -157,7 +157,7 @@ public class DataStoreManager {
      * @return A list of objects tagged as completed.
      * @throws DataStoreException On problems reading from the data store
      */
-    public static Collection getArchive() throws DataStoreException {
+    public static Collection<ActionItem> getArchive() throws DataStoreException {
 
         // get archive days
         Integer days = ConfigurationFactory.getInstance().getApplicationConfiguration().getArchiveDays();

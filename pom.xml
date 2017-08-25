@@ -13,6 +13,7 @@
         <!-- project settings -->
         <product-vendor>Nervestaple Development</product-vendor>
         <main-class>com.nervestaple.gtdinbox.GTDInbox</main-class>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <launch4j.minimum.jvm>1.8.0</launch4j.minimum.jvm>

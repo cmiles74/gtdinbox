@@ -5,37 +5,45 @@ package com.nervestaple.gtdinbox.utility.stoppable;
  */
 public class StoppableThread extends Thread {
 
-    /** Flag to indicate the thread should halt. */
+    /**
+     * Flag to indicate the thread should halt.
+     */
     private boolean stop = false;
 
-    /** Running runnable. */
+    /**
+     * Running runnable.
+     */
     private StoppableRunnable runnable;
 
-    /** Creates a new instance of StoppableThread */
-    public StoppableThread( StoppableRunnable runnable ) {
+    /**
+     * Creates a new instance of StoppableThread
+     */
+    public StoppableThread(StoppableRunnable runnable) {
 
-        super( runnable );
+        super(runnable);
 
         this.runnable = runnable;
     }
 
-    /** Tells the thread to stop and exit. */
+    /**
+     * Tells the thread to stop and exit.
+     */
     public void stopThread() {
 
-        setStop( true );
+        setStop(true);
 
         runnable.stop();
     }
 
     // accessor and mutator methods
 
-    public void setStop( boolean stop ) {
+    public void setStop(boolean stop) {
 
         this.stop = stop;
     }
 
     public boolean isStop() {
 
-        return ( stop );
+        return (stop);
     }
 }

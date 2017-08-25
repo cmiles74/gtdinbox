@@ -5,9 +5,6 @@ import java.io.PrintWriter;
 
 /**
  * Provides an exception object for the application.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class GTDInboxException extends Exception {
 

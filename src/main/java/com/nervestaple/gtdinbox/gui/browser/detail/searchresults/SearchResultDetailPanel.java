@@ -271,18 +271,18 @@ public class SearchResultDetailPanel extends JPanel {
         return (object);
     }
 
-    private void updateTable(final EventList listItems) {
+    private void updateTable(final EventList<Document> listItems) {
 
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
 
-                SortedList sortedList = new SortedList(listItems, new LuceneComparator());
-                tableResults.setModel(new EventTableModel(sortedList, new TableFormatSearchResult()));
+                SortedList<Document> sortedList = new SortedList<>(listItems, new LuceneComparator());
+                tableResults.setModel(new EventTableModel<Document>(sortedList, new TableFormatSearchResult()));
 
                 // hang on to the comparator chooser in case we need it later
-                TableComparatorChooser tableComparatorChooser =
-                        new TableComparatorChooser(tableResults, sortedList, true);
+                TableComparatorChooser<Document> tableComparatorChooser =
+                        new TableComparatorChooser<>(tableResults, sortedList, true);
 
                 tableResults.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 
@@ -330,7 +330,7 @@ public class SearchResultDetailPanel extends JPanel {
 
             public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
 
-                updateTable((EventList) propertyChangeEvent.getNewValue());
+                updateTable((EventList<Document>) propertyChangeEvent.getNewValue());
             }
         });
 
