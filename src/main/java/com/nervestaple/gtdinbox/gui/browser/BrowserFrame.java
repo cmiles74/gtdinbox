@@ -3,13 +3,18 @@ package com.nervestaple.gtdinbox.gui.browser;
 import ch.randelshofer.quaqua.JSheet;
 import ch.randelshofer.quaqua.SheetEvent;
 import ch.randelshofer.quaqua.SheetListener;
+import com.google.common.eventbus.Subscribe;
 import com.nervestaple.gtdinbox.GTDInboxException;
+import com.nervestaple.gtdinbox.gui.ApplicationManager;
 import com.nervestaple.gtdinbox.gui.ApplicationMenuBar;
 import com.nervestaple.gtdinbox.gui.GTDInboxGUI;
 import com.nervestaple.gtdinbox.gui.browser.detail.DetailArchivePanel;
 import com.nervestaple.gtdinbox.gui.browser.detail.DetailProjectPanel;
 import com.nervestaple.gtdinbox.gui.browser.detail.searchresults.SearchResultDetailPanel;
 import com.nervestaple.gtdinbox.gui.browser.detail.trash.TrashDetailForm;
+import com.nervestaple.gtdinbox.gui.event.ChangedEvent;
+import com.nervestaple.gtdinbox.gui.event.MessageActionEvent;
+import com.nervestaple.gtdinbox.gui.event.SelectionEvent;
 import com.nervestaple.gtdinbox.gui.form.FrameManager;
 import com.nervestaple.gtdinbox.gui.utility.UtilitiesGui;
 import com.nervestaple.gtdinbox.gui.utility.UtilitiesPrint;
@@ -256,46 +261,51 @@ public class BrowserFrame extends JFrame {
                 }
             }
         });
+        
+        ApplicationManager.getInstance().getEventBus().register(this);
+    }
 
-        browserPanel.addBrowserPanelListener(new BrowserPanelListener() {
+    @Subscribe
+    public void detailPanelChanged(ChangedEvent<BrowserPanel> event) {
+        JPanel panel = browserPanel.getPanelDetail();
 
-            public void detailPanelChanged() {
+        if (!(panel instanceof DetailProjectPanel)) {
 
-                JPanel panel = browserPanel.getPanelDetail();
+            applicationMenuBar.getMenuItemEditActionItem().setEnabled(false);
+            applicationMenuBar.getMenuItemRemoveActionItem().setEnabled(false);
 
-                if (!(panel instanceof DetailProjectPanel)) {
+            if ((panel instanceof SearchResultDetailPanel) || (panel instanceof TrashDetailForm)
+                    || (panel instanceof DetailArchivePanel)) {
 
-                    applicationMenuBar.getMenuItemEditActionItem().setEnabled(false);
-                    applicationMenuBar.getMenuItemRemoveActionItem().setEnabled(false);
-
-                    if ((panel instanceof SearchResultDetailPanel) || (panel instanceof TrashDetailForm)
-                            || (panel instanceof DetailArchivePanel)) {
-
-                        applicationMenuBar.getMenuItemAddActionItem().setEnabled(false);
-                    }
-                }
-
-                selectedDetailItemChanged();
+                applicationMenuBar.getMenuItemAddActionItem().setEnabled(false);
             }
+        }
 
-            public void selectedDetailItemChanged() {
+        handleDetailPanelSelectionChanged();
+    }
 
-                Object object = browserPanel.getPanelDetailSelectedItem();
+    @Subscribe
+    public void detailPanelSelectionChanged(SelectionEvent<BrowserPanel> event) {
+        handleDetailPanelSelectionChanged();
+    }
 
-                if (object != null && object instanceof ActionItem) {
-                    applicationMenuBar.getMenuItemEditActionItem().setEnabled(true);
-                    applicationMenuBar.getMenuItemRemoveActionItem().setEnabled(true);
-                } else {
-                    applicationMenuBar.getMenuItemEditActionItem().setEnabled(false);
-                    applicationMenuBar.getMenuItemRemoveActionItem().setEnabled(false);
-                }
-            }
+    @Subscribe
+    public void detailPanelConfirmEmptyTrash(MessageActionEvent<BrowserPanel> event) {
+        if(event.getAction().equals("EMPTY_TRASH")) {
+            handleConfirmEmptyTrash(event.getMessage());
+        }
+    }
 
-            public void confirmEmptyTrash(String message) {
+    private void handleDetailPanelSelectionChanged() {
+        Object object = browserPanel.getPanelDetailSelectedItem();
 
-                handleConfirmEmptyTrash(message);
-            }
-        });
+        if (object != null && object instanceof ActionItem) {
+            applicationMenuBar.getMenuItemEditActionItem().setEnabled(true);
+            applicationMenuBar.getMenuItemRemoveActionItem().setEnabled(true);
+        } else {
+            applicationMenuBar.getMenuItemEditActionItem().setEnabled(false);
+            applicationMenuBar.getMenuItemRemoveActionItem().setEnabled(false);
+        }
     }
 
     /**

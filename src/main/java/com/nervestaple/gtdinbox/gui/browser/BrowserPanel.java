@@ -13,6 +13,7 @@ import com.nervestaple.gtdinbox.datastore.database.DataBaseManagerException;
 import com.nervestaple.gtdinbox.datastore.index.IndexManager;
 import com.nervestaple.gtdinbox.datastore.index.IndexManagerListener;
 import com.nervestaple.gtdinbox.datastore.index.SearchResultHandler;
+import com.nervestaple.gtdinbox.gui.ApplicationManager;
 import com.nervestaple.gtdinbox.gui.GTDInboxExceptionHandler;
 import com.nervestaple.gtdinbox.gui.GTDInboxGUI;
 import com.nervestaple.gtdinbox.gui.browser.detail.DetailActionItemListListener;
@@ -24,6 +25,9 @@ import com.nervestaple.gtdinbox.gui.browser.detail.searchresults.SearchResultDet
 import com.nervestaple.gtdinbox.gui.browser.detail.trash.TrashDetailController;
 import com.nervestaple.gtdinbox.gui.browser.detail.trash.TrashDetailControllerListener;
 import com.nervestaple.gtdinbox.gui.browser.renderer.BrowserTreeCellRenderer;
+import com.nervestaple.gtdinbox.gui.event.ChangedEvent;
+import com.nervestaple.gtdinbox.gui.event.MessageActionEvent;
+import com.nervestaple.gtdinbox.gui.event.SelectionEvent;
 import com.nervestaple.gtdinbox.gui.form.FrameManager;
 import com.nervestaple.gtdinbox.gui.form.actionitem.ActionItemFormListener;
 import com.nervestaple.gtdinbox.gui.form.actionitem.ActionItemFrame;
@@ -52,8 +56,6 @@ import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.TermQuery;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import javax.persistence.EntityManager;
 import javax.swing.*;
@@ -70,9 +72,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 /**
  * Provides a form for the BrowserPanel.
@@ -123,11 +123,6 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * Trash detail panel.
      */
     private TrashDetailController trashDetailController;
-
-    /**
-     * Set of listeners.
-     */
-    private Set<BrowserPanelListener> listeners;
 
     /**
      * Detail panel being displayed.
@@ -224,9 +219,6 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         } catch (DataStoreException e) {
             handleErrorOccurred(e);
         }
-
-        // setup a set for listeners
-        listeners = new HashSet();
 
         // setup the empty panel
         panelEmpty = new JPanel();
@@ -531,29 +523,6 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         trashDetailController.emptyTrash();
     }
 
-    /**
-     * Adds a new listener to the panel.
-     *
-     * @param listener Listener
-     */
-    public void addBrowserPanelListener(BrowserPanelListener listener) {
-
-        if (!listeners.contains(listener)) {
-
-            listeners.add(listener);
-        }
-    }
-
-    /**
-     * Removes a listener from the panel.
-     *
-     * @param listener Listener
-     */
-    public void removeBrowserPanelListener(BrowserPanelListener listener) {
-
-        listeners.remove(listener);
-    }
-
     // exception handler methods
 
     /**
@@ -720,39 +689,22 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * Notifies listeners that the detail panel has changed.
      */
     private void fireDetailPanelChanged() {
-
-        BrowserPanelListener[] listenerArray = listeners.toArray(new BrowserPanelListener[listeners.size()]);
-
-        for (int index = 0; index < listenerArray.length; index++) {
-
-            listenerArray[index].detailPanelChanged();
-        }
+        ApplicationManager.getInstance().getEventBus().post(new ChangedEvent<>(this));
     }
 
     /**
      * Notifies listeners that the selected item has changed.
      */
     private void fireSelectedDetailItemChanged() {
-
-        BrowserPanelListener[] listenerArray = listeners.toArray(new BrowserPanelListener[listeners.size()]);
-
-        for (int index = 0; index < listenerArray.length; index++) {
-
-            listenerArray[index].selectedDetailItemChanged();
-        }
+        ApplicationManager.getInstance().getEventBus().post(new SelectionEvent<>(this));
     }
 
     /**
      * Prompts the user to empty the trash.
      */
     private void fireConfirmEmptyTrash(String message) {
-
-        BrowserPanelListener[] listenerArray = listeners.toArray(new BrowserPanelListener[listeners.size()]);
-
-        for (int index = 0; index < listenerArray.length; index++) {
-
-            listenerArray[index].confirmEmptyTrash(message);
-        }
+        ApplicationManager.getInstance().getEventBus().post(
+                new MessageActionEvent<>(this, "EMPTY_TRASH", message));
     }
 
     /**

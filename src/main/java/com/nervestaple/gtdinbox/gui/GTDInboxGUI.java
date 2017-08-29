@@ -47,8 +47,6 @@ public class GTDInboxGUI {
      */
     private final ImageIcon ICON_APPLICATION_CAUTION;
 
-    private final EventBus eventBus;
-
     static {
 
         gtdInboxGUI = new GTDInboxGUI();
@@ -58,8 +56,6 @@ public class GTDInboxGUI {
      * Creates a new GTDInboxGUI. This creates and displays a splash window, then starts the rest of the application.
      */
     private GTDInboxGUI() {
-
-        eventBus = new EventBus();
 
         UtilitiesGui.configureSwingUI();
 
@@ -259,10 +255,6 @@ public class GTDInboxGUI {
                 FrameManager.getInstance().getMarkdownSheetFrame().toFront();
             }
         });
-    }
-
-    public EventBus getEventBus() {
-        return eventBus;
     }
 
     // private methods
