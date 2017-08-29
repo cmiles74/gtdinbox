@@ -24,7 +24,7 @@ import com.nervestaple.gtdinbox.gui.browser.detail.searchresults.SearchResultDet
 import com.nervestaple.gtdinbox.gui.browser.detail.trash.TrashDetailController;
 import com.nervestaple.gtdinbox.gui.browser.detail.trash.TrashDetailControllerListener;
 import com.nervestaple.gtdinbox.gui.browser.renderer.BrowserTreeCellRenderer;
-import com.nervestaple.gtdinbox.gui.event.action.ApplicationAction;
+import com.nervestaple.gtdinbox.gui.event.action.MessageAction;
 import com.nervestaple.gtdinbox.gui.event.item.ChangedEvent;
 import com.nervestaple.gtdinbox.gui.event.action.MessageActionEvent;
 import com.nervestaple.gtdinbox.gui.event.item.SelectionEvent;
@@ -703,7 +703,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      */
     private void fireConfirmEmptyTrash(String message) {
         ApplicationManager.getInstance().getEventBus().post(
-                new MessageActionEvent<>(this, ApplicationAction.EMPTY_TRASH));
+                new MessageActionEvent<>(this, MessageAction.EMPTY_TRASH));
     }
 
     /**

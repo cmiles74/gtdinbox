@@ -10,7 +10,7 @@ import com.nervestaple.gtdinbox.datastore.database.DataBaseManager;
 import com.nervestaple.gtdinbox.datastore.database.DataBaseManagerException;
 import com.nervestaple.gtdinbox.gui.ApplicationManager;
 import com.nervestaple.gtdinbox.gui.GTDInboxExceptionHandler;
-import com.nervestaple.gtdinbox.gui.event.action.ApplicationAction;
+import com.nervestaple.gtdinbox.gui.event.action.MessageAction;
 import com.nervestaple.gtdinbox.gui.event.action.MessageActionEvent;
 import com.nervestaple.gtdinbox.gui.utility.SimpleDateCellRenderer;
 import com.nervestaple.gtdinbox.model.inboxcontext.InboxContext;
@@ -123,27 +123,27 @@ public class SearchResultDetailPanel extends JPanel {
 
     private void fireProjectDoubleClicked(Project project) {
         ApplicationManager.getInstance().getEventBus().post(
-                new MessageActionEvent<Project>(project, ApplicationAction.DOUBLE_CLICK));
+                new MessageActionEvent<Project>(project, MessageAction.DOUBLE_CLICK));
     }
 
     private void fireActionItemDoubleClicked(ActionItem actionItem) {
         ApplicationManager.getInstance().getEventBus().post(
-                new MessageActionEvent<ActionItem>(actionItem, ApplicationAction.DOUBLE_CLICK));
+                new MessageActionEvent<ActionItem>(actionItem, MessageAction.DOUBLE_CLICK));
     }
 
     private void fireInboxContextDoubleClicked(InboxContext inboxContext) {
         ApplicationManager.getInstance().getEventBus().post(
-                new MessageActionEvent<InboxContext>(inboxContext, ApplicationAction.DOUBLE_CLICK));
+                new MessageActionEvent<InboxContext>(inboxContext, MessageAction.DOUBLE_CLICK));
     }
 
     private void fireCategoryDoubleClicked(Category category) {
         ApplicationManager.getInstance().getEventBus().post(
-                new MessageActionEvent<Category>(category, ApplicationAction.DOUBLE_CLICK));
+                new MessageActionEvent<Category>(category, MessageAction.DOUBLE_CLICK));
     }
 
     private void fireReferenceItemDoubleClicked(ReferenceItem referenceItem) {
         ApplicationManager.getInstance().getEventBus().post(
-                new MessageActionEvent<ReferenceItem>(referenceItem, ApplicationAction.DOUBLE_CLICK));
+                new MessageActionEvent<ReferenceItem>(referenceItem, MessageAction.DOUBLE_CLICK));
     }
 
     private void updateItem() {
