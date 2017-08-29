@@ -8,6 +8,7 @@ import com.nervestaple.gtdinbox.datastore.database.DataBaseManagerException;
 import com.nervestaple.gtdinbox.gui.GTDInboxExceptionHandler;
 import com.nervestaple.gtdinbox.model.comparator.ActionItemComparator;
 import com.nervestaple.gtdinbox.model.inboxcontext.InboxContext;
+import com.nervestaple.gtdinbox.model.item.Item;
 import com.nervestaple.gtdinbox.model.item.actionitem.ActionItem;
 import com.nervestaple.gtdinbox.model.project.Project;
 import org.apache.log4j.Logger;
@@ -18,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.*;
+import java.util.List;
 
 /**
  * Provides a view of a list of action items.
@@ -106,8 +108,7 @@ public class DetailActionItemList extends JPanel {
      * @param showDeleted Display items tagged for deletion
      */
     public void setProject(Project project, boolean showDeleted) {
-
-        listItems.clear();
+        List<Item> itemList = new ArrayList<>();
 
         // get archive days
         Integer days = ConfigurationFactory.getInstance().getApplicationConfiguration().getArchiveDays();
@@ -138,13 +139,15 @@ public class DetailActionItemList extends JPanel {
 
             if (addItem) {
 
-                listItems.add(actionItem);
+                itemList.add(actionItem);
             }
         }
 
         // update the box of items
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                listItems.clear();
+                listItems.addAll(itemList);
                 updateBoxItems(listItems);
             }
         });

@@ -14,6 +14,7 @@ import com.nervestaple.gtdinbox.datastore.index.IndexManager;
 import com.nervestaple.gtdinbox.datastore.index.IndexManagerListener;
 import com.nervestaple.gtdinbox.datastore.index.SearchResultHandler;
 import com.nervestaple.gtdinbox.gui.GTDInboxExceptionHandler;
+import com.nervestaple.gtdinbox.gui.GTDInboxGUI;
 import com.nervestaple.gtdinbox.gui.browser.detail.DetailActionItemListListener;
 import com.nervestaple.gtdinbox.gui.browser.detail.DetailArchivePanel;
 import com.nervestaple.gtdinbox.gui.browser.detail.DetailContextPanel;
@@ -23,6 +24,7 @@ import com.nervestaple.gtdinbox.gui.browser.detail.searchresults.SearchResultDet
 import com.nervestaple.gtdinbox.gui.browser.detail.trash.TrashDetailController;
 import com.nervestaple.gtdinbox.gui.browser.detail.trash.TrashDetailControllerListener;
 import com.nervestaple.gtdinbox.gui.browser.renderer.BrowserTreeCellRenderer;
+import com.nervestaple.gtdinbox.gui.form.FrameManager;
 import com.nervestaple.gtdinbox.gui.form.actionitem.ActionItemFormListener;
 import com.nervestaple.gtdinbox.gui.form.actionitem.ActionItemFrame;
 import com.nervestaple.gtdinbox.gui.form.category.CategoryFormListener;
@@ -96,26 +98,6 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * Data model for the tree.
      */
     private TreeModel treeModel;
-
-    /**
-     * Project frame.
-     */
-    private ProjectFrame projectFrame;
-
-    /**
-     * InboxContext frame.
-     */
-    private ContextFrame contextFrame;
-
-    /**
-     * Category frame.
-     */
-    private CategoryFrame categoryFrame;
-
-    /**
-     * ActionItem frame.
-     */
-    private ActionItemFrame actionItemFrame;
 
     /**
      * Project detail panel.
@@ -263,29 +245,12 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         setupTimers();
     }
 
-    // accessor methods
-
-    public ProjectFrame getProjectFrame() {
-        return projectFrame;
-    }
-
-    public ContextFrame getContextFrame() {
-        return contextFrame;
-    }
-
-    public CategoryFrame getCategoryFrame() {
-        return categoryFrame;
-    }
-
-    public ActionItemFrame getActionItemFrame() {
-        return actionItemFrame;
-    }
-
     /**
      * Prompts the user to add a new project.
      */
     public void doAddProject() {
 
+        ProjectFrame projectFrame = FrameManager.getInstance().getProjectFrame();
         projectFrame.addNewProject();
         GuiSwing.centerWindow(projectFrame);
         projectFrame.setVisible(true);
@@ -340,9 +305,8 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * @param project Project to update
      */
     public void doUpdateProject(final Project project) {
-
+        ProjectFrame projectFrame = FrameManager.getInstance().getProjectFrame();
         projectFrame.updateProject(project);
-
         GuiSwing.centerWindow(projectFrame);
         projectFrame.setVisible(true);
     }
@@ -351,7 +315,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * Prompts the user to add a new context.
      */
     public void doAddInboxContext() {
-
+        ContextFrame contextFrame = FrameManager.getInstance().getContextFrame();
         contextFrame.addNewInboxContext();
         GuiSwing.centerWindow(contextFrame);
         contextFrame.setVisible(true);
@@ -413,9 +377,8 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * @param inboxContext InboxContext to update
      */
     public void doUpdateInboxContext(final InboxContext inboxContext) {
-
+        ContextFrame contextFrame = FrameManager.getInstance().getContextFrame();
         contextFrame.updateInboxContext(inboxContext);
-
         GuiSwing.centerWindow(contextFrame);
         contextFrame.setVisible(true);
     }
@@ -424,7 +387,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * Prompts the user to add a new category.
      */
     public void doAddCategory() {
-
+        CategoryFrame categoryFrame = FrameManager.getInstance().getCategoryFrame();
         categoryFrame.addNewCategory();
         GuiSwing.centerWindow(categoryFrame);
         categoryFrame.setVisible(true);
@@ -486,7 +449,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * @param category Category to update
      */
     public void doUpdateCategory(final Category category) {
-
+        CategoryFrame categoryFrame = FrameManager.getInstance().getCategoryFrame();
         categoryFrame.updateCategory(category);
         GuiSwing.centerWindow(categoryFrame);
         categoryFrame.setVisible(true);
@@ -498,7 +461,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * @param project Project to parent the new ActionItem
      */
     public void doAddActionItem(Project project) {
-
+        ActionItemFrame actionItemFrame = FrameManager.getInstance().getActionItemFrame();
         actionItemFrame.addNewActionItem(project);
         GuiSwing.centerWindow(actionItemFrame);
         actionItemFrame.setVisible(true);
@@ -510,7 +473,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * @param actionItem ACtionItem to update
      */
     public void doUpdateActionItem(final ActionItem actionItem) {
-
+        ActionItemFrame actionItemFrame = FrameManager.getInstance().getActionItemFrame();
         actionItemFrame.updateActionItem(actionItem);
         GuiSwing.centerWindow(actionItemFrame);
         actionItemFrame.setVisible(true);
@@ -1283,7 +1246,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
             }
         });
 
-        projectFrame.addProjectFormListener(new ProjectFormListener() {
+        FrameManager.getInstance().getProjectFrame().addProjectFormListener(new ProjectFormListener() {
 
             /**
              * Called when a new project is added.
@@ -1367,7 +1330,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
             }
         });
 
-        contextFrame.addInboxContextFormListener(new ContextFormListener() {
+        FrameManager.getInstance().getContextFrame().addInboxContextFormListener(new ContextFormListener() {
 
 
             /**
@@ -1453,7 +1416,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
             }
         });
 
-        categoryFrame.addCategoryFormListener(new CategoryFormListener() {
+        FrameManager.getInstance().getCategoryFrame().addCategoryFormListener(new CategoryFormListener() {
 
 
             /**
@@ -1539,7 +1502,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
             }
         });
 
-        actionItemFrame.addActionItemFormListener(new ActionItemFormListener() {
+        FrameManager.getInstance().getActionItemFrame().addActionItemFormListener(new ActionItemFormListener() {
 
             /**
              * Called when an ActionItem is added.
@@ -1903,15 +1866,9 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         buttonClearSearch.setBackground(textFieldSearch.getBackground());
         buttonSearchOptions.setBackground(textFieldSearch.getBackground());
 
-        // get frames
-        projectFrame = new ProjectFrame();
-        contextFrame = new ContextFrame();
-        categoryFrame = new CategoryFrame();
-        actionItemFrame = new ActionItemFrame();
-
         // pass data to the frames
-        actionItemFrame.setListContexts(model.getContexts());
-        actionItemFrame.setListProjects(model.getProjects());
+        FrameManager.getInstance().getActionItemFrame().setListContexts(model.getContexts());
+        FrameManager.getInstance().getActionItemFrame().setListProjects(model.getProjects());
 
         // setup toolbar icons
         toolBar.setBorder(BorderFactory.createEmptyBorder());

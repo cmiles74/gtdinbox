@@ -10,6 +10,7 @@ import com.nervestaple.gtdinbox.gui.browser.detail.DetailArchivePanel;
 import com.nervestaple.gtdinbox.gui.browser.detail.DetailProjectPanel;
 import com.nervestaple.gtdinbox.gui.browser.detail.searchresults.SearchResultDetailPanel;
 import com.nervestaple.gtdinbox.gui.browser.detail.trash.TrashDetailForm;
+import com.nervestaple.gtdinbox.gui.form.FrameManager;
 import com.nervestaple.gtdinbox.gui.utility.UtilitiesGui;
 import com.nervestaple.gtdinbox.gui.utility.UtilitiesPrint;
 import com.nervestaple.gtdinbox.gui.utility.glazedtreemodel.GlazedTreeNode;
@@ -28,9 +29,6 @@ import java.beans.PropertyChangeListener;
 
 /**
  * Provides a Frame for the BrowserPanel.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class BrowserFrame extends JFrame {
 
@@ -75,18 +73,9 @@ public class BrowserFrame extends JFrame {
     private ActionListener actionListenerMenuBar;
 
     /**
-     * Singleton isntance of the BrowserFrame.
-     */
-    private static BrowserFrame browserFrame;
-
-    static {
-        browserFrame = new BrowserFrame();
-    }
-
-    /**
      * Creates a new BrowserFrame.
      */
-    private BrowserFrame() {
+    public BrowserFrame() {
 
         super(DEFAULT_TITLE);
 
@@ -120,11 +109,6 @@ public class BrowserFrame extends JFrame {
         pack();
     }
 
-    public static BrowserFrame getInstance() {
-
-        return (browserFrame);
-    }
-
 
     public void setVisible(boolean isVisible) {
 
@@ -139,11 +123,8 @@ public class BrowserFrame extends JFrame {
     public static void main(final String[] args) {
 
         UtilitiesGui.configureSwingUI();
-
-        BrowserFrame frame = new BrowserFrame();
-
+        BrowserFrame frame = FrameManager.getInstance().getBrowserFrame();
         GuiSwing.centerWindow(frame);
-
         frame.setVisible(true);
     }
 

@@ -29,6 +29,7 @@
         <version.derby>10.13.1.1</version.derby>
         <version.dom4j>1.6.1</version.dom4j>
         <version.glazedlists>1.7.0</version.glazedlists>
+        <version.guava>23.0</version.guava>
         <version.hibernate>5.2.10.Final</version.hibernate>
         <version.lucene>2.0.0</version.lucene>
         <version.lucene-analyzers>5.4.0</version.lucene-analyzers>
@@ -115,6 +116,11 @@
             <groupId>net.java.dev.glazedlists</groupId>
             <artifactId>glazedlists_java15</artifactId>
             <version>${version.glazedlists}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${version.guava}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>

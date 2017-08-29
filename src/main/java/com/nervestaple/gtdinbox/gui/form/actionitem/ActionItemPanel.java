@@ -8,7 +8,9 @@ import com.intellij.uiDesigner.core.Spacer;
 import com.nervestaple.gtdinbox.GTDInboxException;
 import com.nervestaple.gtdinbox.datastore.database.DataBaseManager;
 import com.nervestaple.gtdinbox.datastore.database.DataBaseManagerException;
+import com.nervestaple.gtdinbox.gui.GTDInboxGUI;
 import com.nervestaple.gtdinbox.gui.browser.BrowserFrame;
+import com.nervestaple.gtdinbox.gui.form.FrameManager;
 import com.nervestaple.gtdinbox.gui.utility.UtilitiesGui;
 import com.nervestaple.gtdinbox.model.inboxcontext.InboxContext;
 import com.nervestaple.gtdinbox.model.item.actionitem.ActionItem;
@@ -474,7 +476,7 @@ public class ActionItemPanel extends JPanel {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
-                BrowserFrame.getInstance().getBrowserPanel().doAddProject();
+                FrameManager.getInstance().getBrowserFrame().getBrowserPanel().doAddProject();
             }
         });
 
@@ -482,7 +484,7 @@ public class ActionItemPanel extends JPanel {
 
             public void actionPerformed(ActionEvent actionEvent) {
 
-                BrowserFrame.getInstance().getBrowserPanel().doAddInboxContext();
+                FrameManager.getInstance().getBrowserFrame().getBrowserPanel().doAddInboxContext();
             }
         });
 

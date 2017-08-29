@@ -22,9 +22,6 @@ import java.beans.PropertyChangeListener;
 
 /**
  * Provides a detail view for Project objects.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class DetailProjectPanel extends JPanel implements GTDInboxExceptionHandler {
 

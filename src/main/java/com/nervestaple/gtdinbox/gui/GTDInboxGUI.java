@@ -3,15 +3,21 @@ package com.nervestaple.gtdinbox.gui;
 import ch.randelshofer.quaqua.JSheet;
 import ch.randelshofer.quaqua.SheetEvent;
 import ch.randelshofer.quaqua.SheetListener;
+import com.google.common.eventbus.EventBus;
 import com.nervestaple.gtdinbox.configuration.ConfigurationFactory;
 import com.nervestaple.gtdinbox.datastore.database.DataBaseManager;
 import com.nervestaple.gtdinbox.datastore.database.DataBaseManagerException;
 import com.nervestaple.gtdinbox.datastore.index.IndexManager;
 import com.nervestaple.gtdinbox.datastore.index.IndexManagerException;
 import com.nervestaple.gtdinbox.gui.browser.BrowserFrame;
+import com.nervestaple.gtdinbox.gui.form.FrameManager;
 import com.nervestaple.gtdinbox.gui.form.about.AboutFrame;
+import com.nervestaple.gtdinbox.gui.form.actionitem.ActionItemFrame;
+import com.nervestaple.gtdinbox.gui.form.category.CategoryFrame;
+import com.nervestaple.gtdinbox.gui.form.context.ContextFrame;
 import com.nervestaple.gtdinbox.gui.form.markdownsheet.MarkdownSheetFrame;
 import com.nervestaple.gtdinbox.gui.form.preferences.PreferencesFrame;
+import com.nervestaple.gtdinbox.gui.form.project.ProjectFrame;
 import com.nervestaple.gtdinbox.gui.utility.UtilitiesGui;
 import com.nervestaple.utility.swing.GuiSwing;
 import org.apache.log4j.Logger;
@@ -23,9 +29,6 @@ import java.awt.event.WindowEvent;
 
 /**
  * Provides the main object for the GTD Inbox Swing GUI.
- *
- * @author Christopher Miles
- * @version 1.0
  */
 public class GTDInboxGUI {
 
@@ -33,26 +36,6 @@ public class GTDInboxGUI {
      * Logger instance.
      */
     private Logger logger = Logger.getLogger(this.getClass());
-
-    /**
-     * Browser frame.
-     */
-    private BrowserFrame frame;
-
-    /**
-     * About Frame.
-     */
-    private AboutFrame aboutFrame;
-
-    /**
-     * Preferences Frame.
-     */
-    private PreferencesFrame preferencesFrame;
-
-    /**
-     * Markdown cheat sheet frame.
-     */
-    private MarkdownSheetFrame markdownSheetFrame;
 
     /**
      * Singleton instance of the GUI.
@@ -64,6 +47,8 @@ public class GTDInboxGUI {
      */
     private final ImageIcon ICON_APPLICATION_CAUTION;
 
+    private final EventBus eventBus;
+
     static {
 
         gtdInboxGUI = new GTDInboxGUI();
@@ -74,26 +59,25 @@ public class GTDInboxGUI {
      */
     private GTDInboxGUI() {
 
+        eventBus = new EventBus();
+
         UtilitiesGui.configureSwingUI();
 
         ICON_APPLICATION_CAUTION = new ImageIcon(getClass().getResource(
                 "/com/nervestaple/gtdinbox/gui/images/application-caution-64.png"));
 
-        SplashFrame splashFrame = new SplashFrame();
-        splashFrame.setVisible(true);
+        FrameManager.getInstance().getSplashFrame().setVisible(true);
 
         startApplication();
 
-        splashFrame.setVisible(false);
-        splashFrame.dispose();
+        FrameManager.getInstance().getSplashFrame().setVisible(false);
+        FrameManager.getInstance().getSplashFrame().dispose();
     }
 
     /**
      * Handles the rest of the application startup, including loading in the user's data.
      */
     public void startApplication() {
-
-        aboutFrame = new AboutFrame();
 
         ConfigurationFactory configurationFactory = ConfigurationFactory.getInstance();
 
@@ -106,15 +90,8 @@ public class GTDInboxGUI {
             handleException(e);
         }
 
-        preferencesFrame = new PreferencesFrame();
-
-        markdownSheetFrame = new MarkdownSheetFrame();
-
-        frame = BrowserFrame.getInstance();
-
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-        frame.addWindowListener(new WindowAdapter() {
+        FrameManager.getInstance().getBrowserFrame().setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        FrameManager.getInstance().getBrowserFrame().addWindowListener(new WindowAdapter() {
 
             public void windowClosing(WindowEvent event) {
 
@@ -123,10 +100,9 @@ public class GTDInboxGUI {
             }
         });
 
-        GuiSwing.centerWindow(frame);
-
-        frame.setVisible(true);
-        frame.toFront();
+        GuiSwing.centerWindow(FrameManager.getInstance().getBrowserFrame());
+        FrameManager.getInstance().getBrowserFrame().setVisible(true);
+        FrameManager.getInstance().getBrowserFrame().toFront();
     }
 
     /**
@@ -183,11 +159,10 @@ public class GTDInboxGUI {
                 "Quaqua.OptionPane.destructiveOption", new Integer(1)
         );
 
-        if (frame != null && frame.isVisible()) {
+        if (FrameManager.getInstance().getBrowserFrame().isVisible()) {
+            FrameManager.getInstance(). getBrowserFrame().toFront();
 
-            frame.toFront();
-
-            JSheet.showSheet(pane, frame, new SheetListener() {
+            JSheet.showSheet(pane, FrameManager.getInstance().getBrowserFrame(), new SheetListener() {
                 public void optionSelected(SheetEvent evt) {
 
                     if (evt.getValue().toString().equals(options[0])) {
@@ -229,10 +204,10 @@ public class GTDInboxGUI {
             System.exit(0);
         } catch (IndexManagerException e) {
 
-            frame.handleErrorOccurred(e);
+            FrameManager.getInstance().getBrowserFrame().handleErrorOccurred(e);
         } catch (DataBaseManagerException e) {
 
-            frame.handleErrorOccurred(e);
+            FrameManager.getInstance().getBrowserFrame().handleErrorOccurred(e);
         } finally {
 
             System.exit(0);
@@ -248,8 +223,8 @@ public class GTDInboxGUI {
 
             public void run() {
 
-                aboutFrame.setVisible(true);
-                aboutFrame.toFront();
+                FrameManager.getInstance().getAboutFrame().setVisible(true);
+                FrameManager.getInstance().getAboutFrame().toFront();
             }
         });
     }
@@ -263,9 +238,9 @@ public class GTDInboxGUI {
 
             public void run() {
 
-                GuiSwing.centerWindow(preferencesFrame);
-                preferencesFrame.setVisible(true);
-                preferencesFrame.toFront();
+                GuiSwing.centerWindow(FrameManager.getInstance().getPreferencesFrame());
+                FrameManager.getInstance().getPreferencesFrame().setVisible(true);
+                FrameManager.getInstance().getPreferencesFrame().toFront();
             }
         });
     }
@@ -279,11 +254,15 @@ public class GTDInboxGUI {
 
             public void run() {
 
-                GuiSwing.centerWindow(markdownSheetFrame);
-                markdownSheetFrame.setVisible(true);
-                markdownSheetFrame.toFront();
+                GuiSwing.centerWindow(FrameManager.getInstance().getMarkdownSheetFrame());
+                FrameManager.getInstance().getMarkdownSheetFrame().setVisible(true);
+                FrameManager.getInstance().getMarkdownSheetFrame().toFront();
             }
         });
+    }
+
+    public EventBus getEventBus() {
+        return eventBus;
     }
 
     // private methods
