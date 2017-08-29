@@ -4,6 +4,7 @@ import ca.odell.glazedlists.EventList;
 import ch.randelshofer.quaqua.JSheet;
 import ch.randelshofer.quaqua.SheetEvent;
 import ch.randelshofer.quaqua.SheetListener;
+import com.google.common.eventbus.Subscribe;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.nervestaple.gtdinbox.GTDInboxException;
@@ -15,20 +16,18 @@ import com.nervestaple.gtdinbox.datastore.index.IndexManagerListener;
 import com.nervestaple.gtdinbox.datastore.index.SearchResultHandler;
 import com.nervestaple.gtdinbox.gui.ApplicationManager;
 import com.nervestaple.gtdinbox.gui.GTDInboxExceptionHandler;
-import com.nervestaple.gtdinbox.gui.GTDInboxGUI;
 import com.nervestaple.gtdinbox.gui.browser.detail.DetailActionItemListListener;
 import com.nervestaple.gtdinbox.gui.browser.detail.DetailArchivePanel;
 import com.nervestaple.gtdinbox.gui.browser.detail.DetailContextPanel;
 import com.nervestaple.gtdinbox.gui.browser.detail.DetailProjectPanel;
 import com.nervestaple.gtdinbox.gui.browser.detail.searchresults.SearchResultDetailPanel;
-import com.nervestaple.gtdinbox.gui.browser.detail.searchresults.SearchResultDetailPanelListener;
 import com.nervestaple.gtdinbox.gui.browser.detail.trash.TrashDetailController;
 import com.nervestaple.gtdinbox.gui.browser.detail.trash.TrashDetailControllerListener;
 import com.nervestaple.gtdinbox.gui.browser.renderer.BrowserTreeCellRenderer;
-import com.nervestaple.gtdinbox.gui.event.ChangedEvent;
-import com.nervestaple.gtdinbox.gui.event.MessageActionEvent;
-import com.nervestaple.gtdinbox.gui.event.SelectionEvent;
-import com.nervestaple.gtdinbox.gui.form.FrameManager;
+import com.nervestaple.gtdinbox.gui.event.action.ApplicationAction;
+import com.nervestaple.gtdinbox.gui.event.item.ChangedEvent;
+import com.nervestaple.gtdinbox.gui.event.action.MessageActionEvent;
+import com.nervestaple.gtdinbox.gui.event.item.SelectionEvent;
 import com.nervestaple.gtdinbox.gui.form.actionitem.ActionItemFormListener;
 import com.nervestaple.gtdinbox.gui.form.actionitem.ActionItemFrame;
 import com.nervestaple.gtdinbox.gui.form.category.CategoryFormListener;
@@ -704,7 +703,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      */
     private void fireConfirmEmptyTrash(String message) {
         ApplicationManager.getInstance().getEventBus().post(
-                new MessageActionEvent<>(this, "EMPTY_TRASH", message));
+                new MessageActionEvent<>(this, ApplicationAction.EMPTY_TRASH));
     }
 
     /**
@@ -1201,341 +1200,341 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         ApplicationManager.getInstance().getFrameManager().getProjectFrame().addProjectFormListener(
                 new ProjectFormListener() {
 
-            /**
-             * Called when a new project is added.
-             *
-             * @param project Project that was added
-             */
-            public void projectAdded(final Project project) {
+                    /**
+                     * Called when a new project is added.
+                     *
+                     * @param project Project that was added
+                     */
+                    public void projectAdded(final Project project) {
 
-                boolean addProject = true;
-                Iterator iterator = model.getProjects().listIterator();
-                while (iterator.hasNext()) {
+                        boolean addProject = true;
+                        Iterator iterator = model.getProjects().listIterator();
+                        while (iterator.hasNext()) {
 
-                    if (((Project) iterator.next()).getId().equals(project.getId())) {
-                        addProject = false;
-                        break;
-                    }
-                }
-
-                if (addProject) {
-
-                    // lock for writing
-                    model.getProjects().getReadWriteLock().writeLock().lock();
-
-                    try {
-
-                        // add the new entry
-                        model.getProjects().add(project);
-                    } finally {
-
-                        // release the lock
-                        model.getProjects().getReadWriteLock().writeLock().unlock();
-                    }
-                }
-            }
-
-            /**
-             * Called when a new project is updated.
-             *
-             * @param project Project that was updated
-             */
-            public void projectUpdated(Project project) {
-
-                EventList projects = model.getProjects();
-
-                Iterator iterator = projects.listIterator();
-                while (iterator.hasNext()) {
-
-                    Project projectThis = (Project) iterator.next();
-
-                    if (projectThis.getId().equals(project.getId())) {
-
-                        int index = projects.indexOf(projectThis);
-
-                        // lock for writing
-                        model.getProjects().getReadWriteLock().writeLock().lock();
-
-                        try {
-
-                            // remove the old entry and add the new one
-                            projects.remove(index);
-                            projects.add(index, project);
-                        } finally {
-
-                            // release the lock
-                            model.getProjects().getReadWriteLock().writeLock().unlock();
+                            if (((Project) iterator.next()).getId().equals(project.getId())) {
+                                addProject = false;
+                                break;
+                            }
                         }
 
-                        break;
+                        if (addProject) {
+
+                            // lock for writing
+                            model.getProjects().getReadWriteLock().writeLock().lock();
+
+                            try {
+
+                                // add the new entry
+                                model.getProjects().add(project);
+                            } finally {
+
+                                // release the lock
+                                model.getProjects().getReadWriteLock().writeLock().unlock();
+                            }
+                        }
                     }
-                }
-            }
 
-            /**
-             * Called when an error occurs.
-             *
-             * @param exception The exception that occurred
-             */
-            public void exceptionOccurred(GTDInboxException exception) {
+                    /**
+                     * Called when a new project is updated.
+                     *
+                     * @param project Project that was updated
+                     */
+                    public void projectUpdated(Project project) {
 
-                handleErrorOccurred(exception);
-            }
-        });
+                        EventList projects = model.getProjects();
+
+                        Iterator iterator = projects.listIterator();
+                        while (iterator.hasNext()) {
+
+                            Project projectThis = (Project) iterator.next();
+
+                            if (projectThis.getId().equals(project.getId())) {
+
+                                int index = projects.indexOf(projectThis);
+
+                                // lock for writing
+                                model.getProjects().getReadWriteLock().writeLock().lock();
+
+                                try {
+
+                                    // remove the old entry and add the new one
+                                    projects.remove(index);
+                                    projects.add(index, project);
+                                } finally {
+
+                                    // release the lock
+                                    model.getProjects().getReadWriteLock().writeLock().unlock();
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    /**
+                     * Called when an error occurs.
+                     *
+                     * @param exception The exception that occurred
+                     */
+                    public void exceptionOccurred(GTDInboxException exception) {
+
+                        handleErrorOccurred(exception);
+                    }
+                });
 
         ApplicationManager.getInstance().getFrameManager().getContextFrame().addInboxContextFormListener(
                 new ContextFormListener() {
 
 
-            /**
-             * Called when a new inboxContext is added.
-             *
-             * @param inboxContext InboxContext that was added
-             */
-            public void inboxContextAdded(final InboxContext inboxContext) {
+                    /**
+                     * Called when a new inboxContext is added.
+                     *
+                     * @param inboxContext InboxContext that was added
+                     */
+                    public void inboxContextAdded(final InboxContext inboxContext) {
 
-                boolean addContext = true;
-                Iterator iterator = model.getContexts().listIterator();
-                while (iterator.hasNext()) {
+                        boolean addContext = true;
+                        Iterator iterator = model.getContexts().listIterator();
+                        while (iterator.hasNext()) {
 
-                    if (((InboxContext) iterator.next()).getId().equals(inboxContext.getId())) {
+                            if (((InboxContext) iterator.next()).getId().equals(inboxContext.getId())) {
 
-                        addContext = false;
+                                addContext = false;
 
-                        break;
-                    }
-                }
-                if (addContext) {
-
-                    // lock for writing
-                    model.getContexts().getReadWriteLock().writeLock().lock();
-
-                    try {
-
-                        // add the new entry
-                        model.getContexts().add(inboxContext);
-                    } finally {
-
-                        // release the lock
-                        model.getContexts().getReadWriteLock().writeLock().unlock();
-                    }
-                }
-            }
-
-            /**
-             * Called when a new inboxContext is updated.
-             *
-             * @param inboxContext InboxContext that was updated
-             */
-            public void inboxContextUpdated(InboxContext inboxContext) {
-
-                EventList contexts = model.getContexts();
-
-                Iterator iterator = contexts.listIterator();
-                while (iterator.hasNext()) {
-
-                    InboxContext inboxContextThis = (InboxContext) iterator.next();
-
-                    if (inboxContextThis.getId().equals(inboxContext.getId())) {
-
-                        int index = contexts.indexOf(inboxContextThis);
-
-                        // lock for writing
-                        model.getContexts().getReadWriteLock().writeLock().lock();
-
-                        try {
-
-                            // remove the old entry and add the new one
-                            contexts.remove(index);
-                            contexts.add(index, inboxContext);
-                        } finally {
-
-                            // release the lock
-                            model.getContexts().getReadWriteLock().writeLock().unlock();
+                                break;
+                            }
                         }
+                        if (addContext) {
 
-                        break;
+                            // lock for writing
+                            model.getContexts().getReadWriteLock().writeLock().lock();
+
+                            try {
+
+                                // add the new entry
+                                model.getContexts().add(inboxContext);
+                            } finally {
+
+                                // release the lock
+                                model.getContexts().getReadWriteLock().writeLock().unlock();
+                            }
+                        }
                     }
-                }
-            }
 
-            /**
-             * Called when an error occurs.
-             *
-             * @param exception The exception that occurred
-             */
-            public void exceptionOccurred(GTDInboxException exception) {
+                    /**
+                     * Called when a new inboxContext is updated.
+                     *
+                     * @param inboxContext InboxContext that was updated
+                     */
+                    public void inboxContextUpdated(InboxContext inboxContext) {
 
-                handleErrorOccurred(exception);
-            }
-        });
+                        EventList contexts = model.getContexts();
+
+                        Iterator iterator = contexts.listIterator();
+                        while (iterator.hasNext()) {
+
+                            InboxContext inboxContextThis = (InboxContext) iterator.next();
+
+                            if (inboxContextThis.getId().equals(inboxContext.getId())) {
+
+                                int index = contexts.indexOf(inboxContextThis);
+
+                                // lock for writing
+                                model.getContexts().getReadWriteLock().writeLock().lock();
+
+                                try {
+
+                                    // remove the old entry and add the new one
+                                    contexts.remove(index);
+                                    contexts.add(index, inboxContext);
+                                } finally {
+
+                                    // release the lock
+                                    model.getContexts().getReadWriteLock().writeLock().unlock();
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    /**
+                     * Called when an error occurs.
+                     *
+                     * @param exception The exception that occurred
+                     */
+                    public void exceptionOccurred(GTDInboxException exception) {
+
+                        handleErrorOccurred(exception);
+                    }
+                });
 
         ApplicationManager.getInstance().getFrameManager().getCategoryFrame().addCategoryFormListener(
                 new CategoryFormListener() {
 
 
-            /**
-             * Called when a new Category is added.
-             *
-             * @param category Category that was added
-             */
-            public void categoryAdded(final Category category) {
+                    /**
+                     * Called when a new Category is added.
+                     *
+                     * @param category Category that was added
+                     */
+                    public void categoryAdded(final Category category) {
 
-                boolean addCategory = true;
-                Iterator iterator = model.getCategories().listIterator();
-                while (iterator.hasNext()) {
+                        boolean addCategory = true;
+                        Iterator iterator = model.getCategories().listIterator();
+                        while (iterator.hasNext()) {
 
-                    if (((Category) iterator.next()).getId().equals(category.getId())) {
+                            if (((Category) iterator.next()).getId().equals(category.getId())) {
 
-                        addCategory = false;
+                                addCategory = false;
 
-                        break;
-                    }
-                }
-                if (addCategory) {
-
-                    // lock for writing
-                    model.getCategories().getReadWriteLock().writeLock().lock();
-
-                    try {
-
-                        // remove the entry
-                        model.getCategories().add(category);
-                    } finally {
-
-                        // release the lock
-                        model.getCategories().getReadWriteLock().writeLock().unlock();
-                    }
-                }
-            }
-
-            /**
-             * Called when a new Category is updated.
-             *
-             * @param category Category that was updated
-             */
-            public void categoryUpdated(Category category) {
-
-                EventList categories = model.getCategories();
-
-                Iterator iterator = categories.listIterator();
-                while (iterator.hasNext()) {
-
-                    Category categoryThis = (Category) iterator.next();
-
-                    if (categoryThis.getId().equals(category.getId())) {
-
-                        int index = categories.indexOf(categoryThis);
-
-                        // lock for writing
-                        model.getCategories().getReadWriteLock().writeLock().lock();
-
-                        try {
-
-                            // remove the old entry and add the new one
-                            categories.remove(index);
-                            categories.add(index, category);
-                        } finally {
-
-                            // release the lock
-                            model.getCategories().getReadWriteLock().writeLock().unlock();
+                                break;
+                            }
                         }
+                        if (addCategory) {
 
-                        break;
+                            // lock for writing
+                            model.getCategories().getReadWriteLock().writeLock().lock();
+
+                            try {
+
+                                // remove the entry
+                                model.getCategories().add(category);
+                            } finally {
+
+                                // release the lock
+                                model.getCategories().getReadWriteLock().writeLock().unlock();
+                            }
+                        }
                     }
-                }
-            }
 
-            /**
-             * Called when an error occurs.
-             *
-             * @param exception The exception that occurred
-             */
-            public void exceptionOccurred(GTDInboxException exception) {
+                    /**
+                     * Called when a new Category is updated.
+                     *
+                     * @param category Category that was updated
+                     */
+                    public void categoryUpdated(Category category) {
 
-                handleErrorOccurred(exception);
-            }
-        });
+                        EventList categories = model.getCategories();
+
+                        Iterator iterator = categories.listIterator();
+                        while (iterator.hasNext()) {
+
+                            Category categoryThis = (Category) iterator.next();
+
+                            if (categoryThis.getId().equals(category.getId())) {
+
+                                int index = categories.indexOf(categoryThis);
+
+                                // lock for writing
+                                model.getCategories().getReadWriteLock().writeLock().lock();
+
+                                try {
+
+                                    // remove the old entry and add the new one
+                                    categories.remove(index);
+                                    categories.add(index, category);
+                                } finally {
+
+                                    // release the lock
+                                    model.getCategories().getReadWriteLock().writeLock().unlock();
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    /**
+                     * Called when an error occurs.
+                     *
+                     * @param exception The exception that occurred
+                     */
+                    public void exceptionOccurred(GTDInboxException exception) {
+
+                        handleErrorOccurred(exception);
+                    }
+                });
 
         ApplicationManager.getInstance().getFrameManager().getActionItemFrame().addActionItemFormListener(
                 new ActionItemFormListener() {
 
-            /**
-             * Called when an ActionItem is added.
-             *
-             * @param actionItem ActionItem added
-             */
-            public void actionItemAdded(ActionItem actionItem) {
+                    /**
+                     * Called when an ActionItem is added.
+                     *
+                     * @param actionItem ActionItem added
+                     */
+                    public void actionItemAdded(ActionItem actionItem) {
 
-                if (actionItem == null) {
-                    return;
-                }
+                        if (actionItem == null) {
+                            return;
+                        }
 
-                if (detailProjectPanel.getProject() != null && actionItem.getProject() != null
-                        && actionItem.getProject().getId().equals(detailProjectPanel.getProject().getId())) {
+                        if (detailProjectPanel.getProject() != null && actionItem.getProject() != null
+                                && actionItem.getProject().getId().equals(detailProjectPanel.getProject().getId())) {
 
-                    try {
-                        detailProjectPanel.addActionItem(actionItem);
-                    } catch (DataBaseManagerException e) {
-                        handleErrorOccurred(e);
+                            try {
+                                detailProjectPanel.addActionItem(actionItem);
+                            } catch (DataBaseManagerException e) {
+                                handleErrorOccurred(e);
+                            }
+                        } else if (detailContextPanel.getContext() != null && actionItem.getInboxContext() != null
+                                && actionItem.getInboxContext().getId().equals(detailContextPanel.getContext().getId())) {
+
+                            try {
+                                detailContextPanel.addActionItem(actionItem);
+                            } catch (DataBaseManagerException e) {
+                                handleErrorOccurred(e);
+                            }
+                        }
                     }
-                } else if (detailContextPanel.getContext() != null && actionItem.getInboxContext() != null
-                        && actionItem.getInboxContext().getId().equals(detailContextPanel.getContext().getId())) {
 
-                    try {
-                        detailContextPanel.addActionItem(actionItem);
-                    } catch (DataBaseManagerException e) {
-                        handleErrorOccurred(e);
+                    /**
+                     * Called when an ActionItem is updated.
+                     *
+                     * @param actionItem ActionItem updated
+                     */
+                    public void actionItemUpdated(ActionItem actionItem) {
+
+                        if (actionItem == null) {
+                            return;
+                        }
+
+                        logger.debug("ActionItem " + actionItem.getId() + " updated");
+                        if (panelDetail instanceof DetailProjectPanel) {
+
+                            DetailProjectPanel detailProjectPanelThis = (DetailProjectPanel) panelDetail;
+
+                            if (actionItem.getProject().getId().equals(detailProjectPanelThis.getProject().getId())) {
+                                detailProjectPanelThis.updateActionItem(actionItem);
+                            } else {
+                                detailProjectPanelThis.removeActionItem(actionItem);
+                            }
+                        } else if (panelDetail instanceof DetailContextPanel) {
+
+                            DetailContextPanel detailContextPanelThis = (DetailContextPanel) panelDetail;
+
+                            if (actionItem.getInboxContext().getId().equals(detailContextPanelThis.getContext().getId())) {
+                                detailContextPanelThis.updateActionItem(actionItem);
+                            } else {
+                                detailContextPanelThis.removeActionItem(actionItem);
+                            }
+                        } else if (panelDetail instanceof DetailArchivePanel) {
+
+                            detailArchivePanel.updateActionItem(actionItem);
+                        }
                     }
-                }
-            }
 
-            /**
-             * Called when an ActionItem is updated.
-             *
-             * @param actionItem ActionItem updated
-             */
-            public void actionItemUpdated(ActionItem actionItem) {
+                    /**
+                     * Called when an error occurs.
+                     *
+                     * @param exception The exception that occurred
+                     */
+                    public void exceptionOccurred(GTDInboxException exception) {
 
-                if (actionItem == null) {
-                    return;
-                }
-
-                logger.debug("ActionItem " + actionItem.getId() + " updated");
-                if (panelDetail instanceof DetailProjectPanel) {
-
-                    DetailProjectPanel detailProjectPanelThis = (DetailProjectPanel) panelDetail;
-
-                    if (actionItem.getProject().getId().equals(detailProjectPanelThis.getProject().getId())) {
-                        detailProjectPanelThis.updateActionItem(actionItem);
-                    } else {
-                        detailProjectPanelThis.removeActionItem(actionItem);
+                        handleException(exception);
                     }
-                } else if (panelDetail instanceof DetailContextPanel) {
-
-                    DetailContextPanel detailContextPanelThis = (DetailContextPanel) panelDetail;
-
-                    if (actionItem.getInboxContext().getId().equals(detailContextPanelThis.getContext().getId())) {
-                        detailContextPanelThis.updateActionItem(actionItem);
-                    } else {
-                        detailContextPanelThis.removeActionItem(actionItem);
-                    }
-                } else if (panelDetail instanceof DetailArchivePanel) {
-
-                    detailArchivePanel.updateActionItem(actionItem);
-                }
-            }
-
-            /**
-             * Called when an error occurs.
-             *
-             * @param exception The exception that occurred
-             */
-            public void exceptionOccurred(GTDInboxException exception) {
-
-                handleException(exception);
-            }
-        });
+                });
 
         model.addPropertyChangeListener("selectedTreeNode", new PropertyChangeListener() {
 
@@ -1901,39 +1900,76 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
             }
         });
 
-        detailSearchPanel.addSearchResultDetailPanelListener(new SearchResultDetailPanelListener() {
-
-            public void projectDoubleClicked(Project project) {
-
-                doUpdateProject(project);
-            }
-
-            public void actionItemDoubleClicked(ActionItem actionItem) {
-
-                doUpdateActionItem(actionItem);
-            }
-
-            public void inboxContextDoubleClicked(InboxContext inboxContext) {
-
-                doUpdateInboxContext(inboxContext);
-            }
-
-            public void categoryDoubleClicked(Category category) {
-
-                doUpdateCategory(category);
-            }
-
-            public void referenceItemDoubleClicked(ReferenceItem referenceItem) {
-
-                // do nothing
-            }
-        });
+//        detailSearchPanel.addSearchResultDetailPanelListener(new SearchResultDetailPanelListener() {
+//
+//            public void projectDoubleClicked(Project project) {
+//
+//                doUpdateProject(project);
+//            }
+//
+//            public void actionItemDoubleClicked(ActionItem actionItem) {
+//
+//                doUpdateActionItem(actionItem);
+//            }
+//
+//            public void inboxContextDoubleClicked(InboxContext inboxContext) {
+//
+//                doUpdateInboxContext(inboxContext);
+//            }
+//
+//            public void categoryDoubleClicked(Category category) {
+//
+//                doUpdateCategory(category);
+//            }
+//
+//            public void referenceItemDoubleClicked(ReferenceItem referenceItem) {
+//
+//                // do nothing
+//            }
+//        });
 
         scrollPaneContent.setBorder(BorderFactory.createEmptyBorder());
 
         clearDetailPanel();
 
         splitPaneMain.setDividerLocation(200);
+
+        ApplicationManager.getInstance().getEventBus().register(this);
+    }
+
+    @Subscribe
+    public void projectDoubleClicked(MessageActionEvent<Project> event) {
+        if (event.getAction().equals("DOUBLE_CLICKED")) {
+            doUpdateProject(event.getInstance());
+        }
+    }
+
+    @Subscribe
+    public void actionItemDoubleClicked(MessageActionEvent<ActionItem> event) {
+        if (event.getAction().equals("DOUBLE_CLICKED")) {
+            doUpdateActionItem(event.getInstance());
+        }
+    }
+
+    @Subscribe
+    public void inboxContextDoubleClicked(MessageActionEvent<InboxContext> event) {
+        if (event.getAction().equals("DOUBLE_CLICKED")) {
+            doUpdateInboxContext(event.getInstance());
+        }
+    }
+
+    @Subscribe
+    public void categoryDoubleClicked(MessageActionEvent<Category> event) {
+        if (event.getAction().equals("DOUBLE_CLICKED")) {
+            doUpdateCategory(event.getInstance());
+        }
+    }
+
+    @Subscribe
+    public void referenceItemDoubleClicked(MessageActionEvent<ReferenceItem> event) {
+        if (event.getAction().equals("DOUBLE_CLICKED")) {
+            // do nothing
+        }
     }
 
     /**

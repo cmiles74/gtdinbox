@@ -1,4 +1,4 @@
-package com.nervestaple.gtdinbox.gui.event;
+package com.nervestaple.gtdinbox.gui.event.item;
 
 /**
  * Provides an object that indicates a persistent object has been removed.

@@ -1,4 +1,6 @@
-package com.nervestaple.gtdinbox.gui.event;
+package com.nervestaple.gtdinbox.gui.event.item;
+
+import com.nervestaple.gtdinbox.gui.event.ApplicationEvent;
 
 /**
  * Provides an object that indicates an application-wide event has occurred as well as

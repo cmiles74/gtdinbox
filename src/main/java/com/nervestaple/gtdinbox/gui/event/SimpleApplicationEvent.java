@@ -3,15 +3,15 @@ package com.nervestaple.gtdinbox.gui.event;
 /**
  *
  */
-public class ApplicationActionEvent<T> {
+public class SimpleApplicationEvent<T> implements ApplicationEvent {
 
     private T instance;
 
-    public ApplicationActionEvent(T instance) {
+    public SimpleApplicationEvent(T instance) {
         this.instance = instance;
     }
 
-    public T ApplicationActionEvent() {
+    public T getInstance() {
         return instance;
     }
 }

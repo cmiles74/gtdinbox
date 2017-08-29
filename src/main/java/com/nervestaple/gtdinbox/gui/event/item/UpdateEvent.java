@@ -1,4 +1,4 @@
-package com.nervestaple.gtdinbox.gui.event;
+package com.nervestaple.gtdinbox.gui.event.item;
 
 /**
  * Provides a class that indicates a persisted object has been updated.

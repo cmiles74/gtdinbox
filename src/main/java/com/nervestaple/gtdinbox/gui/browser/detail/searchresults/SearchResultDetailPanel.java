@@ -8,7 +8,10 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.nervestaple.gtdinbox.datastore.database.DataBaseManager;
 import com.nervestaple.gtdinbox.datastore.database.DataBaseManagerException;
+import com.nervestaple.gtdinbox.gui.ApplicationManager;
 import com.nervestaple.gtdinbox.gui.GTDInboxExceptionHandler;
+import com.nervestaple.gtdinbox.gui.event.action.ApplicationAction;
+import com.nervestaple.gtdinbox.gui.event.action.MessageActionEvent;
 import com.nervestaple.gtdinbox.gui.utility.SimpleDateCellRenderer;
 import com.nervestaple.gtdinbox.model.inboxcontext.InboxContext;
 import com.nervestaple.gtdinbox.model.item.actionitem.ActionItem;
@@ -59,11 +62,6 @@ public class SearchResultDetailPanel extends JPanel {
     private GTDInboxExceptionHandler gtdInboxExceptionHandler;
 
     /**
-     * Listeners.
-     */
-    private List listeners = new ArrayList();
-
-    /**
      * Date format for the results.
      */
     private final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -90,8 +88,6 @@ public class SearchResultDetailPanel extends JPanel {
 
         this.model = new SearchResultDetailModel();
 
-        listeners = new ArrayList();
-
         setLayout(new BorderLayout());
         add(panelMain);
 
@@ -104,20 +100,6 @@ public class SearchResultDetailPanel extends JPanel {
 
     public SearchResultDetailModel getModel() {
         return model;
-    }
-
-    // other methods
-
-    public void addSearchResultDetailPanelListener(SearchResultDetailPanelListener listener) {
-
-        if (!listeners.contains(listener)) {
-            listeners.add(listener);
-        }
-    }
-
-    public void removeSearchResultDetailPanelListener(SearchResultDetailPanelListener listener) {
-
-        listeners.remove(listener);
     }
 
     /**
@@ -140,58 +122,28 @@ public class SearchResultDetailPanel extends JPanel {
     // private methods
 
     private void fireProjectDoubleClicked(Project project) {
-
-        SearchResultDetailPanelListener[] listenerArray = (SearchResultDetailPanelListener[]) listeners.toArray(
-                new SearchResultDetailPanelListener[listeners.size()]);
-
-        for (int index = 0; index < listenerArray.length; index++) {
-
-            listenerArray[index].projectDoubleClicked(project);
-        }
+        ApplicationManager.getInstance().getEventBus().post(
+                new MessageActionEvent<Project>(project, ApplicationAction.DOUBLE_CLICK));
     }
 
     private void fireActionItemDoubleClicked(ActionItem actionItem) {
-
-        SearchResultDetailPanelListener[] listenerArray = (SearchResultDetailPanelListener[]) listeners.toArray(
-                new SearchResultDetailPanelListener[listeners.size()]);
-
-        for (int index = 0; index < listenerArray.length; index++) {
-
-            listenerArray[index].actionItemDoubleClicked(actionItem);
-        }
+        ApplicationManager.getInstance().getEventBus().post(
+                new MessageActionEvent<ActionItem>(actionItem, ApplicationAction.DOUBLE_CLICK));
     }
 
     private void fireInboxContextDoubleClicked(InboxContext inboxContext) {
-
-        SearchResultDetailPanelListener[] listenerArray = (SearchResultDetailPanelListener[]) listeners.toArray(
-                new SearchResultDetailPanelListener[listeners.size()]);
-
-        for (int index = 0; index < listenerArray.length; index++) {
-
-            listenerArray[index].inboxContextDoubleClicked(inboxContext);
-        }
+        ApplicationManager.getInstance().getEventBus().post(
+                new MessageActionEvent<InboxContext>(inboxContext, ApplicationAction.DOUBLE_CLICK));
     }
 
     private void fireCategoryDoubleClicked(Category category) {
-
-        SearchResultDetailPanelListener[] listenerArray = (SearchResultDetailPanelListener[]) listeners.toArray(
-                new SearchResultDetailPanelListener[listeners.size()]);
-
-        for (int index = 0; index < listenerArray.length; index++) {
-
-            listenerArray[index].categoryDoubleClicked(category);
-        }
+        ApplicationManager.getInstance().getEventBus().post(
+                new MessageActionEvent<Category>(category, ApplicationAction.DOUBLE_CLICK));
     }
 
     private void fireReferenceItemDoubleClicked(ReferenceItem referenceItem) {
-
-        SearchResultDetailPanelListener[] listenerArray = (SearchResultDetailPanelListener[]) listeners.toArray(
-                new SearchResultDetailPanelListener[listeners.size()]);
-
-        for (int index = 0; index < listenerArray.length; index++) {
-
-            listenerArray[index].referenceItemDoubleClicked(referenceItem);
-        }
+        ApplicationManager.getInstance().getEventBus().post(
+                new MessageActionEvent<ReferenceItem>(referenceItem, ApplicationAction.DOUBLE_CLICK));
     }
 
     private void updateItem() {
