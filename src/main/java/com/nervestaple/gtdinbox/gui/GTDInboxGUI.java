@@ -62,12 +62,12 @@ public class GTDInboxGUI {
         ICON_APPLICATION_CAUTION = new ImageIcon(getClass().getResource(
                 "/com/nervestaple/gtdinbox/gui/images/application-caution-64.png"));
 
-        FrameManager.getInstance().getSplashFrame().setVisible(true);
+        ApplicationManager.getInstance().getFrameManager().getSplashFrame().setVisible(true);
 
         startApplication();
 
-        FrameManager.getInstance().getSplashFrame().setVisible(false);
-        FrameManager.getInstance().getSplashFrame().dispose();
+        ApplicationManager.getInstance().getFrameManager().getSplashFrame().setVisible(false);
+        ApplicationManager.getInstance().getFrameManager().getSplashFrame().dispose();
     }
 
     /**
@@ -86,8 +86,8 @@ public class GTDInboxGUI {
             handleException(e);
         }
 
-        FrameManager.getInstance().getBrowserFrame().setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        FrameManager.getInstance().getBrowserFrame().addWindowListener(new WindowAdapter() {
+        ApplicationManager.getInstance().getFrameManager().getBrowserFrame().setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        ApplicationManager.getInstance().getFrameManager().getBrowserFrame().addWindowListener(new WindowAdapter() {
 
             public void windowClosing(WindowEvent event) {
 
@@ -96,9 +96,9 @@ public class GTDInboxGUI {
             }
         });
 
-        GuiSwing.centerWindow(FrameManager.getInstance().getBrowserFrame());
-        FrameManager.getInstance().getBrowserFrame().setVisible(true);
-        FrameManager.getInstance().getBrowserFrame().toFront();
+        GuiSwing.centerWindow(ApplicationManager.getInstance().getFrameManager().getBrowserFrame());
+        ApplicationManager.getInstance().getFrameManager().getBrowserFrame().setVisible(true);
+        ApplicationManager.getInstance().getFrameManager().getBrowserFrame().toFront();
     }
 
     /**
@@ -155,10 +155,11 @@ public class GTDInboxGUI {
                 "Quaqua.OptionPane.destructiveOption", new Integer(1)
         );
 
-        if (FrameManager.getInstance().getBrowserFrame().isVisible()) {
-            FrameManager.getInstance(). getBrowserFrame().toFront();
+        if (ApplicationManager.getInstance().getFrameManager().getBrowserFrame().isVisible()) {
+            ApplicationManager.getInstance().getFrameManager().getBrowserFrame().toFront();
 
-            JSheet.showSheet(pane, FrameManager.getInstance().getBrowserFrame(), new SheetListener() {
+            JSheet.showSheet(pane, ApplicationManager.getInstance().getFrameManager().getBrowserFrame(),
+                    new SheetListener() {
                 public void optionSelected(SheetEvent evt) {
 
                     if (evt.getValue().toString().equals(options[0])) {
@@ -200,10 +201,10 @@ public class GTDInboxGUI {
             System.exit(0);
         } catch (IndexManagerException e) {
 
-            FrameManager.getInstance().getBrowserFrame().handleErrorOccurred(e);
+            ApplicationManager.getInstance().getFrameManager().getBrowserFrame().handleErrorOccurred(e);
         } catch (DataBaseManagerException e) {
 
-            FrameManager.getInstance().getBrowserFrame().handleErrorOccurred(e);
+            ApplicationManager.getInstance().getFrameManager().getBrowserFrame().handleErrorOccurred(e);
         } finally {
 
             System.exit(0);
@@ -219,8 +220,8 @@ public class GTDInboxGUI {
 
             public void run() {
 
-                FrameManager.getInstance().getAboutFrame().setVisible(true);
-                FrameManager.getInstance().getAboutFrame().toFront();
+                ApplicationManager.getInstance().getFrameManager().getAboutFrame().setVisible(true);
+                ApplicationManager.getInstance().getFrameManager().getAboutFrame().toFront();
             }
         });
     }
@@ -234,9 +235,9 @@ public class GTDInboxGUI {
 
             public void run() {
 
-                GuiSwing.centerWindow(FrameManager.getInstance().getPreferencesFrame());
-                FrameManager.getInstance().getPreferencesFrame().setVisible(true);
-                FrameManager.getInstance().getPreferencesFrame().toFront();
+                GuiSwing.centerWindow(ApplicationManager.getInstance().getFrameManager().getPreferencesFrame());
+                ApplicationManager.getInstance().getFrameManager().getPreferencesFrame().setVisible(true);
+                ApplicationManager.getInstance().getFrameManager().getPreferencesFrame().toFront();
             }
         });
     }
@@ -250,9 +251,9 @@ public class GTDInboxGUI {
 
             public void run() {
 
-                GuiSwing.centerWindow(FrameManager.getInstance().getMarkdownSheetFrame());
-                FrameManager.getInstance().getMarkdownSheetFrame().setVisible(true);
-                FrameManager.getInstance().getMarkdownSheetFrame().toFront();
+                GuiSwing.centerWindow(ApplicationManager.getInstance().getFrameManager().getMarkdownSheetFrame());
+                ApplicationManager.getInstance().getFrameManager().getMarkdownSheetFrame().setVisible(true);
+                ApplicationManager.getInstance().getFrameManager().getMarkdownSheetFrame().toFront();
             }
         });
     }

@@ -65,17 +65,8 @@ public class FrameManager {
      */
     private ActionItemFrame actionItemFrame;
 
-    static {
+    public FrameManager() {
 
-        frameManager = new FrameManager();
-    }
-
-    private FrameManager() {
-
-    }
-
-    public static FrameManager getInstance() {
-        return frameManager;
     }
 
     public SplashFrame getSplashFrame() {

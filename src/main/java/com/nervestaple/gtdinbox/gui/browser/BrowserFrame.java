@@ -128,7 +128,7 @@ public class BrowserFrame extends JFrame {
     public static void main(final String[] args) {
 
         UtilitiesGui.configureSwingUI();
-        BrowserFrame frame = FrameManager.getInstance().getBrowserFrame();
+        BrowserFrame frame = ApplicationManager.getInstance().getFrameManager().getBrowserFrame();
         GuiSwing.centerWindow(frame);
         frame.setVisible(true);
     }
@@ -261,7 +261,7 @@ public class BrowserFrame extends JFrame {
                 }
             }
         });
-        
+
         ApplicationManager.getInstance().getEventBus().register(this);
     }
 

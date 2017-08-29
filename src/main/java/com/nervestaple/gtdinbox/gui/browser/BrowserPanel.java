@@ -242,7 +242,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      */
     public void doAddProject() {
 
-        ProjectFrame projectFrame = FrameManager.getInstance().getProjectFrame();
+        ProjectFrame projectFrame = ApplicationManager.getInstance().getFrameManager().getProjectFrame();
         projectFrame.addNewProject();
         GuiSwing.centerWindow(projectFrame);
         projectFrame.setVisible(true);
@@ -297,7 +297,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * @param project Project to update
      */
     public void doUpdateProject(final Project project) {
-        ProjectFrame projectFrame = FrameManager.getInstance().getProjectFrame();
+        ProjectFrame projectFrame = ApplicationManager.getInstance().getFrameManager().getProjectFrame();
         projectFrame.updateProject(project);
         GuiSwing.centerWindow(projectFrame);
         projectFrame.setVisible(true);
@@ -307,7 +307,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * Prompts the user to add a new context.
      */
     public void doAddInboxContext() {
-        ContextFrame contextFrame = FrameManager.getInstance().getContextFrame();
+        ContextFrame contextFrame = ApplicationManager.getInstance().getFrameManager().getContextFrame();
         contextFrame.addNewInboxContext();
         GuiSwing.centerWindow(contextFrame);
         contextFrame.setVisible(true);
@@ -369,7 +369,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * @param inboxContext InboxContext to update
      */
     public void doUpdateInboxContext(final InboxContext inboxContext) {
-        ContextFrame contextFrame = FrameManager.getInstance().getContextFrame();
+        ContextFrame contextFrame = ApplicationManager.getInstance().getFrameManager().getContextFrame();
         contextFrame.updateInboxContext(inboxContext);
         GuiSwing.centerWindow(contextFrame);
         contextFrame.setVisible(true);
@@ -379,7 +379,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * Prompts the user to add a new category.
      */
     public void doAddCategory() {
-        CategoryFrame categoryFrame = FrameManager.getInstance().getCategoryFrame();
+        CategoryFrame categoryFrame = ApplicationManager.getInstance().getFrameManager().getCategoryFrame();
         categoryFrame.addNewCategory();
         GuiSwing.centerWindow(categoryFrame);
         categoryFrame.setVisible(true);
@@ -441,7 +441,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * @param category Category to update
      */
     public void doUpdateCategory(final Category category) {
-        CategoryFrame categoryFrame = FrameManager.getInstance().getCategoryFrame();
+        CategoryFrame categoryFrame = ApplicationManager.getInstance().getFrameManager().getCategoryFrame();
         categoryFrame.updateCategory(category);
         GuiSwing.centerWindow(categoryFrame);
         categoryFrame.setVisible(true);
@@ -453,7 +453,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * @param project Project to parent the new ActionItem
      */
     public void doAddActionItem(Project project) {
-        ActionItemFrame actionItemFrame = FrameManager.getInstance().getActionItemFrame();
+        ActionItemFrame actionItemFrame = ApplicationManager.getInstance().getFrameManager().getActionItemFrame();
         actionItemFrame.addNewActionItem(project);
         GuiSwing.centerWindow(actionItemFrame);
         actionItemFrame.setVisible(true);
@@ -465,7 +465,7 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
      * @param actionItem ACtionItem to update
      */
     public void doUpdateActionItem(final ActionItem actionItem) {
-        ActionItemFrame actionItemFrame = FrameManager.getInstance().getActionItemFrame();
+        ActionItemFrame actionItemFrame = ApplicationManager.getInstance().getFrameManager().getActionItemFrame();
         actionItemFrame.updateActionItem(actionItem);
         GuiSwing.centerWindow(actionItemFrame);
         actionItemFrame.setVisible(true);
@@ -1198,7 +1198,8 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
             }
         });
 
-        FrameManager.getInstance().getProjectFrame().addProjectFormListener(new ProjectFormListener() {
+        ApplicationManager.getInstance().getFrameManager().getProjectFrame().addProjectFormListener(
+                new ProjectFormListener() {
 
             /**
              * Called when a new project is added.
@@ -1282,7 +1283,8 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
             }
         });
 
-        FrameManager.getInstance().getContextFrame().addInboxContextFormListener(new ContextFormListener() {
+        ApplicationManager.getInstance().getFrameManager().getContextFrame().addInboxContextFormListener(
+                new ContextFormListener() {
 
 
             /**
@@ -1368,7 +1370,8 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
             }
         });
 
-        FrameManager.getInstance().getCategoryFrame().addCategoryFormListener(new CategoryFormListener() {
+        ApplicationManager.getInstance().getFrameManager().getCategoryFrame().addCategoryFormListener(
+                new CategoryFormListener() {
 
 
             /**
@@ -1454,7 +1457,8 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
             }
         });
 
-        FrameManager.getInstance().getActionItemFrame().addActionItemFormListener(new ActionItemFormListener() {
+        ApplicationManager.getInstance().getFrameManager().getActionItemFrame().addActionItemFormListener(
+                new ActionItemFormListener() {
 
             /**
              * Called when an ActionItem is added.
@@ -1819,8 +1823,10 @@ public class BrowserPanel extends JPanel implements GTDInboxExceptionHandler {
         buttonSearchOptions.setBackground(textFieldSearch.getBackground());
 
         // pass data to the frames
-        FrameManager.getInstance().getActionItemFrame().setListContexts(model.getContexts());
-        FrameManager.getInstance().getActionItemFrame().setListProjects(model.getProjects());
+        ApplicationManager.getInstance().getFrameManager().getActionItemFrame().setListContexts(
+                model.getContexts());
+        ApplicationManager.getInstance().getFrameManager().getActionItemFrame().setListProjects(
+                model.getProjects());
 
         // setup toolbar icons
         toolBar.setBorder(BorderFactory.createEmptyBorder());
