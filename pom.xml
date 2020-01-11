@@ -30,7 +30,7 @@
         <version.dom4j>1.6.1</version.dom4j>
         <version.glazedlists>1.7.0</version.glazedlists>
         <version.guava>23.0</version.guava>
-        <version.hibernate>5.2.10.Final</version.hibernate>
+        <version.hibernate>5.3.15.Final</version.hibernate>
         <version.lucene>2.0.0</version.lucene>
         <version.lucene-analyzers>5.4.0</version.lucene-analyzers>
         <version.log4j>1.2.17</version.log4j>
@@ -38,6 +38,7 @@
         <version.mrjadapter>1.0.9</version.mrjadapter>
         <version.nervestaple-utilities>1.2</version.nervestaple-utilities>
         <version.quaqua>7.3.4</version.quaqua>
+        <version.xerces>2.12.0</version.xerces>
 
         <!-- development dependency versions -->
         <version.junit>4.12</version.junit>
@@ -111,6 +112,12 @@
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
             <version>${version.dom4j}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>net.java.dev.glazedlists</groupId>
@@ -166,6 +173,11 @@
             <groupId>org.devzendo</groupId>
             <artifactId>Quaqua</artifactId>
             <version>${version.quaqua}</version>
+        </dependency>
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>${version.xerces}</version>
         </dependency>
 
         <!-- test dependencies -->
