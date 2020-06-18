@@ -39,6 +39,7 @@
         <version.nervestaple-utilities>1.2</version.nervestaple-utilities>
         <version.quaqua>7.3.4</version.quaqua>
         <version.xerces>2.12.0</version.xerces>
+        <version.xmlapis>1.4.01</version.xmlapis>
 
         <!-- development dependency versions -->
         <version.junit>4.12</version.junit>
@@ -178,6 +179,11 @@
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
             <version>${version.xerces}</version>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>${version.xmlapis}</version>
         </dependency>
 
         <!-- test dependencies -->
