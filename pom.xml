@@ -42,7 +42,7 @@
         <version.xmlapis>1.4.01</version.xmlapis>
 
         <!-- development dependency versions -->
-        <version.junit>4.12</version.junit>
+        <version.junit>4.13.1</version.junit>
 
         <!-- plugin versions -->
         <version.plugin.maven-assembly>3.1.0</version.plugin.maven-assembly>
