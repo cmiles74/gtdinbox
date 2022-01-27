@@ -38,7 +38,7 @@
         <version.mrjadapter>1.0.9</version.mrjadapter>
         <version.nervestaple-utilities>1.2</version.nervestaple-utilities>
         <version.quaqua>7.3.4</version.quaqua>
-        <version.xerces>2.12.0</version.xerces>
+        <version.xerces>2.12.2</version.xerces>
         <version.xmlapis>1.4.01</version.xmlapis>
 
         <!-- development dependency versions -->
