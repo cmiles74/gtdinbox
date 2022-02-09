@@ -30,7 +30,7 @@
         <version.dom4j>1.6.1</version.dom4j>
         <version.glazedlists>1.7.0</version.glazedlists>
         <version.guava>23.0</version.guava>
-        <version.hibernate>5.3.15.Final</version.hibernate>
+        <version.hibernate>5.4.24.Final</version.hibernate>
         <version.lucene>2.0.0</version.lucene>
         <version.lucene-analyzers>5.4.0</version.lucene-analyzers>
         <version.log4j>1.2.17</version.log4j>
